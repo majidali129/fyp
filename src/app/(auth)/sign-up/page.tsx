@@ -37,7 +37,7 @@ export default function SignUpForm() {
     console.log(file);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr] *:lg:h-[calc(100vh-64px)]">
+    <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr] *:h-[calc(100vh-64px)]">
       <Image
         src={illustration}
         alt="signup image"
@@ -45,8 +45,8 @@ export default function SignUpForm() {
         priority
       />
 
-      <div className="flex items-center justify-center p-6 md:p-10">
-        <div className="max-w-md  w-full space-y-6">
+      <div className="flex items-center justify-center p-6 md:p-10 ">
+        <div className="max-w-md  w-full space-y-6 ">
           <div className="space-y-2 text-center">
             <h1 className="text-3xl font-bold">Create your account</h1>
           </div>
@@ -75,6 +75,7 @@ export default function SignUpForm() {
                 label="Username"
                 placeholder="majid129"
               />
+
               <TextInput
                 control={form.control}
                 name="email"
@@ -88,6 +89,7 @@ export default function SignUpForm() {
                 placeholder="********"
                 type="password"
               />
+
               <TextInput
                 control={form.control}
                 name="confirmPassword"

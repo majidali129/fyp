@@ -8,9 +8,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="min-h-screen">
-      <AuthNav />
-      <Suspense fallback={<Loading />}>{children}</Suspense>
-    </section>
+    <Suspense fallback={<Loading />}>
+      <section className="min-h-screen overflow-y-hidden">
+        <AuthNav />
+        {children}
+      </section>
+    </Suspense>
   );
 }

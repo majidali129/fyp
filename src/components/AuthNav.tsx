@@ -9,14 +9,16 @@ const AuthNav = () => {
   const pathName = usePathname();
   return (
     <nav className="h-16 border-b border-b-gray-100  flex items-center justify-between md:px-16">
-      <Image
-        src={logo}
-        height={50}
-        width={120}
-        alt="lms-logo"
-        priority
-        className="object-cover"
-      />
+      <Link href={"/"}>
+        <Image
+          src={logo}
+          height={50}
+          width={120}
+          alt="lms-logo"
+          priority
+          className="object-cover"
+        />
+      </Link>
       <div>
         {pathName === "/sign-in" ? (
           <div>
