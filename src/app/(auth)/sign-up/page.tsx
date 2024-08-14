@@ -18,7 +18,7 @@ import { registerUserFormSchema } from "@/types/regisUserSchema";
 type RegisterUserFormValues = z.infer<typeof registerUserFormSchema>;
 
 export default function SignUpForm() {
-  // const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const form = useForm<z.infer<typeof registerUserFormSchema>>({
     resolver: zodResolver(registerUserFormSchema),
@@ -27,12 +27,14 @@ export default function SignUpForm() {
       lastName: "",
       username: "",
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: ""
     }
   });
 
   const onSubmit = async (data: RegisterUserFormValues) => {
-    console.log({ ...data });
+    console.log({ ...data, file });
+    console.log(file);
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr] *:h-[calc(100vh-64px)]">
@@ -51,7 +53,7 @@ export default function SignUpForm() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-3.5 md:space-y-4 2xl:space-y-5"
+              className="space-y-3.5 md:space-y-2.5 2xl:space-y-5"
             >
               <div className="grid grid-cols-2 gap-4">
                 <TextInput
@@ -96,6 +98,25 @@ export default function SignUpForm() {
                 type="password"
               />
 
+              <div>
+                <Label
+                  htmlFor="profilePhoto"
+                  className={`py-3 rounded-sm flex justify-center ${
+                    file
+                      ? "bg-gray-100"
+                      : "bg-gray-50 text-primary-500 font-semibold"
+                  } `}
+                >
+                  {file ? file.name : "Profile Photo"}
+                </Label>
+                <Input
+                  id="profilePhoto"
+                  onChange={(e) => e.target.files && setFile(e.target.files[0])}
+                  className="hidden"
+                  type="file"
+                />
+              </div>
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Checkbox id="terms" required />
@@ -120,25 +141,4 @@ export default function SignUpForm() {
       </div>
     </div>
   );
-}
-
-{
-  /* <div>
-                <Label
-                  htmlFor="profilePhoto"
-                  className={`py-3 rounded-sm flex justify-center ${
-                    file
-                      ? "bg-gray-100"
-                      : "bg-gray-50 text-primary-500 font-semibold"
-                  } `}
-                >
-                  {file ? file.name : "Profile Photo"}
-                </Label>
-                <Input
-                  id="profilePhoto"
-                  onChange={(e) => e.target.files && setFile(e.target.files[0])}
-                  className="hidden"
-                  type="file"
-                />
-              </div> */
 }
