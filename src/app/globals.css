@@ -9,3 +9,9 @@
     @apply font-sans;
   }
 }
+
+@layer components {
+  .socials {
+    @apply w-full flex items-center flex-col md:flex-row justify-between gap-3 *:cursor-pointer  *:w-full *:py-1.5 *:bg-gray-50 hover:*:bg-gray-100  *:rounded-sm *:gap-x-2 *:flex *:justify-center *:items-center md:*:px-1.5;
+  }
+}

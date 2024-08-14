@@ -46,7 +46,7 @@ const config = {
         },
         gray: {
           white: "FFFFFF",
-          50: "F5F7FA",
+          50: "#F5F7FA",
           100: "#E9EAF0",
           200: "#CED1D9",
           300: "#B7BAC7",
@@ -104,18 +104,23 @@ const config = {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" }
+        },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" }
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out"
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite"
       },
       screens: {
         sm: "640px",
         md: "767px",
         lg: "1024px",
         xl: "1280px",
-        "2xl": "1536px"
+        "2xl": "1440px"
       }
     }
   },
