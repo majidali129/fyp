@@ -30,7 +30,7 @@ export default function UpdatePasswordForm() {
     console.log(data);
   };
   return (
-    <div className="flex h-full flex-col items-center justify-center min-h-[calc(100vh-64px)] rounded  px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] rounded sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-md space-y-8 px-7  md:px-10 py-10 md:py-14 shadow-[rgba(100,100,111,0.2)0px_7px_29px_0px]">
         <div className="space-y-4 text-center">
           <h1 className="text-3xl font-bold">Change Password</h1>

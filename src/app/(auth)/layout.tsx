@@ -1,6 +1,8 @@
 import AuthNav from "@/components/AuthNav";
+import { Suspense } from "react";
+import Loading from "./loading";
 
-export default function RootLayout({
+export default function AuthLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
@@ -8,7 +10,7 @@ export default function RootLayout({
   return (
     <section className="min-h-screen">
       <AuthNav />
-      {children}
+      <Suspense fallback={<Loading />}>{children}</Suspense>
     </section>
   );
 }
