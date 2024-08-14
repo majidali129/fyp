@@ -51,7 +51,7 @@ export default function SignUpForm() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-3.5 md:space-y-2.5 2xl:space-y-5"
+              className="space-y-3.5 md:space-y-4 2xl:space-y-5"
             >
               <div className="grid grid-cols-2 gap-4">
                 <TextInput
