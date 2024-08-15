@@ -1,4 +1,5 @@
 import sendEmailVerification from "@/helpers/sendEmailVerification";
+import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import UserModel from "@/models/user.model";
 import { registerUserSchema } from "@/types/registerUserSchema";
@@ -11,6 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const userData = await request.json();
     const parsedData = registerUserSchema.safeParse(userData);
+    console.log(parsedData);
 
     if (!parsedData.success) {
       const formatedError = parsedData.error.issues.map((issue) => ({
@@ -33,31 +35,25 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUserByUsername) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "User already exist with this username"
-        },
-        { status: 400 }
-      );
+      return apiResponse({
+        success: false,
+        message: '"User already exist with this username',
+        status: 400
+      });
     }
 
     const existingUserByEmail = await UserModel.findOne({ email });
+    const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     if (existingUserByEmail) {
       if (existingUserByEmail.isVerified) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: "User already exist with this email"
-          },
-          { status: 400 }
-        );
+        return apiResponse({
+          success: false,
+          message: '"User already exist with this email',
+          status: 400
+        });
       } else {
         const hashedPassword = await bcryptjs.hash(password, 10);
-        const verifyCode = Math.floor(
-          100000 + Math.random() * 900000
-        ).toString();
         const verifyCodeExpiry = new Date();
         verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
 
@@ -69,7 +65,6 @@ export async function POST(request: NextRequest) {
       }
     } else {
       const hashedPassword = await bcryptjs.hash(password, 10);
-      const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
       const verifyCodeExpiry = new Date();
       verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
 
@@ -81,41 +76,35 @@ export async function POST(request: NextRequest) {
       });
 
       await newUser.save();
-
-      // SEND EMAIL TO USER
-      const emailResponse = await sendEmailVerification({
-        email,
-        username,
-        verifyCode,
-        subject: "Email Verification Code"
-      });
-
-      if (!emailResponse.success) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: emailResponse.message
-          },
-          { status: 500 }
-        );
-      }
-
-      return NextResponse.json(
-        {
-          success: true,
-          message: "User registered successfully. please verify your email"
-        },
-        { status: 201 }
-      );
     }
+
+    // SEND EMAIL TO USER
+    const emailResponse = await sendEmailVerification({
+      email,
+      username,
+      verifyCode,
+      subject: "Email Verification Code"
+    });
+
+    if (!emailResponse.success) {
+      return apiResponse({
+        success: false,
+        message: emailResponse.message,
+        status: 500
+      });
+    }
+
+    return apiResponse({
+      message: "User registered successfully. please verify your email",
+      status: 201
+    });
   } catch (error) {
     console.log("Error registering user", error);
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Error registering user"
-      },
-      { status: 500 }
-    );
+
+    return apiResponse({
+      success: false,
+      message: "Error registering user",
+      status: 500
+    });
   }
 }
