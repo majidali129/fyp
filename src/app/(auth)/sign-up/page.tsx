@@ -13,22 +13,22 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import TextInput from "@/components/TextInput";
 import { useState } from "react";
-import { registerUserFormSchema } from "@/types/regisUserSchema";
+import { registerUserSchema } from "@/types/registerUserSchema";
 
-type RegisterUserFormValues = z.infer<typeof registerUserFormSchema>;
+type RegisterUserFormValues = z.infer<typeof registerUserSchema>;
 
 export default function SignUpForm() {
   const [file, setFile] = useState<File | null>(null);
 
-  const form = useForm<z.infer<typeof registerUserFormSchema>>({
-    resolver: zodResolver(registerUserFormSchema),
+  const form = useForm<z.infer<typeof registerUserSchema>>({
+    resolver: zodResolver(registerUserSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       username: "",
       email: "",
-      password: "",
-      confirmPassword: ""
+      password: ""
+      // confirmPassword: ""
     }
   });
 
@@ -90,13 +90,13 @@ export default function SignUpForm() {
                 type="password"
               />
 
-              <TextInput
+              {/* <TextInput
                 control={form.control}
                 name="confirmPassword"
                 label="Confirm Password"
                 placeholder="********"
                 type="password"
-              />
+              /> */}
 
               <div>
                 <Label
