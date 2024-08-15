@@ -1,5 +1,5 @@
-import { Resend } from "resend";
 import EmailVerificationTemplate from "../../mails/EmailVerificationTemplate";
+import { resend } from "@/lib/resend";
 
 type EmailVerificationProps = {
   email: string;
@@ -7,8 +7,6 @@ type EmailVerificationProps = {
   verifyCode: string;
   username: string;
 };
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmailVerification = async ({
   email,
