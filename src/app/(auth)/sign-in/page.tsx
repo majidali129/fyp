@@ -10,7 +10,7 @@ import Image from "next/image";
 import illustration from "../../../../public/images/signin.png";
 import Socials from "@/components/Socials";
 import TextInput from "@/components/TextInput";
-import { loginUserFormSchema } from "@/types/loginUserSchema";
+import { loginUserSchema } from "@/schemas/loginUserSchema";
 import {
   Form,
   FormControl,
@@ -19,11 +19,14 @@ import {
   FormLabel
 } from "@/components/ui/form";
 
-type LoginUserFormValues = z.infer<typeof loginUserFormSchema>;
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+type LoginUserFormValues = z.infer<typeof loginUserSchema>;
 
 export default function SignInForm() {
-  const form = useForm<z.infer<typeof loginUserFormSchema>>({
-    resolver: zodResolver(loginUserFormSchema),
+  const router = useRouter();
+  const form = useForm<z.infer<typeof loginUserSchema>>({
+    resolver: zodResolver(loginUserSchema),
     defaultValues: {
       identifier: "",
       password: "",
@@ -32,8 +35,27 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (data: LoginUserFormValues) => {
-    console.log(data);
     console.log({ email: data.identifier, password: data.password });
+
+    const result = await signIn("credentials", {
+      redirect: false,
+      identifier: data.identifier,
+      password: data.password
+    });
+
+    console.log(result);
+
+    if (result?.error) {
+      if (result.error === "CredentialsSignin") {
+        console.log("credentials error");
+      } else {
+        console.log(result.error);
+      }
+    }
+
+    if (result?.ok) {
+      router.replace("/");
+    }
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr]  *:h-[calc(100vh-64px)]">
@@ -58,7 +80,7 @@ export default function SignInForm() {
                 control={form.control}
                 name="identifier"
                 label="Username / Email Address"
-                type="email"
+                type="text"
                 required
                 placeholder="majid@gmail.com"
               />

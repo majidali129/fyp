@@ -13,7 +13,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import TextInput from "@/components/TextInput";
 import { useState } from "react";
-import { registerUserSchema } from "@/types/registerUserSchema";
+import { registerUserSchema } from "@/schemas/registerUserSchema";
 
 type RegisterUserFormValues = z.infer<typeof registerUserSchema>;
 

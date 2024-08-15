@@ -2,7 +2,7 @@ import sendEmailVerification from "@/helpers/sendEmailVerification";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import UserModel from "@/models/user.model";
-import { registerUserSchema } from "@/types/registerUserSchema";
+import { registerUserSchema } from "@/schemas/registerUserSchema";
 import bcryptjs from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 

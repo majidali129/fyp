@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Form } from "@/components/ui/form";
-import { updatePasswordSchema } from "@/types/updatePasswordSchema";
+import { updatePasswordSchema } from "@/schemas/updatePasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";

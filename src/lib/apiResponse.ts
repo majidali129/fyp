@@ -1,10 +1,5 @@
+import { ApiResponseProp } from "@/types/ApiResponse";
 import { NextResponse } from "next/server";
-
-type ApiResponseProp = {
-  success?: boolean;
-  message: string | Array<string>;
-  status?: number;
-};
 
 export const apiResponse = ({
   success = true,

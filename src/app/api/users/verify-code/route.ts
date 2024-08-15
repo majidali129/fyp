@@ -1,7 +1,7 @@
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import UserModel from "@/models/user.model";
-import { verifyCodeSchema } from "@/types/verifyCodeSchema";
+import { verifyCodeSchema } from "@/schemas/verifyCodeSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(request: NextRequest) {
