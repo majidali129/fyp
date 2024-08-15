@@ -1,4 +1,4 @@
-import sendEmailVerification from "@/helpers/sendEmailVerification";
+import sendEmail from "@/helpers/sendEmailVerification";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import UserModel from "@/models/user.model";
@@ -79,10 +79,10 @@ export async function POST(request: NextRequest) {
     }
 
     // SEND EMAIL TO USER
-    const emailResponse = await sendEmailVerification({
+    const emailResponse = await sendEmail({
       email,
       username,
-      verifyCode,
+      code: verifyCode,
       subject: "Email Verification Code"
     });
 

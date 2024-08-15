@@ -1,25 +1,35 @@
-import EmailVerificationTemplate from "../../mails/EmailVerificationTemplate";
+import EmailTemplate from "../../mails/EmailTemplate";
+import EmailVerificationTemplate from "../../mails/EmailTemplate";
 import { resend } from "@/lib/resend";
 
 type EmailVerificationProps = {
   email: string;
   subject: string;
-  verifyCode: string;
+  code?: string;
   username: string;
+  emailType?: "Verification" | "PasswordReset";
+  resetToken?: string;
 };
 
-const sendEmailVerification = async ({
+const sendEmail = async ({
   email,
-  subject,
   username,
-  verifyCode
+  subject,
+  code,
+  emailType,
+  resetToken
 }: EmailVerificationProps) => {
   try {
     const { data } = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: email,
       subject: subject,
-      react: EmailVerificationTemplate({ username, otp: verifyCode })
+      react: EmailTemplate({
+        username,
+        otp: code,
+        emailType,
+        resetToken
+      })
     });
 
     console.log("Email verification send response ", data);
@@ -35,4 +45,4 @@ const sendEmailVerification = async ({
   }
 };
 
-export default sendEmailVerification;
+export default sendEmail;

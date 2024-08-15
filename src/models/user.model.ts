@@ -33,8 +33,8 @@ export interface User extends Document {
   role: ROLE;
   isVerified: boolean;
   profilePhoto: string;
-  verifyCode: string;
-  verifyCodeExpiry: Date;
+  verifyCode?: string;
+  verifyCodeExpiry?: Date;
   resetPasswordToken?: string;
   resetPasswordTokenExpiry?: Date;
 

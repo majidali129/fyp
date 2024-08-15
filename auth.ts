@@ -1,8 +1,15 @@
 import { connectDB } from "@/lib/connectDB";
 import UserModel from "@/models/user.model";
-import NextAuth from "next-auth";
+import NextAuth, { AuthError, CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcryptjs from "bcryptjs";
+
+class customError extends AuthError {
+  constructor(message: string) {
+    super();
+    this.message = message;
+  }
+}
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
@@ -15,7 +22,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
       authorize: async (credentials: any): Promise<any> => {
         await connectDB();
-
         try {
           const user = await UserModel.findOne({
             $or: [
@@ -23,27 +29,25 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
               { username: credentials.identifier }
             ]
           });
-
           if (!user) {
             throw new Error("User not found with this email");
           }
-
           if (!user.isVerified) {
             throw new Error("Please verify your account before logging in");
           }
-
           const isPasswordCorrect = await bcryptjs.compare(
             credentials.password,
             user.password
           );
-
-          if (isPasswordCorrect) {
-            return user;
+          if (!isPasswordCorrect) {
+            // throw new Error("Password did not match");
+            // throw new CredentialsSignin("Password did not match");
+            throw new customError("Password did not match");
           } else {
-            throw new Error("Invalid email or password");
+            return user;
           }
         } catch (error: any) {
-          console.log(error);
+          console.log("login failed", error);
           throw new Error(error);
         }
       }

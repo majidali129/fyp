@@ -7,33 +7,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import TextInput from "@/components/TextInput";
-import { resetPasswordSchema } from "@/schemas/passwordSchemas";
-import { useSearchParams } from "next/navigation";
+import { forgotPasswordSchema } from "@/schemas/passwordSchemas";
 
-type ResetPasswordValue = z.infer<typeof resetPasswordSchema>;
+type ResetPasswordValue = z.infer<typeof forgotPasswordSchema>;
 
-export default function ResetPasswordPage() {
-  const searchParams = useSearchParams();
-  const form = useForm<z.infer<typeof resetPasswordSchema>>({
-    resolver: zodResolver(resetPasswordSchema),
+export default function ForgotPasswordPage() {
+  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      newPassword: ""
+      email: ""
     }
   });
-
-  const resetToken = searchParams.get("token");
-  console.log(searchParams);
-  console.log(resetToken);
+  //TODO: username from url to send along with payload
 
   const onSubmit = async (data: ResetPasswordValue) => {
     console.log(data);
-    console.log(data.newPassword, resetToken);
   };
   return (
     <div className="flex h-full flex-col items-center justify-center min-h-[calc(100vh-64px)] rounded  px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-md  space-y-8 px-7  md:px-10 py-10 md:py-14 shadow-[rgba(100,100,111,0.2)0px_7px_29px_0px]">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Reset Password</h1>
+          <h1 className="text-3xl font-bold">Forgot Password</h1>
           <p className="text-muted-foreground">
             Enter your email address and we&apos;ll send you a link to reset
             your password.
@@ -43,14 +37,14 @@ export default function ResetPasswordPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <TextInput
               control={form.control}
-              name="newPassword"
-              label="New Password"
-              type="password"
+              name="email"
+              label="Email  Address"
+              type="email"
               required
-              placeholder="*******"
+              placeholder="majid@gmail.com"
             />
             <Button type="submit" className="w-full bg-primary-500 text-white">
-              Reset Password
+              Forgot
             </Button>
           </form>
         </Form>

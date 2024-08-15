@@ -45,17 +45,9 @@ export default function SignInForm() {
 
     console.log(result);
 
-    if (result?.error) {
-      if (result.error === "CredentialsSignin") {
-        console.log("credentials error");
-      } else {
-        console.log(result.error);
-      }
-    }
-
-    if (result?.ok) {
-      router.replace("/");
-    }
+    // if (result?.url) {
+    //   router.replace("/");
+    // }
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr]  *:h-[calc(100vh-64px)]">
@@ -112,7 +104,7 @@ export default function SignInForm() {
                 />
                 <div className="text-sm">
                   <Link
-                    href={`/reset-password/`}
+                    href={`/forgot-password`}
                     className="font-medium text-blue-500 hover:text-blue-600 hover:underline"
                     prefetch={false}
                   >

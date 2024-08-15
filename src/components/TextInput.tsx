@@ -35,7 +35,7 @@ const TextInput = ({
           <FormControl>
             <Input {...inputProps} {...field} type={type} />
           </FormControl>
-          <FormMessage />
+          <FormMessage className="text-error-500" />
         </FormItem>
       )}
     />

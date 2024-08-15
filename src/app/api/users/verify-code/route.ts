@@ -32,13 +32,15 @@ export async function PATCH(request: NextRequest) {
       });
     }
 
-    const isTokenNotExpired = new Date(user.verifyCodeExpiry) > new Date();
+    const isTokenNotExpired = new Date(user?.verifyCodeExpiry!) > new Date();
     const isVerificationCodeValid = user.verifyCode === code;
 
     console.log(isTokenNotExpired, isVerificationCodeValid);
 
     if (isTokenNotExpired && isVerificationCodeValid) {
       user.isVerified = true;
+      user.verifyCode = undefined;
+      user.verifyCodeExpiry = undefined;
 
       await user.save();
 

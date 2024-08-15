@@ -36,8 +36,6 @@ export default function VerifyOtpPage() {
     }
   });
 
-  //TODO: username from url to send along with payload
-
   const onSubmit = (data: z.infer<typeof VerifyFormSchema>) => {
     console.log(data);
   };
