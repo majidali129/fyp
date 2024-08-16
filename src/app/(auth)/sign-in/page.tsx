@@ -21,10 +21,15 @@ import {
 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { loginUser } from "@/actions";
+import { AuthError } from "next-auth";
+import { useState } from "react";
 type LoginUserFormValues = z.infer<typeof loginUserSchema>;
 
 export default function SignInForm() {
+  const [error, setError] = useState("");
   const router = useRouter();
+
   const form = useForm<z.infer<typeof loginUserSchema>>({
     resolver: zodResolver(loginUserSchema),
     defaultValues: {
@@ -37,17 +42,25 @@ export default function SignInForm() {
   const onSubmit = async (data: LoginUserFormValues) => {
     console.log({ email: data.identifier, password: data.password });
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      identifier: data.identifier,
-      password: data.password
-    });
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        identifier: data.identifier,
+        password: data.password
+      });
 
-    console.log(result);
+      if (res?.url) {
+        router.replace("/");
+      }
 
-    // if (result?.url) {
-    //   router.replace("/");
-    // }
+      if (res?.error) throw res.error;
+    } catch (error: any) {
+      console.log("above error", error);
+      if (error === "CredentialsSignin") {
+        setError("Invalid credentials");
+        console.log("Invalid credentials");
+      }
+    }
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr]  *:h-[calc(100vh-64px)]">
@@ -71,7 +84,7 @@ export default function SignInForm() {
               <TextInput
                 control={form.control}
                 name="identifier"
-                label="Username / Email Address"
+                label="Email Address"
                 type="text"
                 required
                 placeholder="majid@gmail.com"

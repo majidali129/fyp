@@ -1,50 +1,39 @@
 import { connectDB } from "@/lib/connectDB";
 import UserModel from "@/models/user.model";
-import NextAuth, { AuthError, CredentialsSignin } from "next-auth";
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcryptjs from "bcryptjs";
-
-class customError extends AuthError {
-  constructor(message: string) {
-    super();
-    this.message = message;
-  }
-}
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
     Credentials({
       name: "Credentials",
       credentials: {
-        email: { type: "text", label: "Email Address" },
+        identifier: { type: "text", label: "Email Address" },
         password: { type: "password", label: "Password" }
       },
 
-      authorize: async (credentials: any): Promise<any> => {
+      authorize: async (credentials): Promise<any> => {
+        const identifier = credentials.identifier as string;
+        const password = credentials.password as string;
         await connectDB();
         try {
           const user = await UserModel.findOne({
-            $or: [
-              { email: credentials.identifier },
-              { username: credentials.identifier }
-            ]
+            $or: [{ email: identifier }, { username: identifier }]
           });
-          if (!user) {
-            throw new Error("User not found with this email");
-          }
+          if (!user) return null;
+
           if (!user.isVerified) {
             throw new Error("Please verify your account before logging in");
           }
           const isPasswordCorrect = await bcryptjs.compare(
-            credentials.password,
+            password,
             user.password
           );
-          if (!isPasswordCorrect) {
-            // throw new Error("Password did not match");
-            // throw new CredentialsSignin("Password did not match");
-            throw new customError("Password did not match");
-          } else {
+          if (isPasswordCorrect) {
             return user;
+          } else {
+            return null;
           }
         } catch (error: any) {
           console.log("login failed", error);
