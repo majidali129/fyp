@@ -84,9 +84,8 @@ export default function SignInForm() {
               <TextInput
                 control={form.control}
                 name="identifier"
-                label="Email Address"
+                label="User / Email"
                 type="text"
-                required
                 placeholder="majid@gmail.com"
               />
               <TextInput
@@ -95,7 +94,6 @@ export default function SignInForm() {
                 label="Password"
                 placeholder="********"
                 type="password"
-                required
               />
               <div className="flex items-center justify-between">
                 <FormField
