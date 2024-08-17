@@ -14,6 +14,9 @@ import { Form } from "@/components/ui/form";
 import TextInput from "@/components/TextInput";
 import { useState } from "react";
 import { registerUserSchema } from "@/schemas/registerUserSchema";
+import { FaArrowRight } from "react-icons/fa6";
+import { LuMove, LuMoveLeft, LuMoveRight } from "react-icons/lu";
+import SubmitBtn from "@/components/SubmitBtn";
 
 type RegisterUserFormValues = z.infer<typeof registerUserSchema>;
 
@@ -37,7 +40,7 @@ export default function SignUpForm() {
     console.log(file);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr] *:h-[calc(100vh-64px)]">
+    <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr] *:h-[calc(100vh-64px)] ">
       <Image
         src={illustration}
         alt="signup image"
@@ -117,8 +120,8 @@ export default function SignUpForm() {
                 />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-end flex-wrap gap-1">
+                {/* <div className="flex items-center space-x-2">
                   <Checkbox id="terms" required />
                   <Label htmlFor="terms">
                     I agree to the{" "}
@@ -126,14 +129,8 @@ export default function SignUpForm() {
                       Terms and Conditions
                     </Link>
                   </Label>
-                </div>
-                <Button
-                  type="submit"
-                  className=" bg-primary-500 text-white px-10"
-                  variant="secondary"
-                >
-                  Sign Up
-                </Button>
+                </div> */}
+                <SubmitBtn>Submit</SubmitBtn>
               </div>
             </form>
           </Form>

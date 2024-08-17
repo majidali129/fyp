@@ -80,6 +80,7 @@ const config = {
           900: "#331D06"
         },
         error: {
+          50: "#fef2f2",
           100: "#FFF0F0",
           200: "#F4C8C8",
           300: "#EE8F8F",
