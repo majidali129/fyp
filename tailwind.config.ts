@@ -34,6 +34,7 @@ const config = {
           900: "#33140B"
         },
         secondary: {
+          50: "#eef2ff",
           100: "#EBEBFF",
           200: "#CDCBFE",
           300: "#9A95FE",
@@ -45,7 +46,7 @@ const config = {
           900: "#111033"
         },
         gray: {
-          white: "FFFFFF",
+          white: "#FFFFFF",
           50: "#F5F7FA",
           100: "#E9EAF0",
           200: "#CED1D9",

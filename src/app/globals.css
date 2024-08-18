@@ -6,19 +6,40 @@
 
 @layer base {
   * {
-    @apply font-sans;
+    @apply font-sans selection:bg-primary-500 selection:text-white;
   }
 }
 
 @layer utilities {
+  .tw-container {
+    @apply container mx-auto md:max-w-6xl 2xl:max-w-[1280px] space-y-8;
+  }
   .flex-center {
     @apply flex items-center justify-center;
+  }
+  .flex-start {
+    @apply flex items-center justify-start;
   }
   .flex-between {
     @apply flex items-center justify-between;
   }
   .flex-around {
     @apply flex items-center justify-around;
+  }
+  h1 {
+    @apply text-2xl  md:text-4xl text-gray-900 tracking-wide font-bold;
+  }
+  h2 {
+    @apply text-2xl  md:text-3xl text-gray-900 tracking-wide font-bold;
+  }
+  h3 {
+    @apply text-xl  md:text-2xl text-gray-900 tracking-wide font-bold;
+  }
+  h4 {
+    @apply text-lg  md:text-xl text-gray-900 tracking-wide font-semibold;
+  }
+  p {
+    @apply text-[.9rem] md:text-[1.1rem] text-gray-700;
   }
 }
 
