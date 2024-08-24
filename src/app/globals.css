@@ -12,13 +12,13 @@
 
 @layer utilities {
   .tw-container {
-    @apply container mx-auto md:max-w-6xl 2xl:max-w-[1280px] space-y-8;
+    @apply container mx-auto md:max-w-6xl 2xl:max-w-[1280px] space-y-8 p-[.9rem] sm:p-[1rem];
   }
   .flex-center {
     @apply flex items-center justify-center;
   }
   .flex-start {
-    @apply flex items-center justify-start;
+    @apply flex items-center justify-start gap-x-1.5;
   }
   .flex-between {
     @apply flex items-center justify-between;
@@ -39,7 +39,11 @@
     @apply text-lg  md:text-xl text-gray-900 tracking-wide font-semibold;
   }
   p {
-    @apply text-[.9rem] md:text-[1.1rem] text-gray-700;
+    @apply text-[.9rem] md:text-[1rem] text-gray-700;
+  }
+
+  span {
+    @apply text-gray-800 text-[.9rem];
   }
 }
 

@@ -1,12 +1,18 @@
+import clsx from "clsx";
 import { ComponentProps, ReactNode } from "react";
 
 interface SectionProp extends ComponentProps<"section"> {
   children: ReactNode;
+  className?: string;
 }
 
-const Section = ({ children, ...prop }: SectionProp) => {
+const Section = ({ children, className, ...props }: SectionProp) => {
   return (
-    <section {...prop} className="w-full py-14">
+    <section
+      id="wrapper"
+      className={clsx("w-full md:p-14 max-sm:py-10", className)}
+      {...props}
+    >
       {children}
     </section>
   );

@@ -19,7 +19,7 @@ const HeroSection = () => {
         </div>
       </div>
       <div className="hidden md:block">
-        <Image src={Img} alt="hero section iamge" className="-mt-1" />
+        <Image src={Img} alt="hero section iamge" priority className="-mt-1" />
       </div>
     </header>
   );

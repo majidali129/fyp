@@ -3,32 +3,29 @@ import { Button } from "./ui/button";
 // import { IoIosArrowRoundForward } from "react-icons/io";
 import { LuMoveLeft, LuMoveRight } from "react-icons/lu";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import clsx from "clsx";
+import Link from "next/link";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface LinkButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  direction?: "back" | "forward";
+  className?: string;
+  to: string;
 }
 
-const LinkBtn = ({
-  children,
-  direction = "forward",
-  ...props
-}: ButtonProps) => {
-  if (direction === "forward") {
-    return (
-      <Button variant={"link"} className="gap-x-2.5" {...props}>
-        {children}
-        <LuMoveRight />
-      </Button>
-    );
-  }
-
+const LinkButton = ({ children, to, className }: LinkButtonProps) => {
   return (
-    <Button variant={"link"} className="gap-x-2.5" {...props}>
-      <LuMoveLeft />
+    <Link
+      href={to}
+      className={clsx(
+        "flex-center w-fit py-2.5 bg-gray-white hover:bg-gray-white/95 text-primary-500 px-5 gap-x-2.5",
+        className
+      )}
+    >
       {children}
-    </Button>
+      <LuMoveRight />
+    </Link>
   );
 };
 
-export default LinkBtn;
+export default LinkButton;

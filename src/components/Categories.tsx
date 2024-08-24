@@ -4,6 +4,8 @@ import img from "../../public/images/business.png";
 import Section from "./Section";
 import { formateNumber } from "@/helpers";
 import LinkBtn from "./LinkButton";
+import Link from "./NextPrevLink";
+import NextPrevLink from "./NextPrevLink";
 
 interface Category {
   name: string;
@@ -89,9 +91,12 @@ const Categories = () => {
 
         <p className="text-center text-sm">
           We have more category & subcategory.{" "}
-          <LinkBtn className="text-normal text-primary-500" direction="forward">
+          <NextPrevLink
+            to="/categories"
+            className="text-normal text-primary-500"
+          >
             Browse All{" "}
-          </LinkBtn>
+          </NextPrevLink>
         </p>
       </div>
     </Section>
