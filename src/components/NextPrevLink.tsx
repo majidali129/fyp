@@ -22,10 +22,10 @@ const NextPrevLink = ({
 }: ButtonProps) => {
   if (direction === "forward") {
     return (
-      <Link href={to as string}>
+      <Link href={to as string} >
         <Button
           variant={"link"}
-          className={clsx("gap-x-2.5", className)}
+          className={clsx("gap-x-2.5 ", className)}
           {...props}
         >
           {children}

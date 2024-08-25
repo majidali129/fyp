@@ -26,13 +26,13 @@ const buttonVariants = cva(
         transparentGhost:
           "bg-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900",
 
-        link: "text-primary hover:underline-offset-8 hover:underline decoration-2"
+        link: "text-primary hover:underline-offset-8 hover:underline decoration-2 decoration-primary-500"
       },
       size: {
         default: "px-4 md:px-6 py-2.5",
         sm: "py-2 rounded-md px-3",
         lg: "py-3.5 rounded-md px-8",
-        icon: "h-10 w-10"
+        icon: "h-12 w-12"
       }
     },
     defaultVariants: {

@@ -5,8 +5,8 @@ import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <header className="flex md:*:w-1/2  border-t border-t-gray-200 bg-gradient-to-t from-secondary-50 to-gray-white">
-      <div>
+    <header className="grid md:grid-cols-[55%_1fr] lg:grid-cols-2   lg:h-[400px] md:h-[300px] 2xl:h-[500px]   border-t border-t-gray-200 bg-gradient-to-t from-secondary-50 to-gray-white ">
+      <div className="h-full ">
         <div className="flex-center justify-center md:items-start  max-sm:text-center max-sm:h-96 flex-col space-y-4 h-full md:max-w-sm w-full *:w-fit mx-auto px-2 md:px-0">
           <h1>Learn with expert anytime anywhere</h1>
           <p>
@@ -18,9 +18,7 @@ const HeroSection = () => {
           </Link>
         </div>
       </div>
-      <div className="hidden md:block">
-        <Image src={Img} alt="hero section iamge" priority className="-mt-1" />
-      </div>
+      <Image src={Img} priority alt="hero section image" className="md:h-[302px] hidden md:block lg:h-[402px] 2xl:h-[502px] md:-mt-1 2xl:-mt-[5px]" />
     </header>
   );
 };

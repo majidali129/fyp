@@ -6,7 +6,7 @@ import Counter from "./Counter";
 
 const BecomeInstructor = () => {
   return (
-    <Section className="bg-gray-50 lg:absolute lg:h-[430px]  lg:top-[2580px]">
+    <Section className="bg-gray-50 lg:absolute lg:h-[430px]  lg:top-[2580px] 2xl:top-[2780px]">
       <div className="tw-container ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="flex-between">

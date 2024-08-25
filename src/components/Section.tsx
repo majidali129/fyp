@@ -10,7 +10,7 @@ const Section = ({ children, className, ...props }: SectionProp) => {
   return (
     <section
       id="wrapper"
-      className={clsx("w-full md:p-14 max-sm:py-10", className)}
+      className={clsx("w-full md:p-11 max-sm:py-10", className)}
       {...props}
     >
       {children}

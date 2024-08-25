@@ -6,8 +6,8 @@ import RecentCourses from "@/components/RecentCourses";
 import BecomeInstructor from "@/components/BecomeInstructor";
 import FeaturedCourses from "@/components/FeaturedCourses";
 import TopCompanies from "@/components/TopCompanies";
-import Counter from "@/components/Counter";
 import TopInstructors from "@/components/TopInstructors";
+import Footer from "@/components/Footer";
 
 const HomePage = () => {
   return (
@@ -19,7 +19,8 @@ const HomePage = () => {
       <RecentCourses />
       <BecomeInstructor />
       <TopInstructors />
-      {/* <TopCompanies /> */}
+      <TopCompanies />
+      <Footer />
     </>
   );
 };

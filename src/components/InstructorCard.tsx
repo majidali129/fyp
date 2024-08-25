@@ -25,11 +25,11 @@ const InstructorCard = ({ instructor }: InstructorCardProps) => {
         alt="instructor image"
       />
       <div>
-        <div className="flex-center flex-col">
+        <div className="flex-center flex-col py-1.5">
           <h5>{name}</h5>
           <span className="opacity-50">{field}</span>
         </div>
-        <div className="border-t border-t-gray-200 flex-between py-2 *:px-3">
+        <div className="border-t border-t-gray-100 flex-between py-2 *:px-3">
           <div className="flex items-center gap-x-1">
             <span>
               <FaStar className="text-yellow-400" />

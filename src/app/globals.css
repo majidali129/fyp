@@ -30,7 +30,7 @@
     @apply text-2xl  md:text-4xl text-gray-900 tracking-wide font-bold;
   }
   h2 {
-    @apply text-2xl  md:text-3xl text-gray-900 tracking-wide font-bold;
+    @apply text-xl  md:text-3xl text-gray-900 tracking-wide font-bold;
   }
   h3 {
     @apply text-xl  md:text-2xl text-gray-900 tracking-wide font-bold;
@@ -39,7 +39,7 @@
     @apply text-lg  md:text-xl text-gray-900 tracking-wide font-semibold;
   }
   p {
-    @apply text-[.9rem] md:text-[1rem] text-gray-700;
+    @apply text-[.9rem] md:text-[1rem] text-gray-500;
   }
 
   span {
