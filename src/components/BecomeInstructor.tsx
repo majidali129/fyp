@@ -1,12 +1,10 @@
-import Image from "next/image";
 import LinkButton from "./LinkButton";
 import Section from "./Section";
-import becomeInsImg from "../../public/images/becomeIns.jpeg";
 import Counter from "./Counter";
 
 const BecomeInstructor = () => {
   return (
-    <Section className="bg-gray-50 lg:absolute lg:h-[430px]  lg:top-[2580px] 2xl:top-[2780px]">
+    <Section className="bg-gray-50 lg:absolute lg:h-[430px]  lg:top-[2650px] 2xl:top-[2840px]">
       <div className="tw-container ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="flex-between">
@@ -23,7 +21,6 @@ const BecomeInstructor = () => {
                 Start Teaching
               </LinkButton>
             </div>
-            {/* <Image src={becomeInsImg} alt="instructor image" height={30} /> */}
           </div>
           <div className="bg-gray-white p-4 md:p-6  space-y-3.5">
             <h4>Your teaching & earning steps</h4>

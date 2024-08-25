@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const RecentCourses = () => {
   return (
-    <Section className="lg:absolute lg:top-[1962px] 2xl:top-[2120px] ">
+    <Section className="lg:absolute lg:top-[2040px] 2xl:top-[2190px] ">
       <div className="tw-container ">
         <h2 className="text-center">Recently Added Courses</h2>
 

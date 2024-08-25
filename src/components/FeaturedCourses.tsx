@@ -3,7 +3,7 @@ import Section from "./Section";
 
 const FeaturedCourses = () => {
   return (
-    <Section className="lg:*:bg-white lg:absolute lg:top-[1410px] 2xl:top-[1540px]  ">
+    <Section className="lg:*:bg-white lg:absolute lg:top-[1480px] 2xl:top-[1600px]  ">
       <div className="tw-container lg:max-w-[1200px] 2xl:max-w-[1400px] lg:py-14 lg:!px-12 lg:shadow-md ">
         <h2 className="">Our Featured Courses</h2>
 

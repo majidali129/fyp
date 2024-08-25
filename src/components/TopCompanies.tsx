@@ -11,7 +11,7 @@ import microsoft from '../../public/images/microsoft.png'
 
 const TopCompanies = () => {
   return (
-    <Section className="lg:*:bg-white lg:absolute lg:top-[3480px] 2xl:top-[3700px] ">
+    <Section className="lg:*:bg-white lg:absolute lg:top-[3550px] 2xl:top-[3760px] ">
       <div className="tw-container">
         <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-2">
           <div className="space-y-2.5 flex flex-col justify-center">

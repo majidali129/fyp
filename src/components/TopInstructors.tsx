@@ -7,7 +7,7 @@ import NextPrevLink from "./NextPrevLink";
 
 const TopInstructors = () => {
   return (
-    <Section className="lg:*:bg-white lg:absolute lg:top-[2850px] 2xl:top-[3060px]">
+    <Section className="lg:*:bg-white lg:absolute lg:top-[2940px] 2xl:top-[3115px]">
       <div className="tw-container lg:max-w-[1200px] 2xl:max-w-[1400px] lg:py-14 lg:!px-12 lg:shadow-md ">
         <h2 className="text-center">Top instructors of the month</h2>
 
