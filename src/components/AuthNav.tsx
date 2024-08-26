@@ -23,12 +23,12 @@ const AuthNav = () => {
         {pathName === "/sign-in" ? (
           <div>
             <span>Don&apos;t have an account? </span>
-            <Link href={"/sign-up"}>Sign Up</Link>
+            <Link href={"/sign-up"} className="text-primary-500">Sign Up</Link>
           </div>
         ) : pathName === "/sign-up" ? (
           <div>
             <span>Already have an account? </span>
-            <Link href={"/sign-in"}>Sign In</Link>
+            <Link href={"/sign-in"} className="text-primary-500">Sign In</Link>
           </div>
         ) : null}
       </div>

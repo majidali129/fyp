@@ -8,24 +8,6 @@
   * {
     @apply font-sans selection:bg-primary-500 selection:text-white;
   }
-}
-
-@layer utilities {
-  .tw-container {
-    @apply container mx-auto md:max-w-6xl 2xl:max-w-[1280px] space-y-8 p-[.9rem] sm:p-[1rem];
-  }
-  .flex-center {
-    @apply flex items-center justify-center;
-  }
-  .flex-start {
-    @apply flex items-center justify-start gap-x-1.5;
-  }
-  .flex-between {
-    @apply flex items-center justify-between;
-  }
-  .flex-around {
-    @apply flex items-center justify-around;
-  }
   h1 {
     @apply text-2xl  md:text-4xl text-gray-900 tracking-wide font-bold;
   }
@@ -45,6 +27,28 @@
   span {
     @apply text-gray-800 text-[.9rem];
   }
+}
+
+@layer utilities {
+  .tw-container {
+    @apply container mx-auto md:max-w-6xl 2xl:max-w-[1280px] space-y-8 p-[.9rem] sm:p-[1rem];
+  }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-start {
+    @apply flex items-center justify-start gap-x-1.5;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+  .flex-around {
+    @apply flex items-center justify-around;
+  }
+  .popular-keyword {
+    @apply bg-gray-50 text-gray-900 hover:bg-primary-500 hover:text-gray-white py-1.5 px-3;
+  }
+
 }
 
 @layer components {

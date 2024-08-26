@@ -1,5 +1,7 @@
-const Courses = () => {
-  return <div>Courses Us</div>;
+import Courses from "@/components/Courses";
+
+const CoursesPage = () => {
+  return <Courses />
 };
 
-export default Courses;
+export default CoursesPage;

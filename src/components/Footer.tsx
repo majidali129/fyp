@@ -13,6 +13,7 @@ const Footer = () => {
   return (
     <>
       <footer className="w-full lg:absolute lg:top-[3850px] 2xl:top-[4080px] bg-gray-900">
+      {/* <footer className="w-full  bg-gray-900"> */}
         <div className="tw-container !py-16">
           <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr]  lg:gap-2 gap-5 md:gap-10">
             <div className="*:text-gray-white space-y-4">

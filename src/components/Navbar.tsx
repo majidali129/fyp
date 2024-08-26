@@ -5,6 +5,7 @@ import { VscBellDot } from "react-icons/vsc"; // with notificatons
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BiCart } from "react-icons/bi";
 import Search from "./Search";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -26,8 +27,12 @@ const Navbar = () => {
           </span>
         </div>
         <div className="flex-center gap-x-3">
+          <Link href={'/sign-up'}>
           <Button variant="secondaryPrimary">Create Account</Button>
+          </Link>
+          <Link href={'/sign-in'}>
           <Button>Sign In</Button>
+          </Link>
         </div>
       </div>
     </nav>

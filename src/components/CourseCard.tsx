@@ -3,16 +3,18 @@ import { Badge } from "./ui/badge";
 import { formateNumberInK } from "@/helpers";
 import { FaStar } from "react-icons/fa";
 import img from "../../public/images/courseImg.png";
+import Link from "next/link";
 
 const CourseCard = () => {
   return (
-    <div className="rounded-sm rounded-t-[0.3rem] shadow-lg">
+    <Link href={'#'}>
+    <div className="rounded-sm rounded-t-[0.2rem] shadow-lg">
       <Image
         src={img}
         alt="course cover photo"
         priority
         height={180}
-        className="max-sm:h-[220px] w-full object-cover rounded-t-[0.3rem] rounded-b-[0.2rem] select-none"
+        className="max-sm:h-[220px] w-full object-cover rounded-t-[0.1rem] rounded-b-[0.2rem] select-none"
       />
 
       <div className="py-2 *:px-2 space-y-2">
@@ -39,6 +41,9 @@ const CourseCard = () => {
         </div>
       </div>
     </div>
+    {/* TODO: COURSE COMPLETION STATUS 👇🏼*/}
+    {/* <div></div> */}
+    </Link>
   );
 };
 
