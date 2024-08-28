@@ -8,7 +8,6 @@ import Courses from "@/components/Courses";
 
 const CoursesByCategoryPage = ({params}: {params: {category: string}}) => {
   const {category} = params;
-  console.log(category)
 
   // TODO: fetch course instructors by category
   return (
@@ -60,7 +59,7 @@ const CoursesByCategoryPage = ({params}: {params: {category: string}}) => {
       </Section>
 
       {/* Courses of category */}
-      <Courses />
+      <Courses category={category} />
     </>
   );
 };
