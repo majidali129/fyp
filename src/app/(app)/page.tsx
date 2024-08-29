@@ -20,7 +20,7 @@ const HomePage = () => {
       <BecomeInstructor />
       <TopInstructors />
       <TopCompanies />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

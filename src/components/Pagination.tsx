@@ -8,15 +8,15 @@ import {
     PaginationPrevious,
   } from "@/components/ui/pagination"
 
-  function PaginationDemo() {
+  function Paginate() {
     return (
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious />
           </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
+          <PaginationItem >
+            <PaginationLink href="#"  className="text-gray-800">1</PaginationLink>
           </PaginationItem>
           <PaginationItem>
             <PaginationLink href="#" isActive>
@@ -24,7 +24,7 @@ import {
             </PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
+            <PaginationLink href="#" className="text-gray-800">3</PaginationLink>
           </PaginationItem>
           <PaginationItem>
             <PaginationEllipsis />
@@ -38,4 +38,4 @@ import {
   }
 
 
-  export default PaginationDemo
+  export default Paginate

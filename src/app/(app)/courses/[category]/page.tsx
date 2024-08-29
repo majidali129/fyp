@@ -57,9 +57,7 @@ const CoursesByCategoryPage = ({params}: {params: {category: string}}) => {
           </div>
         </div>
       </Section>
-
-      {/* Courses of category */}
-      <Courses category={category} />
+      <Courses />
     </>
   );
 };

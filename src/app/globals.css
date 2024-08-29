@@ -31,7 +31,7 @@
 
 @layer utilities {
   .tw-container {
-    @apply container mx-auto md:max-w-6xl 2xl:max-w-[1280px] space-y-8 p-[.9rem] sm:p-[1rem];
+    @apply container mx-auto md:max-w-6xl xl:max-w-7xl 2xl:max-w-[1340px] space-y-8 p-[.9rem] sm:p-[1rem];
   }
   .flex-center {
     @apply flex items-center justify-center;

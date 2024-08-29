@@ -26,9 +26,9 @@ const Search = ({ label, ...props }: SearchInputProps) => {
     <form
       onSubmit={onSubmit}
       action=""
-      className="flex-between border px-2  border-gray-200 max-w-sm w-full "
+      className="flex-between border px-2  border-gray-200 max-w-sm w-full rounded-full py-0.5"
     >
-      <GoSearch className="md:w-7 md:h-7 w-5 h-5" />
+      <GoSearch className="md:w-6 md:h-6 w-5 h-5" />
       <Input
         type="text"
         className="ring-0 border-none !bg-transparent outline-none"

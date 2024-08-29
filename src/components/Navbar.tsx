@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <nav className="flex-between py-3 px-5">
+    <nav className="flex-between py-3 px-5 border-b border-b-gray-100">
       <div className="flex-start space-x-3 max-w-xl w-full">
         <Logo />
         <Search placeholder="What do you want to learn..." />
