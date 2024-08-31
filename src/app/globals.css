@@ -20,6 +20,9 @@
   h4 {
     @apply text-lg  md:text-xl text-gray-900 tracking-wide font-semibold;
   }
+  h5, h6{
+    @apply text-gray-900 font-semibold
+  }
   p {
     @apply text-[.9rem] md:text-[1rem] text-gray-700;
   }

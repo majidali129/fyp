@@ -13,6 +13,8 @@ import CourseInstructorInfoCard from "@/components/CourseInstructorInfoCard";
 import { FaStarHalfAlt } from "react-icons/fa";
 import CourseRatingStats from "@/components/CourseRatingStats";
 import CourseCurriculum from "@/components/CourseCurriculum";
+import StudentsFeedbacks from "@/components/StudentsFeedback";
+import CourseCard from "@/components/CourseCard";
 
 const CourseDetailsPage = ({
   params
@@ -80,7 +82,7 @@ const CourseDetailsPage = ({
       </section>
       <section className="py-5 mb-5">
         <div className="tw-container space-y-6">
-          <div className="w-[70%] space-y-9 *:space-y-3.5">
+          <div className="w-[70%] space-y-9 *:space-y-5">
             {/* description */}
             <div>
               <h3>Description</h3>
@@ -202,7 +204,7 @@ const CourseDetailsPage = ({
                     <FaStar className="text-warning-500 w-4 h-4" />
                     <FaStarHalfAlt className="text-warning-500 w-4 h-4" />
                   </div>
-                  <h5>Course Rating</h5>
+                  <p className="text-gray-900 font-medium">Course Rating</p>
                 </div>
                 <div className="space-y-3">
                   <CourseRatingStats />
@@ -213,7 +215,24 @@ const CourseDetailsPage = ({
                 </div>
               </div>
             </div>
+            {/* Feedback */}
+            <div>
+              <h3>Students Feedback</h3>
+              <StudentsFeedbacks />
+            </div>
+
           </div>
+            {/* Related Courses */}
+            <div className="space-y-5">
+              <h3>Related Courses</h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                <CourseCard />
+                <CourseCard />
+                <CourseCard />
+                <CourseCard />
+                <CourseCard />
+              </ul>
+            </div>
         </div>
       </section>
     </>
