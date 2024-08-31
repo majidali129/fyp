@@ -28,7 +28,7 @@ const TopNav = () => {
   console.log(pathName === links[1].path);
 
   return (
-    <nav className="flex-between bg-gray-900  px-5 text-[.9rem]">
+    <nav className="hidden md:flex-between bg-gray-900  px-5 text-[.9rem]">
       <ul className="flex-between gap-x-3  *:text-gray-500 hover:*:text-gray-white">
         {links.map((link) => (
           <Link

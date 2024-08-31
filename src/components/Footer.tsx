@@ -16,7 +16,7 @@ const Footer = () => {
   console.log(pathname)
   if(pathname ==='/') return (
     <>
-      <footer className="w-full lg:absolute lg:top-[3850px] 2xl:top-[4080px] bg-gray-900">
+      <footer className="w-full lg:absolute lg:top-[3850px] 2xl:top-[4080px] bg-gray-900 max-sm:mb-14">
       {/* <footer className="w-full  bg-gray-900"> */}
         <div className="tw-container !py-16">
           <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr]  lg:gap-2 gap-5 md:gap-10">
@@ -48,7 +48,7 @@ const Footer = () => {
 
         <div className="border-y border-y-gray-800">
           <div className="tw-container !py-16 ">
-            <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr]  lg:gap-2 gap-10 md:gap-10">
+            <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr] gap-10 md:gap-10">
 
               <div className="*:text-gray-white  space-y-6">
                 <Link href={"/"}>

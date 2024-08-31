@@ -1,14 +1,22 @@
 import Image from "next/image";
 import { FaStar } from "react-icons/fa6";
 import feedbackUser from "../../public/images/instructor2.png";
+import { Button } from "./ui/button";
+import Modal from "./Modal";
 
 const StudentsFeedbacks = () => {
   return (
+    <>
+    <div className="space-y-3">
     <ul className="space-y-2">
       <FeedBackCard />
       <FeedBackCard />
       <FeedBackCard />
     </ul>
+
+    <Button variant={'secondaryPrimary'}>Show all reviews</Button>
+    </div>
+    </>
   );
 };
 

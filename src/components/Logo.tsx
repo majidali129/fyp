@@ -12,7 +12,7 @@ const Logo = () => {
         width={130}
         alt="lms-logo"
         priority
-        className="object-cover"
+        className="object-cover max-sm:!w-[100px]"
       />
     </Link>
   );
