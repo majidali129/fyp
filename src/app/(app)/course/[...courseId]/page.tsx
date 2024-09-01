@@ -189,7 +189,7 @@ const CourseDetailsPage = ({
                   </div>
                 </div>
               </div>
-              <CourseCurriculum />
+              <CourseCurriculum  curriculum={[]} isWatching={false}/>
             </div>
             {/* Course Ratings */}
             <div>
@@ -197,7 +197,7 @@ const CourseDetailsPage = ({
               <div className="grid md:grid-cols-[11rem_1fr] h-[11rem] ">
                 <div className="flex-center flex-col gap-y-2 border border-gray-100">
                   <h1>4.8</h1>
-                  <div className="flex-center">
+                  <div className="flex-center !gap-x-1">
                     <FaStar className="text-warning-500 w-4 h-4" />
                     <FaStar className="text-warning-500 w-4 h-4" />
                     <FaStar className="text-warning-500 w-4 h-4" />
@@ -206,7 +206,7 @@ const CourseDetailsPage = ({
                   </div>
                   <p className="text-gray-900 font-medium">Course Rating</p>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   <CourseRatingStats />
                   <CourseRatingStats />
                   <CourseRatingStats />
