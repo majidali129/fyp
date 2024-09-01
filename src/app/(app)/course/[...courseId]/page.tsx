@@ -13,8 +13,8 @@ import CourseInstructorInfoCard from "@/components/CourseInstructorInfoCard";
 import { FaStarHalfAlt } from "react-icons/fa";
 import CourseRatingStats from "@/components/CourseRatingStats";
 import CourseCurriculum from "@/components/CourseCurriculum";
-import StudentsFeedbacks from "@/components/StudentsFeedback";
 import CourseCard from "@/components/CourseCard";
+import CourseFeedback from "@/components/CourseFeedback";
 
 const CourseDetailsPage = ({
   params
@@ -218,7 +218,7 @@ const CourseDetailsPage = ({
             {/* Feedback */}
             <div>
               <h3>Students Feedback</h3>
-              <StudentsFeedbacks />
+              <CourseFeedback />
             </div>
 
           </div>

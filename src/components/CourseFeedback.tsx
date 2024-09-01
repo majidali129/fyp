@@ -4,7 +4,7 @@ import feedbackUser from "../../public/images/instructor2.png";
 import { Button } from "./ui/button";
 import Modal from "./Modal";
 
-const StudentsFeedbacks = () => {
+const CourseFeedback = () => {
   return (
     <>
     <div className="space-y-3">
@@ -20,7 +20,7 @@ const StudentsFeedbacks = () => {
   );
 };
 
-export default StudentsFeedbacks;
+export default CourseFeedback;
 
 
 

@@ -29,7 +29,7 @@ const TopNav = () => {
 
   return (
     <nav className="hidden md:flex-between bg-gray-900  px-5 text-[.9rem]">
-      <ul className="flex-between gap-x-3  *:text-gray-500 hover:*:text-gray-white">
+      <ul className="flex-between !gap-x-5  *:text-gray-500 hover:*:text-gray-white">
         {links.map((link) => (
           <Link
             key={link.name}

@@ -7,6 +7,7 @@ import { HiArrowLeft } from "react-icons/hi2";
 import { Progress } from "@/components/ui/progress";
 import CourseCurriculum from "@/components/CourseCurriculum";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CourseFeedback from "@/components/CourseFeedback";
 
 const WatchCoursePage = () => {
   return (
@@ -58,7 +59,8 @@ const WatchCoursePage = () => {
       <section className="md:p-6">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_38%]  md:gap-x-3">
           <div className="border">
-            <div>Player</div>
+            {/* <div className="md:h-[450px]">Player</div> */}
+            <div>player</div>
           </div>
           {/* course curriculum */}
           <div className="space-y-3 hidden md:block">
@@ -106,11 +108,18 @@ const WatchCoursePage = () => {
 export default WatchCoursePage;
 
 function CourseDescription({ description }: { description: string }) {
-  return "";
+  return <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique odit inventore nihil quos illo, vero tempore optio aut quas quia velit nobis id odio accusamus magnam praesentium eius adipisci a?</p>;
 }
 function LectureNotes({ notes }: { notes: [any] }) {
-  return "";
+  return <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis laboriosam libero, praesentium ut commodi nam dignissimos doloribus aspernatur beatae iusto debitis voluptatem dicta consequatur magni pariatur vitae officiis cum fugiat.</p>;
 }
 function LectureReviews({ reviews }: { reviews: [any] }) {
-  return "";
+  return (
+
+    <div className="py-2">
+    <h3>Comments <span className="text-lg">{'(434)'}</span></h3>
+    <CourseFeedback />
+  </div>
+  )
+    // return <CourseFeedback />
 }
