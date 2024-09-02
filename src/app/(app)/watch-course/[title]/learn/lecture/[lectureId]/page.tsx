@@ -107,31 +107,54 @@ const WatchCoursePage = () => {
 export default WatchCoursePage;
 
 function CourseDescription({ description }: { description: string }) {
-
   return (
     <div className="space-y-3 [&>p]:text-[.9rem]">
       <h4>Course Description</h4>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias. Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt praesentium! Necessitatibus similique iste repellendus mollitia numquam officiis autem cupiditate laborum.</p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias.
+        Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt
+        praesentium! Necessitatibus similique iste repellendus mollitia numquam
+        officiis autem cupiditate laborum.
+      </p>
 
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur possimus libero nemo suscipit, natus molestias facilis. Repellat maxime aliquam dolor!</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque
+        et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur
+        possimus libero nemo suscipit, natus molestias facilis. Repellat maxime
+        aliquam dolor!
+      </p>
     </div>
-  )
+  );
 }
 function LectureNotes({ notes }: { notes: any[] }) {
-  return <div className="space-y-3 [&>p]:text-[.9rem]">
+  return (
+    <div className="space-y-3 [&>p]:text-[.9rem]">
       <h4>Lecture Notes</h4>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias. Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt praesentium! Necessitatibus similique iste repellendus mollitia numquam officiis autem cupiditate laborum.</p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias.
+        Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt
+        praesentium! Necessitatibus similique iste repellendus mollitia numquam
+        officiis autem cupiditate laborum.
+      </p>
 
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur possimus libero nemo suscipit, natus molestias facilis. Repellat maxime aliquam dolor!</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque
+        et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur
+        possimus libero nemo suscipit, natus molestias facilis. Repellat maxime
+        aliquam dolor!
+      </p>
     </div>
+  );
 }
 function LectureReviews({ reviews }: { reviews: [any] }) {
   return (
-
     <div className="py-2">
-    <h3>Comments <span className="text-lg">{'(434)'}</span></h3>
-    <LectureComments />
-  </div>
-  )
-    // return <CourseFeedback />
+      <h3>
+        Comments <span className="text-lg">{"(434)"}</span>
+      </h3>
+      <LectureComments />
+    </div>
+  );
+  // return <CourseFeedback />
 }
+
