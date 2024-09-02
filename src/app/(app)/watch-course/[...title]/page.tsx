@@ -7,7 +7,7 @@ import { HiArrowLeft } from "react-icons/hi2";
 import { Progress } from "@/components/ui/progress";
 import CourseCurriculum from "@/components/CourseCurriculum";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CourseFeedback from "@/components/CourseFeedback";
+import LectureComments from "@/components/LectureComments";
 
 const WatchCoursePage = () => {
   return (
@@ -57,13 +57,12 @@ const WatchCoursePage = () => {
       </div>
 
       <section className="md:p-6">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_38%]  md:gap-x-3">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_38%]  lg:gap-x-3">
           <div className="border">
-            {/* <div className="md:h-[450px]">Player</div> */}
             <div>player</div>
           </div>
           {/* course curriculum */}
-          <div className="space-y-3 hidden md:block">
+          <div className="space-y-3 hidden lg:block">
             <div className="space-y-1.5">
               <div className="flex-between">
                 <h5>Course Contents</h5>
@@ -79,7 +78,7 @@ const WatchCoursePage = () => {
           <Tabs className="*:px-3" defaultValue="overview">
             <TabsList className="border-y border-y-gray-200 py-2 md:py-2.5 *:md:font-semibold *:md:tracking-wide *:md:text-gray-800 md:flex-start !flex-between !px-0">
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="content" className="md:hidden">
+              <TabsTrigger value="content" className="lg:hidden">
                 Course Content
               </TabsTrigger>
               <TabsTrigger value="notes">Notes</TabsTrigger>
@@ -88,12 +87,12 @@ const WatchCoursePage = () => {
             <TabsContent value="overview">
               <CourseDescription description="" />
             </TabsContent>
-            <TabsContent value="content" className="md:hidden">
+            <TabsContent value="content" className="lg:hidden">
               {/* Curriculum */}
               <CourseCurriculum isWatching={true} curriculum={[]} />
             </TabsContent>
             <TabsContent value="notes">
-              <LectureNotes notes={[""]} />
+              <LectureNotes notes={[]} />
             </TabsContent>
             <TabsContent value="reviews">
               <LectureReviews reviews={[""]} />
@@ -108,17 +107,30 @@ const WatchCoursePage = () => {
 export default WatchCoursePage;
 
 function CourseDescription({ description }: { description: string }) {
-  return <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique odit inventore nihil quos illo, vero tempore optio aut quas quia velit nobis id odio accusamus magnam praesentium eius adipisci a?</p>;
+
+  return (
+    <div className="space-y-3 [&>p]:text-[.9rem]">
+      <h4>Course Description</h4>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias. Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt praesentium! Necessitatibus similique iste repellendus mollitia numquam officiis autem cupiditate laborum.</p>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur possimus libero nemo suscipit, natus molestias facilis. Repellat maxime aliquam dolor!</p>
+    </div>
+  )
 }
-function LectureNotes({ notes }: { notes: [any] }) {
-  return <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis laboriosam libero, praesentium ut commodi nam dignissimos doloribus aspernatur beatae iusto debitis voluptatem dicta consequatur magni pariatur vitae officiis cum fugiat.</p>;
+function LectureNotes({ notes }: { notes: any[] }) {
+  return <div className="space-y-3 [&>p]:text-[.9rem]">
+      <h4>Lecture Notes</h4>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias. Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt praesentium! Necessitatibus similique iste repellendus mollitia numquam officiis autem cupiditate laborum.</p>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur possimus libero nemo suscipit, natus molestias facilis. Repellat maxime aliquam dolor!</p>
+    </div>
 }
 function LectureReviews({ reviews }: { reviews: [any] }) {
   return (
 
     <div className="py-2">
     <h3>Comments <span className="text-lg">{'(434)'}</span></h3>
-    <CourseFeedback />
+    <LectureComments />
   </div>
   )
     // return <CourseFeedback />
