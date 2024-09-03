@@ -1,23 +1,35 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/dialog"
-import { ReactNode } from "react"
+import { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogOverlay } from './ui/dialog';
+import { DialogClose } from '@radix-ui/react-dialog';
+import { Button } from './ui/button';
 
-const Modal = ({children}: {children: ReactNode}) => {
-  return (
-    <Dialog>
-  <DialogTrigger>Open</DialogTrigger>
-  <DialogContent>
-    {children}
-  </DialogContent>
-</Dialog>
-
-  )
+interface ModalProps {
+  isOpen: boolean;
+  title?:string;
+  onClose: () => void;
+  children: React.ReactNode;
 }
 
-export default Modal
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogOverlay />
+      <DialogContent className="p-6 rounded-lg shadow-md bg-white">
+        {title && <DialogHeader className='text-lg font-semibold text-gray-800 !space-y-0'>{title}</DialogHeader>}
+        {children}
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default Modal;

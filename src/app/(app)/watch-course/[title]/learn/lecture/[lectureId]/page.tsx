@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import { FaRegFolderOpen } from "react-icons/fa6";
 import { IoTimeOutline } from "react-icons/io5";
 import { MdOutlinePlayCircle } from "react-icons/md";
@@ -8,8 +10,19 @@ import { Progress } from "@/components/ui/progress";
 import CourseCurriculum from "@/components/CourseCurriculum";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LectureComments from "@/components/LectureComments";
+import Modal from "@/components/Modal";
+import CourseReviewForm from "@/components/CourseReviewForm";
 
 const WatchCoursePage = () => {
+  const [isWritingReview, setIsWritingReview] = useState<boolean>(false);
+
+  const handleOpenModal = () => {
+    setIsWritingReview(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsWritingReview(false);
+  };
   return (
     <section className="pb-10">
       <div className="py-4 px-6 bg-secondary-50 md:flex-between hidden ">
@@ -46,6 +59,7 @@ const WatchCoursePage = () => {
         </div>
         <div className="flex-center !gap-x-3">
           <Button
+            onClick={handleOpenModal}
             size={"sm"}
             variant={"transparent"}
             className="bg-white hover:bg-white text-primary-500 hover:text-primary-600"
@@ -53,6 +67,13 @@ const WatchCoursePage = () => {
             Write A Reveiw
           </Button>
           <Button size={"sm"}>Next Lecture</Button>
+          <Modal
+            isOpen={isWritingReview}
+            onClose={handleCloseModal}
+            title="Write a Review"
+          >
+            <CourseReviewForm onCancel={handleCloseModal} />
+          </Modal>
         </div>
       </div>
 
@@ -85,17 +106,40 @@ const WatchCoursePage = () => {
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
             </TabsList>
             <TabsContent value="overview">
-              <CourseDescription description="" />
+              <div className="space-y-3 [&>p]:text-[.9rem]">
+                <h4>Course Description</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint,
+                  alias. Recusandae pariatur facilis aliquam culpa officiis!
+                  Fugiat quod sunt praesentium! Necessitatibus similique iste
+                  repellendus mollitia numquam officiis autem cupiditate
+                  laborum.
+                </p>
+              </div>
             </TabsContent>
             <TabsContent value="content" className="lg:hidden">
               {/* Curriculum */}
               <CourseCurriculum isWatching={true} curriculum={[]} />
             </TabsContent>
             <TabsContent value="notes">
-              <LectureNotes notes={[]} />
+              <div className="space-y-3 [&>p]:text-[.9rem]">
+                <h4>Lecture Notes</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint,
+                  alias. Recusandae pariatur facilis aliquam culpa officiis!
+                  Fugiat quod sunt praesentium! Necessitatibus similique iste
+                  repellendus mollitia numquam officiis autem cupiditate
+                  laborum.
+                </p>
+              </div>
             </TabsContent>
             <TabsContent value="reviews">
-              <LectureReviews reviews={[""]} />
+              <div className="py-2">
+                <h3>
+                  Comments <span className="text-lg">{"(434)"}</span>
+                </h3>
+                <LectureComments />
+              </div>
             </TabsContent>
           </Tabs>
         </div>
@@ -105,56 +149,3 @@ const WatchCoursePage = () => {
 };
 
 export default WatchCoursePage;
-
-function CourseDescription({ description }: { description: string }) {
-  return (
-    <div className="space-y-3 [&>p]:text-[.9rem]">
-      <h4>Course Description</h4>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias.
-        Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt
-        praesentium! Necessitatibus similique iste repellendus mollitia numquam
-        officiis autem cupiditate laborum.
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque
-        et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur
-        possimus libero nemo suscipit, natus molestias facilis. Repellat maxime
-        aliquam dolor!
-      </p>
-    </div>
-  );
-}
-function LectureNotes({ notes }: { notes: any[] }) {
-  return (
-    <div className="space-y-3 [&>p]:text-[.9rem]">
-      <h4>Lecture Notes</h4>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, alias.
-        Recusandae pariatur facilis aliquam culpa officiis! Fugiat quod sunt
-        praesentium! Necessitatibus similique iste repellendus mollitia numquam
-        officiis autem cupiditate laborum.
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut doloremque
-        et ipsum, iste sequi, accusamus cum laboriosam nobis consequuntur
-        possimus libero nemo suscipit, natus molestias facilis. Repellat maxime
-        aliquam dolor!
-      </p>
-    </div>
-  );
-}
-function LectureReviews({ reviews }: { reviews: [any] }) {
-  return (
-    <div className="py-2">
-      <h3>
-        Comments <span className="text-lg">{"(434)"}</span>
-      </h3>
-      <LectureComments />
-    </div>
-  );
-  // return <CourseFeedback />
-}
-

@@ -26,7 +26,7 @@ const buttonVariants = cva(
         transparentSecondary:
           "bg-transparent text-secondary-500 hover:bg-secondary-100 hover:text-secondary-600",
         transparentGhost:
-          "bg-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900",
+          "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:text-gray-900",
 
         link: "text-primary hover:underline-offset-8 hover:underline decoration-2 decoration-primary-500"
       },
