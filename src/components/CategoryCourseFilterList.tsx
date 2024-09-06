@@ -17,25 +17,25 @@ const CategoryCourseFilterList = () => {
     <aside className="border-t border-t-gray-100 py-2.5 w-[20rem]">
       <Accordion type="multiple" className="w-full" defaultValue={['rating', 'level', 'duration', 'price' ]}>
         <AccordionItem value="rating">
-          <AccordionTrigger >Ratings</AccordionTrigger>
+          <AccordionTrigger className="[&>div]:relative  [&>div]:flex-between [&>div>svg]:absolute *:py-5 [&>div]:px-3 [&>div>svg]:right-1 [&>div>svg]:top-1/2 [&>div>svg]:-translate-y-1/2 ">Ratings</AccordionTrigger>
           <AccordionContent >
             <RatingsFilter />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="level">
-          <AccordionTrigger >Course Level</AccordionTrigger>
+          <AccordionTrigger className="[&>div]:relative  [&>div]:flex-between [&>div>svg]:absolute *:py-5 [&>div]:px-3 [&>div>svg]:right-1 [&>div>svg]:top-1/2 [&>div>svg]:-translate-y-1/2 ">Course Level</AccordionTrigger>
           <AccordionContent >
             <CourseLevelFilter />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="duration">
-          <AccordionTrigger >Duration</AccordionTrigger>
+          <AccordionTrigger className="[&>div]:relative  [&>div]:flex-between [&>div>svg]:absolute *:py-5 [&>div]:px-3 [&>div>svg]:right-1 [&>div>svg]:top-1/2 [&>div>svg]:-translate-y-1/2 ">Duration</AccordionTrigger>
           <AccordionContent >
             <CourseDurationFilter />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="price">
-          <AccordionTrigger >Price</AccordionTrigger>
+          <AccordionTrigger className="[&>div]:relative  [&>div]:flex-between [&>div>svg]:absolute *:py-5 [&>div]:px-3 [&>div>svg]:right-1 [&>div>svg]:top-1/2 [&>div>svg]:-translate-y-1/2 ">Price</AccordionTrigger>
           <AccordionContent >
             <FreePaidFilter />
           </AccordionContent>
