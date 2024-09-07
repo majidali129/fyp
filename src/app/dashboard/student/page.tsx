@@ -21,7 +21,7 @@ const StudentHomePage = () => {
         <div className="container !px-0 md:max-w-6xl bg-white mx-auto rounded absolute top-16 left-1/2 -translate-x-1/2">
           <div className="w-full *:px-7">
             {/* INSTRUCTOR INFO CARD */}
-            <div className="py-7 flex-between">
+            <div className="py-7 flex max-md:flex-col max-md:gap-y-3 md:flex-between">
               <div className="flex-start !gap-x-3.5">
                 <Image
                   src={instructor}
@@ -46,7 +46,7 @@ const StudentHomePage = () => {
             {/* TABS */}
             <Tabs className="!px-0" defaultValue="dashboard">
               <DashboardTabList />
-              <div className="w-full pt-6">
+              <div className="w-full pt-6 max-lg:px-7">
               <TabsContent value="dashboard">
                 <Dashboard />
               </TabsContent>

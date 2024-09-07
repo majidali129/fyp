@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import CourseCard from "./CourseCard";
 const Dashboard = () => {
   return (
     <div className="space-y-9 *:space-y-5">
@@ -47,21 +48,23 @@ const Dashboard = () => {
       </div>
 
       <div>
-        <Carousel className="w-full space-y-5 " opts={{ align: 'start'}}  orientation="horizontal">
+        <Carousel
+          className="w-full space-y-5 "
+          opts={{ align: "start" }}
+          orientation="horizontal"
+        >
           <div className="relative">
-          <h3>Let&apos;s start learning, Majid</h3>
-          <CarouselPrevious className="bg-primary-100 border-none text-primary-500 left-auto top-4 right-10" />
-          <CarouselNext className="bg-primary-100 border-none text-primary-500 right-0 top-4"/>
+            <h3>Let&apos;s start learning, Majid</h3>
+            <CarouselPrevious className="bg-primary-100 border-none text-primary-500 left-auto top-4 right-10" />
+            <CarouselNext className="bg-primary-100 border-none text-primary-500 right-0 top-4" />
           </div>
           <CarouselContent className=" -ml-[11px]">
             {Array.from({ length: 8 }).map((_, index) => (
-                <CarouselItem
+              <CarouselItem
                 key={index}
                 className="!pl-3 md:basis-1/2 lg:basis-1/4"
-                >
-                <div className=" py-2 bg-success-200">
-                    <div className="flex-center h-32">{index + 1}</div>
-                </div>
+              >
+                <CourseCard isActive={index % 2 === 0} />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -85,7 +88,7 @@ function StatsCard({
   className?: string;
 }) {
   return (
-    <div className={clsx("md:p-5 flex-start !gap-x-3.5", className)}>
+    <div className={clsx("p-5 flex-start !gap-x-3.5", className)}>
       <div className="h-[3.1rem] w-[3.1rem] flex-center bg-white">{icon}</div>
       <div>
         <h5 className="text-gray-800">{count}</h5>
