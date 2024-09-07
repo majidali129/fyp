@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 
 export default function StudentDashboardLayout({
     children
@@ -6,7 +7,9 @@ export default function StudentDashboardLayout({
   }>) {
     return (
       <>
+
         {children}
+        <Footer />
       </>
     );
   }
