@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary-500  hover:bg-primary-700",
+        default: "bg-primary-500  hover:bg-primary-600",
         destructive: "bg-error-500  hover:bg-error-500/90",
         secondary: "bg-secondary-500  hover:bg-secondary-600",
         ghost: "bg-gray-900 hover:bg-gray-800",
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         secondarySecondary:
           " bg-secondary-100 text-secondary-500 hover:bg-secondary-200 hover:text-secondary-600  ",
         secondaryGhost:
-          "bg-gray-50 text-gray-900 hover:bg-gray-100 hover:text-gray-800 ",
+          "bg-gray-100 text-gray-900 hover:bg-gray-200 hover:text-gray-950 ",
         transparentPrimary:
           "bg-transparent text-primary-500 hover:bg-primary-100 hover:text-primary-600",
         transparentSecondary:
