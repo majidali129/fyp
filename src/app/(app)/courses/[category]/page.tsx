@@ -1,6 +1,5 @@
 
 import CourseCard from "@/components/CourseCard";
-import ReusableCarousal from "@/components/Carousal";
 import Section from "@/components/Section";
 import { instructor } from "@/data/instructors";
 import InstructorCard from "@/components/InstructorCard";
