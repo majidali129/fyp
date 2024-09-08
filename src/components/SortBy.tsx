@@ -11,28 +11,16 @@ import { usePathname,useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 const SelectItemsList = [
   {
-    name: "Rating",
-    value: "rating"
-  },
-  {
-    name: "Price",
-    value: "price"
-  },
-  {
-    name: "Students",
-    value: "students"
-  },
-  {
-    name: "Category",
-    value: "category"
-  },
-  {
     name: "Ascending",
     value: "asc"
   },
   {
     name: "Descending",
     value: "desc"
+  },
+  {
+    name: "Latest",
+    value: "latest"
   }
 ];
 
@@ -40,20 +28,6 @@ const SortBy = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-
-    // const onFilterChange = (value: string) => {
-    //     const current = new URLSearchParams(Array.from(searchParams.entries()));
-    //     if(!value){
-    //         current.delete('sort')
-    //     }else{
-    //         current.set('sort', value)
-    //     }
-
-    //     // CAST TO STRING
-    //     const filter = current.toString()
-    //     const query = filter ? `?${filter}`: '';
-    //     router.push(`${pathname}${query}`)
-    // };
 
     const onFilterChange = useCallback((value: string) => {
         const params = new URLSearchParams(searchParams.toString())
@@ -65,7 +39,7 @@ const SortBy = () => {
   return (
     <Select onValueChange={onFilterChange}>
       <SelectTrigger className="w-[180px] ">
-        <SelectValue placeholder="Rating" />
+        <SelectValue placeholder="Latest" />
       </SelectTrigger>
       <SelectContent>
         {SelectItemsList.map((item) => (
