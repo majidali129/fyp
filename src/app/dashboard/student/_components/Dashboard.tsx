@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { PiCheckSquareOffset } from "react-icons/pi";
-import { IoTrophySharp } from "react-icons/io5";
+import { BiTrophy } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
 import {
   Carousel,
@@ -36,7 +36,7 @@ const Dashboard = () => {
             className="bg-success-100"
             title="Completed Courses"
             count={643}
-            icon={<IoTrophySharp className="w-5 h-5 text-success-500" />}
+            icon={<BiTrophy className="w-5 h-5 text-success-500" />}
           />
           <StatsCard
             className="bg-primary-100"
@@ -49,20 +49,20 @@ const Dashboard = () => {
 
       <div>
         <Carousel
-          className="w-full space-y-5 "
+          className="w-full md:space-y-5 space-y-[3.3rem]"
           opts={{ align: "start" }}
           orientation="horizontal"
         >
           <div className="relative">
             <h3>Let&apos;s start learning, Majid</h3>
-            <CarouselPrevious className="bg-primary-100 border-none text-primary-500 left-auto top-4 right-10" />
-            <CarouselNext className="bg-primary-100 border-none text-primary-500 right-0 top-4" />
+            <CarouselPrevious className="bg-primary-100 border-none text-primary-500 md:left-auto left-0 top-14 md:top-4 md:right-10" />
+            <CarouselNext className="bg-primary-100 border-none text-primary-500 md:right-0 md:top-4 top-14 right-0" />
           </div>
-          <CarouselContent className=" -ml-[11px]">
+          <CarouselContent className=" -ml-3.5">
             {Array.from({ length: 8 }).map((_, index) => (
               <CarouselItem
                 key={index}
-                className="!pl-3 md:basis-1/2 lg:basis-1/4"
+                className="!pl-3.5 md:basis-1/2 lg:basis-1/4"
               >
                 <CourseCard isActive={index % 2 === 0} />
               </CarouselItem>

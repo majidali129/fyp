@@ -14,11 +14,11 @@ import Messages from "./_components/Messages";
 
 const StudentHomePage = () => {
   return (
-    <section>
+    <section className="">
       <div className="w-full bg-primary-100 min-h-52"></div>
       {/* <div className=" min-h-screen"> */}
-      <div className=" min-h-screen">
-        <div className="container !px-0 md:max-w-6xl bg-white mx-auto rounded absolute top-16 left-1/2 -translate-x-1/2">
+      <div className=" min-h-[80vh] h-full px-3 sm:px-6 lg:px-0">
+        <div className="container !px-0 md:max-w-6xl bg-white mx-auto rounded relative -top-36 ">
           <div className="w-full *:px-7">
             {/* INSTRUCTOR INFO CARD */}
             <div className="py-7 flex max-md:flex-col max-md:gap-y-3 md:flex-between">
@@ -46,9 +46,10 @@ const StudentHomePage = () => {
             {/* TABS */}
             <Tabs className="!px-0" defaultValue="dashboard">
               <DashboardTabList />
-              <div className="w-full pt-6 max-lg:px-7">
+              <div className="w-full pt-6">
               <TabsContent value="dashboard">
                 <Dashboard />
+                {/* <Dashboard /> */}
               </TabsContent>
               <TabsContent value="courses">
                 <Courses />
