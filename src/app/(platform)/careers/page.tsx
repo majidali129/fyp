@@ -1,8 +1,8 @@
 
-const page = () => {
+const CareersPage = () => {
   return (
-    <div>page</div>
+    <div>Careers Page</div>
   )
 }
 
-export default page
+export default CareersPage
