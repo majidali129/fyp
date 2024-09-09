@@ -13,9 +13,9 @@ const instructor =  {
 const Teachers = () => {
   return (
     <div className="space-y-9 *:space-y-5">
-      <div>
+      <div className='*:px-5'>
         <h3>Instructors <span className='text-xl'>(323)</span></h3>
-        <ul className='grid sm:grid-cols-2 gap-x-5 lg:grid-cols-3 xl:grid-cols-4 gap-y-5'>
+        <ul className='grid sm:grid-cols-2 gap-x-4 lg:grid-cols-3 xl:grid-cols-4 gap-y-5'>
           <InstructorCard instructor={{...instructor, isHired: true}}/>
           <InstructorCard instructor={{...instructor, isHired: true}}/>
           <InstructorCard instructor={{...instructor, isHired: true}}/>
