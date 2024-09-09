@@ -14,8 +14,6 @@ import { Form } from "@/components/ui/form";
 import TextInput from "@/components/TextInput";
 import { useState } from "react";
 import { registerUserSchema } from "@/schemas/registerUserSchema";
-import { FaArrowRight } from "react-icons/fa6";
-import { LuMove, LuMoveLeft, LuMoveRight } from "react-icons/lu";
 import SubmitBtn from "@/components/SubmitBtn";
 
 type RegisterUserFormValues = z.infer<typeof registerUserSchema>;

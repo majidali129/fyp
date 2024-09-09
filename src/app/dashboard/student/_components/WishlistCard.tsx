@@ -11,7 +11,7 @@ function WishListCard({ course }: { course?: any }) {
       <Image
         src={courseImg}
         priority
-        className="w-full h-full rounded-[.2rem] aspect-video"
+        className="w-full h-full object-cover max-md:h-52 rounded-[.2rem] aspect-video"
         alt="course-banner-img"
       />
 

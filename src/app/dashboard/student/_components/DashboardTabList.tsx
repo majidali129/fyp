@@ -18,7 +18,6 @@ const TABS = [
 
 const DashboardTabList = () => {
     const router = useRouter();
-    console.log(router);
 
   return (
     <TabsList className="border-y tablist border-y-primary-400 z-10 flex-between !px-0 !py-0 h-12 *:h-full overflow-scroll">

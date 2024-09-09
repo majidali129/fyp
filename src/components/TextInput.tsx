@@ -30,7 +30,6 @@ const TextInput = ({
     fieldState: { error, isTouched },
     field
   } = useController({ control, name });
-  console.log(error);
   const isFilled = field.value !== "";
 
   if (type === "password") {
@@ -75,9 +74,9 @@ const TextInput = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="space-y-1">
           {label && <FormLabel>{label}</FormLabel>}
-          <FormControl className="border border-blue-500">
+          <FormControl>
             {/* <div>
               <Input
                 {...inputProps}

@@ -12,11 +12,14 @@ const resetPasswordSchema = z.object({
 
 const updatePasswordSchema = z.object({
   oldPassword: z
-    .string()
-    .min(8, { message: "Password must me 8 character long" }),
+    .string().refine((data) => data.trim() !== '', { message: 'Old password is required' }),
   newPassword: z
     .string()
-    .min(8, { message: "Password must me 8 character long" })
+    .min(1, { message: "Password must me 8 character long" }),
+    confirmPassword: z.string()
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: 'Passwords do not match',
+  path: ['confirmPassword']
 });
 
 export { forgotPasswordSchema, resetPasswordSchema, updatePasswordSchema };

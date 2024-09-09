@@ -10,13 +10,13 @@ let loading = false;
 
 const SubmitBtn = ({ children }: ButtonProps) => {
   return (
-    <Button disabled={loading}>
+    <Button disabled={loading} type="submit">
       {loading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait{" "}
         </>
       ) : (
-        <span>{children}</span>
+        <span className="text-white">{children}</span>
       )}
     </Button>
   );
