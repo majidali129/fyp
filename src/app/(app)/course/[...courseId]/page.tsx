@@ -1,4 +1,3 @@
-import PathBreadCrumb from "@/components/BreadCrumb";
 import { formateNumber } from "@/helpers";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa6";
@@ -15,6 +14,7 @@ import CourseRatingStats from "@/components/CourseRatingStats";
 import CourseCurriculum from "@/components/CourseCurriculum";
 import CourseCard from "@/components/CourseCard";
 import CourseFeedback from "@/components/CourseFeedback";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const CourseDetailsPage = ({
   params
@@ -28,7 +28,7 @@ const CourseDetailsPage = ({
         <div className="tw-container ">
           <div className="grid grid-cols-[70%_1fr] ">
             <div className="space-y-3.5">
-              <PathBreadCrumb />
+              <BreadCrumb />
               <h2 className="text-gray-white">
                 Complete Website Responsive Design: from Figma to Webflow to
                 Website Design
