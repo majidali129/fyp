@@ -7,6 +7,9 @@ import slack from "../../../../public/images/slack.png";
 import verizon from "../../../../public/images/verizon.png";
 import lexmark from "../../../../public/images/lexmark.png";
 import microsoft from "../../../../public/images/microsoft.png";
+import { RiTriangleFill } from "react-icons/ri";
+import { RiDoubleQuotesL } from "react-icons/ri";
+import { RiDoubleQuotesR } from "react-icons/ri";
 import g1 from "../../../../public/images/gallery1.png";
 import g2 from "../../../../public/images/gallery2.png";
 import g3 from "../../../../public/images/gallery3.png";
@@ -22,10 +25,11 @@ import { BsPatchCheck } from "react-icons/bs";
 import { formateNumberInK } from "@/helpers";
 import { Button } from "@/components/ui/button";
 import { LuMoveRight } from "react-icons/lu";
+import { TESTIMONIALS, TestimonialType } from "@/data/testimonials";
 
 const AboutUsPage = () => {
   return (
-    <section className="w-full pb-14 md:pb-0 *:py-14 border border-red-500">
+    <section className="w-full pb-14 md:pb-0 *:py-14">
       {/* WHO WE ARE */}
       <div className="  border-b border-gray-100">
         <div className="container max-md:px-[1rem] max-w-6xl ">
@@ -34,9 +38,7 @@ const AboutUsPage = () => {
               <h1 className="text-gray-100">2007 - 2024</h1>
               <h2 className="">We share knowledge with the world</h2>
               <p className="text-gray-600">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repudiandae, assumenda! Quos veniam dicta, ducimus voluptate
-                quis ullam incidunt veritatis! Neque?
+              We are an innovative e-learning platform dedicated to empowering learners and educators. Our mission is to provide accessible, high-quality learning experiences across various fields. Whether you&apos;re a student looking to enhance your skills, an instructor eager to share knowledge, or an organization in need of corporate training, our platform offers tailored solutions for all.
               </p>
             </div>
             <div className="relative">
@@ -62,8 +64,7 @@ const AboutUsPage = () => {
             <div className="space-y-2.5 flex flex-col justify-center">
               <h3>We Just keep growing with 6.3k companies</h3>
               <p>
-                Nullam egestas tellus at enim ornare tristique. Class aptent
-                taciti sociosqu ad litora torquent per conubia nostra.
+              Our platform is trusted by industry leaders and top organizations to train their workforce and build skills. Some of the renowned companies we collaborate with include:
               </p>
             </div>
             <div className="grid *:shadow-[rgba(88,88,92,0.1)0px_7px_29px_0px] *:h-20 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 *:bg-white  *:flex-center *:rounded">
@@ -217,12 +218,7 @@ const AboutUsPage = () => {
               <p className="text-primary-500">OUR ONE BILLION MISSION</p>
               <h2>Our one billion mission sounds bold, we agree.</h2>
               <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum,
-                velit. Eligendi id asperiores commodi esse ipsum! Nobis
-                asperiores at ipsam est sapiente perferendis nulla praesentium
-                cumque maiores, temporibus tempora rerum, qui et pariatur? Sint
-                optio doloremque qui magni. Aliquam modi itaque ipsum dolorem.
-                Soluta, aspernatur assumenda est quaerat minima doloremque.
+              Our future mission is to revolutionize online education by integrating the latest technologies, personalized learning experiences, and cutting-edge content delivery. We aim to expand our global reach and collaborate with leading experts to provide top-tier educational resources for everyone, anywhere. Our focus will remain on inclusivity, adaptability, and innovation to meet the ever-changing needs of learners worldwide.
               </p>
             </div>
           </div>
@@ -239,9 +235,7 @@ const AboutUsPage = () => {
                 We&apos;ve been here almost 17 years
               </h2>
               <p className="text-gray-600">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repudiandae, assumenda! Quos veniam dicta, ducimus voluptate
-                quis ullam incidunt veritatis! Neque?
+              Our team is composed of passionate educators, experienced developers, and dedicated support staff. Together, we work towards creating an engaging, user-friendly platform that fosters growth and learning.
               </p>
               <Button>
                 Join Our Team <LuMoveRight className="h-4 w-4" />
@@ -265,8 +259,44 @@ const AboutUsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* TESTIMONIALS */}
+      <div className="  border-b border-gray-100">
+        <div className="container max-md:px-[1rem] max-w-6xl ">
+          <ul className="grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-5 gap-y-4">
+            {
+              TESTIMONIALS.map(review => <TestimonialCard key={review.username} review={review}/>)
+            }
+
+          </ul>
+        </div>
+      </div>
+
+
     </section>
   );
 };
 
 export default AboutUsPage;
+
+
+function TestimonialCard ({review:{review,username,company,position}}: {review: TestimonialType}) {
+  return (
+     <div className="space-y-6">
+      <div className="p-6 space-y-1.5 bg-gray-50 relative">
+      <div className="">
+        <RiDoubleQuotesL className="w-6 h-6 text-primary-500" />
+      </div>
+        <p className="px-1.5 text-center text-gray-900 text-[1.02rem]">{review}</p>
+        <div className="flex justify-end">
+        <RiDoubleQuotesR className="w-6 h-6 text-primary-500" />
+        </div>
+      <RiTriangleFill className="absolute -bottom-[13px] left-1/2 -translate-x-1/2 rotate-180 text-secondary-50 h-4 w-4" />
+      </div>
+      <div className="flex flex-col items-center justify-center">
+        <h6>{username}</h6>
+        <p className="text-gray-600">{position} of <span className="text-secondary-500">{company}</span></p>
+      </div>
+     </div>
+  )
+}
