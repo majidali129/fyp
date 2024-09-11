@@ -27,7 +27,7 @@
     @apply text-gray-900 font-semibold text-[.75rem] md:text-[.9rem]
   }
   p {
-    @apply text-[.9rem] md:text-[1.1rem] text-gray-700;
+    @apply text-[.9rem] md:text-[1.05rem] text-gray-700;
   }
   li{
     @apply text-gray-800
