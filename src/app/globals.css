@@ -8,6 +8,9 @@
   * {
     @apply font-sans selection:bg-primary-500 selection:text-white;
   }
+  .container{
+    @apply md:max-lg:!px-8 px-4
+  }
   h1 {
     @apply text-2xl sm:text-3xl  md:text-5xl text-gray-900 tracking-wide font-bold;
   }
@@ -21,7 +24,7 @@
     @apply text-lg  md:text-xl text-gray-900 tracking-wide font-semibold;
   }
   h5{
-    @apply text-gray-900 font-semibold text-[.85rem] md:text-[1.05rem]
+    @apply text-gray-900 font-semibold text-[.95rem] md:text-[1.05rem]
   }
   h6{
     @apply text-gray-900 font-semibold text-[.75rem] md:text-[.9rem]

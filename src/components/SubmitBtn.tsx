@@ -16,7 +16,7 @@ const SubmitBtn = ({ children }: ButtonProps) => {
           <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait{" "}
         </>
       ) : (
-        <span className="text-white">{children}</span>
+        <span className="text-white flex items-center justify-center gap-1">{children}</span>
       )}
     </Button>
   );
