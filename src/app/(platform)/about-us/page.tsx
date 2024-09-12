@@ -32,7 +32,7 @@ const AboutUsPage = () => {
     <section className="w-full pb-14 md:pb-0 *:py-14">
       {/* WHO WE ARE */}
       <div className="  border-b border-gray-100">
-        <div className="container max-md:px-[1rem] max-w-6xl ">
+        <div className="container max-w-6xl ">
           <div className="grid md:grid-cols-[44%_auto] place-items-center lg:gap-10 gap-5">
             <div className="space-y-2.5 md:space-y-3 ">
               <h1 className="text-gray-100">2007 - 2024</h1>
@@ -59,7 +59,7 @@ const AboutUsPage = () => {
       </div>
       {/* TRUSTED COMPANIES */}
       <div>
-        <div className="container max-md:px-[1rem] max-w-6xl ">
+        <div className="container max-w-6xl ">
           <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-14">
             <div className="space-y-2.5 flex flex-col justify-center">
               <h3>We Just keep growing with 6.3k companies</h3>
@@ -147,7 +147,7 @@ const AboutUsPage = () => {
 
       {/* STATS */}
       <div className="md:!py-12 !pt-0">
-        <div className="container max-md:px-[1rem] max-w-6xl ">
+        <div className="container max-w-6xl ">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-5">
             <div className="flex gap-x-2">
               <FiUsers className="w-7 h-7 text-primary-500 mt-1" />
@@ -190,7 +190,7 @@ const AboutUsPage = () => {
 
       {/* MISSION */}
       <div className="bg-primary-100 lg:!pb-24 ">
-        <div className="container max-md:px-[1rem] max-w-6xl ">
+        <div className="container max-w-6xl ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-5 md:gap-y-14 lg:gap-y-0 ">
             <div className="relative flex justify-center md:justify-start md:max-lg:ps-32 items-start">
               <Image
@@ -227,7 +227,7 @@ const AboutUsPage = () => {
 
       {/* GALARY */}
       <div className="bg-gray-50">
-        <div className="container max-md:px-[1rem] max-w-6xl ">
+        <div className="container max-w-6xl ">
           <div className="grid lg:grid-cols-[30%_auto] place-items-center gap-5 max-lg:gap-y-8">
             <div className="space-y-2.5 md:space-y-3 ">
               <p className="text-primary-500">OUR GALLERY</p>
@@ -262,7 +262,7 @@ const AboutUsPage = () => {
 
       {/* TESTIMONIALS */}
       <div className="  border-b border-gray-100">
-        <div className="container max-md:px-[1rem] max-w-6xl ">
+        <div className="container max-w-6xl ">
           <ul className="grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-5 gap-y-4">
             {
               TESTIMONIALS.map(review => <TestimonialCard key={review.username} review={review}/>)
