@@ -124,7 +124,7 @@ const ContactUsPage = () => {
         </div>
       </div>
 
-      {/* GALARY */}
+      {/* CONTACT US */}
       <div className="bg-gray-50">
         <div className="container max-w-6xl ">
           <div className="space-y-5">

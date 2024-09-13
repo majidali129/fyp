@@ -26,6 +26,7 @@ import { formateNumberInK } from "@/helpers";
 import { Button } from "@/components/ui/button";
 import { LuMoveRight } from "react-icons/lu";
 import { TESTIMONIALS, TestimonialType } from "@/data/testimonials";
+import Companies from "../_components/Companies";
 
 const AboutUsPage = () => {
   return (
@@ -38,7 +39,13 @@ const AboutUsPage = () => {
               <h1 className="text-gray-100">2007 - 2024</h1>
               <h2 className="">We share knowledge with the world</h2>
               <p className="text-gray-600">
-              We are an innovative e-learning platform dedicated to empowering learners and educators. Our mission is to provide accessible, high-quality learning experiences across various fields. Whether you&apos;re a student looking to enhance your skills, an instructor eager to share knowledge, or an organization in need of corporate training, our platform offers tailored solutions for all.
+                We are an innovative e-learning platform dedicated to empowering
+                learners and educators. Our mission is to provide accessible,
+                high-quality learning experiences across various fields. Whether
+                you&apos;re a student looking to enhance your skills, an
+                instructor eager to share knowledge, or an organization in need
+                of corporate training, our platform offers tailored solutions
+                for all.
               </p>
             </div>
             <div className="relative">
@@ -58,92 +65,7 @@ const AboutUsPage = () => {
         </div>
       </div>
       {/* TRUSTED COMPANIES */}
-      <div>
-        <div className="container max-w-6xl ">
-          <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-14">
-            <div className="space-y-2.5 flex flex-col justify-center">
-              <h3>We Just keep growing with 6.3k companies</h3>
-              <p>
-              Our platform is trusted by industry leaders and top organizations to train their workforce and build skills. Some of the renowned companies we collaborate with include:
-              </p>
-            </div>
-            <div className="grid *:shadow-[rgba(88,88,92,0.1)0px_7px_29px_0px] *:h-20 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 *:bg-white  *:flex-center *:rounded">
-              <div>
-                <Image
-                  src={netflix}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-              <div>
-                <Image
-                  src={youtube}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-              <div>
-                <Image
-                  src={google}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-              <div>
-                <Image
-                  src={lenovo}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-              <div>
-                <Image
-                  src={slack}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-              <div>
-                <Image
-                  src={verizon}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-              <div>
-                <Image
-                  src={lexmark}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-              <div>
-                <Image
-                  src={microsoft}
-                  alt="netflix logo"
-                  width={80}
-                  height={80}
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Companies />
 
       {/* STATS */}
       <div className="md:!py-12 !pt-0">
@@ -218,7 +140,13 @@ const AboutUsPage = () => {
               <p className="text-primary-500">OUR ONE BILLION MISSION</p>
               <h2>Our one billion mission sounds bold, we agree.</h2>
               <p>
-              Our future mission is to revolutionize online education by integrating the latest technologies, personalized learning experiences, and cutting-edge content delivery. We aim to expand our global reach and collaborate with leading experts to provide top-tier educational resources for everyone, anywhere. Our focus will remain on inclusivity, adaptability, and innovation to meet the ever-changing needs of learners worldwide.
+                Our future mission is to revolutionize online education by
+                integrating the latest technologies, personalized learning
+                experiences, and cutting-edge content delivery. We aim to expand
+                our global reach and collaborate with leading experts to provide
+                top-tier educational resources for everyone, anywhere. Our focus
+                will remain on inclusivity, adaptability, and innovation to meet
+                the ever-changing needs of learners worldwide.
               </p>
             </div>
           </div>
@@ -235,26 +163,64 @@ const AboutUsPage = () => {
                 We&apos;ve been here almost 17 years
               </h2>
               <p className="text-gray-600">
-              Our team is composed of passionate educators, experienced developers, and dedicated support staff. Together, we work towards creating an engaging, user-friendly platform that fosters growth and learning.
+                Our team is composed of passionate educators, experienced
+                developers, and dedicated support staff. Together, we work
+                towards creating an engaging, user-friendly platform that
+                fosters growth and learning.
               </p>
               <Button>
                 Join Our Team <LuMoveRight className="h-4 w-4" />
               </Button>
             </div>
             <div className="w-full h-full space-y-5 hidden md:block">
-                <div className="grid grid-cols-12 gap-5 place-items-end  ">
-                    <Image src={g1} alt="gallery 1" priority className="w-full h-[180px] rounded-[3px] col-start-2 col-span-4 object-cover "/>
-                    <Image src={g2} alt="gallery 2"  priority className="w-full h-[230px] col-span-4  object-cover"/>
-                    <Image src={g3} alt="gallery 3"  priority className="w-full h-[150px] object-cover rounded-[2px] col-span-2"/>
+              <div className="grid grid-cols-12 gap-5 place-items-end  ">
+                <Image
+                  src={g1}
+                  alt="gallery 1"
+                  priority
+                  className="w-full h-[180px] rounded-[3px] col-start-2 col-span-4 object-cover "
+                />
+                <Image
+                  src={g2}
+                  alt="gallery 2"
+                  priority
+                  className="w-full h-[230px] col-span-4  object-cover"
+                />
+                <Image
+                  src={g3}
+                  alt="gallery 3"
+                  priority
+                  className="w-full h-[150px] object-cover rounded-[2px] col-span-2"
+                />
+              </div>
+              <div className="grid grid-cols-12 gap-5 place-items-start  ">
+                <Image
+                  src={g4}
+                  alt="gallery 4"
+                  priority
+                  className="w-full h-[210px] col-span-3 object-cover "
+                />
+                <Image
+                  src={g5}
+                  alt="gallery 5"
+                  priority
+                  className="w-full h-[285px] col-span-5  object-cover"
+                />
+                <div className="col-span-4 grid-rows-2 grid-cols-4">
+                  <Image
+                    src={g6}
+                    alt="gallery 6"
+                    priority
+                    className="w-full object-cover"
+                  />
+                  <Image
+                    src={g7}
+                    alt="gallery 7"
+                    priority
+                    className=" object-cover rounded-[2px] col-span-2 "
+                  />
                 </div>
-                <div className="grid grid-cols-12 gap-5 place-items-start  ">
-                    <Image src={g4} alt="gallery 4" priority className="w-full h-[210px] col-span-3 object-cover "/>
-                    <Image src={g5} alt="gallery 5"  priority className="w-full h-[285px] col-span-5  object-cover"/>
-                    <div className="col-span-4 grid-rows-2 grid-cols-4">
-                    <Image src={g6} alt="gallery 6"  priority className="w-full object-cover"/>
-                    <Image src={g7} alt="gallery 7"  priority className=" object-cover rounded-[2px] col-span-2 "/>
-                    </div>
-                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -264,39 +230,43 @@ const AboutUsPage = () => {
       <div className="  border-b border-gray-100">
         <div className="container max-w-6xl ">
           <ul className="grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-5 gap-y-4">
-            {
-              TESTIMONIALS.map(review => <TestimonialCard key={review.username} review={review}/>)
-            }
-
+            {TESTIMONIALS.map((review) => (
+              <TestimonialCard key={review.username} review={review} />
+            ))}
           </ul>
         </div>
       </div>
-
-
     </section>
   );
 };
 
 export default AboutUsPage;
 
-
-function TestimonialCard ({review:{review,username,company,position}}: {review: TestimonialType}) {
+function TestimonialCard({
+  review: { review, username, company, position },
+}: {
+  review: TestimonialType;
+}) {
   return (
-     <div className="space-y-6">
+    <div className="space-y-6">
       <div className="p-6 space-y-1.5 bg-gray-50 relative">
-      <div className="">
-        <RiDoubleQuotesL className="w-6 h-6 text-primary-500" />
-      </div>
-        <p className="px-1.5 text-center text-gray-900 text-[1.02rem]">{review}</p>
-        <div className="flex justify-end">
-        <RiDoubleQuotesR className="w-6 h-6 text-primary-500" />
+        <div className="">
+          <RiDoubleQuotesL className="w-6 h-6 text-primary-500" />
         </div>
-      <RiTriangleFill className="absolute -bottom-[13px] left-1/2 -translate-x-1/2 rotate-180 text-secondary-50 h-4 w-4" />
+        <p className="px-1.5 text-center text-gray-900 text-[1.02rem]">
+          {review}
+        </p>
+        <div className="flex justify-end">
+          <RiDoubleQuotesR className="w-6 h-6 text-primary-500" />
+        </div>
+        <RiTriangleFill className="absolute -bottom-[13px] left-1/2 -translate-x-1/2 rotate-180 text-secondary-50 h-4 w-4" />
       </div>
       <div className="flex flex-col items-center justify-center">
         <h6>{username}</h6>
-        <p className="text-gray-600">{position} of <span className="text-secondary-500">{company}</span></p>
+        <p className="text-gray-600">
+          {position} of <span className="text-secondary-500">{company}</span>
+        </p>
       </div>
-     </div>
-  )
+    </div>
+  );
 }
