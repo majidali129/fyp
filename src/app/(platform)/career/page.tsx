@@ -227,7 +227,7 @@ const CareersPage = () => {
 
       {/* OPEN POSITIONS */}
       {/* // TODO: setting new positions is admin's task */}
-      <div className="bg-gray-50">
+      <div >
         <div className="container max-w-6xl ">
           <div className="space-y-4 md:space-y-9">
             <h2 className="text-center">Our all open positions</h2>
