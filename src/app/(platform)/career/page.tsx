@@ -15,7 +15,7 @@ import { BsFillClipboard2DataFill } from "react-icons/bs";
 interface Posiiton {
     title: string;
     location: string;
-    type: string; // full-time, part-time, contract
+    type: 'full-time' | 'part-time' | 'contract';
     deadLine: string;
     vacancy: string
 }
@@ -26,6 +26,8 @@ import Companies from "../_components/Companies";
 import { GoArrowRight } from "react-icons/go";
 import Link from "next/link";
 const CareersPage = () => {
+
+    // TODO: fetch data for open positions by admin
   return (
     <section className="w-full pb-14 md:pb-0 *:py-12">
       {/* CONNECT WITH US */}
