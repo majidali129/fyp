@@ -25,8 +25,8 @@ const Navbar = () => {
           <Search placeholder="What do you want to learn..." />
         </div>
       </div>
-      <div className="hidden lg:flex-between space-x-6">
-        <div className="flex-between gap-x-2.5">
+      <div className="hidden lg:flex-between space-x-6  w-[43%]">
+        <div className="flex-between gap-x-3.5 w-full ">
           <span>
             <VscBell className="h-6 w-6" />
           </span>

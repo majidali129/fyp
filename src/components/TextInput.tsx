@@ -11,18 +11,21 @@ import { ComponentProps, useState } from "react";
 import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
 import { FaCheckCircle } from "react-icons/fa";
+import clsx from "clsx";
 
 interface InputProps extends ComponentProps<"input"> {
   name: string;
   label?: string;
   control: Control<any>;
   type?: string;
+  className?:string;
 }
 const TextInput = ({
   type = "text",
   name,
   label,
   control,
+  className,
   ...inputProps
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -46,13 +49,13 @@ const TextInput = ({
                   {...inputProps}
                   {...field}
                   type={showPassword ? "text" : type}
-                  className={`${
+                  className={clsx(`${
                     isFilled && !error
                       ? "ring-success-500"
                       : error
                       ? "bg-error-50 ring-error-500"
                       : ""
-                  }`}
+                  }`, className)}
                 />
                 <span
                   className="absolute right-3 cursor-pointer  top-1/2 -translate-y-1/2"
@@ -96,13 +99,13 @@ const TextInput = ({
                 {...inputProps}
                 {...field}
                 type={showPassword ? "text" : type}
-                className={`${
+                className={clsx(`${
                   isFilled && !error
                     ? "ring-success-500"
                     : error
                     ? "bg-error-50 ring-error-500"
                     : ""
-                }`}
+                }`, className)}
               />
               {isFilled && !error && (
                 <span className="absolute right-3 cursor-pointer  top-1/2 -translate-y-1/2">
