@@ -1,5 +1,7 @@
+import Footer from "@/components/Footer";
 import Banner from "./_components/Banner";
-import Footer from "./_components/Footer";
+import TopNav from "@/components/TopNav";
+import Navbar from "@/components/Navbar";
 
 export default function PlatformLayout({
   children,
@@ -8,6 +10,8 @@ export default function PlatformLayout({
 }>) {
   return (
     <>
+    <TopNav />
+    <Navbar />
       <Banner />
       {children}
       <Footer />

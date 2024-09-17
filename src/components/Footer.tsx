@@ -117,6 +117,7 @@ const Footer = () => {
   );
 
   return  <footer className="w-full  bg-gray-900">
+    {pathname === '/' &&
     <div className="tw-container !py-16">
       <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr]  lg:gap-2 gap-5 md:gap-10">
         <div className="*:text-gray-white space-y-4">
@@ -143,7 +144,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div>}
 
     <div className="border-y border-y-gray-800">
       <div className="tw-container !py-16 ">

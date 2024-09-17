@@ -24,7 +24,7 @@ export default CourseFeedback;
 
 
 
-function FeedBackCard () {
+export function FeedBackCard ({review}: {review?:any}) {
     return (
         <div className="flex items-start !gap-x-3 py-3.5 border-b border-b-gray-100 last-of-type:border-b-0">
         <Image
