@@ -133,7 +133,7 @@ const InstructorProfilePage = ({
             </div>
 
             {/* INSTRUCTOR BIO & COURSES & REVIEWS */}
-            <div className="grid lg:grid-cols-[4fr_8fr] gap-4 max-lg:px-0">
+            <div className="grid lg:grid-cols-[4fr_8fr] gap-5 !px-0">
               <div className="p-5 border border-gray-100 space-y-2 h-fit">
                 <h4>ABOUT ME</h4>
                 <p>
