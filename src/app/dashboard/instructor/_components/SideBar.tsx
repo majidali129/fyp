@@ -6,13 +6,13 @@ import logoForMobile from "../../../../../public/images/logoMobile.png";
 import { IoMdLogOut } from "react-icons/io";
 import { BsChevronDoubleLeft } from "react-icons/bs";
 import { BsChevronDoubleRight } from "react-icons/bs";
+import { useToggle } from "./NavToggleContext";
 
-type SideBarProps = { isSidebarOpen: boolean; handleSidebarToggle: () => void };
-
-const SideBar = ({ isSidebarOpen, handleSidebarToggle }: SideBarProps) => {
+const SideBar = () => {
+  const {isSidebarOpen, handleSidebarToggle} = useToggle()
   return (
     <aside
-      className={`bg-gray-950 min-h-screen md:w-[230px] transition-all duration-300 ease-in-out ${
+      className={`bg-gray-950 min-h-screen md:w-[230px] transition-all duration-200 ease-in-out ${
         !isSidebarOpen
           ? "md:w-[70px] max-sm:absolute max-sm:-translate-x-full "
           : "w-[70px]"
@@ -23,6 +23,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }: SideBarProps) => {
         <div
           onClick={() => handleSidebarToggle()}
           role="button"
+          aria-expanded={isSidebarOpen}
           className={`cursor-pointer absolute bg-gray-900  rounded-full p-1.5 -right-6 top-4`}
         >
           {isSidebarOpen ? (
@@ -69,7 +70,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }: SideBarProps) => {
           </div>
 
           <div className=" max-sm:px-2" role="button">
-            <div className="flex items-center max-sm:justify-center gap-2 py-3 max-sm:rounded-sm md:py-1.5 md:px-4 text-[.9rem] w-full text-gray-400 hover:text-white hover:bg-secondary-500">
+            <div className="flex items-center max-sm:justify-center gap-2 py-3 max-sm:rounded-sm md:py-1.5 md:px-6 text-[.9rem] w-full text-gray-400 hover:text-white hover:bg-secondary-500">
               <IoMdLogOut className="md:w-5 md:h-5 h-6 w-6 shrink-0" />
               {isSidebarOpen && (
                 <div className="hidden md:block text-nowrap">Sign-out</div>
