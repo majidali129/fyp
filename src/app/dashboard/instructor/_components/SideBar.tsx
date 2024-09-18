@@ -41,7 +41,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }: SideBarProps) => {
             >
               <Link
                 href={"/"}
-                className={`px-4 flex shrink-0 transition-all duration-300 ease-in-out ${
+                className={`px-6 flex shrink-0 transition-all duration-300 ease-in-out ${
                   !isSidebarOpen
                     ? "md:!px-0 flex items-center justify-center"
                     : ""
