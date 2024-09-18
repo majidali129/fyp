@@ -12,7 +12,7 @@
     @apply md:max-lg:!px-8 px-4
   }
   h1 {
-    @apply text-2xl sm:text-3xl  md:text-5xl text-gray-900 tracking-wide font-bold;
+    @apply text-2xl sm:text-3xl  md:text-5xl text-gray-900 font-bold;
   }
   h2 {
     @apply text-xl  md:text-4xl text-gray-900 font-bold leading-6;

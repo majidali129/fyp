@@ -94,9 +94,12 @@ const config = {
         }
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)"
+        'default': '4px',
+        'none': '0',
+        'sm': '0.125rem', //
+        'md': '0.375rem', // 6px
+        'lg': '0.5rem', // 8px
+        'full': '9999px', // 9999px
       },
       keyframes: {
         "accordion-down": {
