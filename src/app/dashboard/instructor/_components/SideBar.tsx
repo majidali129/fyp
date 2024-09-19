@@ -9,14 +9,12 @@ import { BsChevronDoubleRight } from "react-icons/bs";
 import { useToggle } from "./NavToggleContext";
 
 const SideBar = () => {
-  const {isSidebarOpen, handleSidebarToggle} = useToggle()
+  const { isSidebarOpen, handleSidebarToggle } = useToggle();
   return (
     <aside
-      className={`bg-gray-950 min-h-screen md:w-[230px] transition-all duration-200 ease-in-out ${
-        !isSidebarOpen
-          ? "md:w-[70px] max-sm:absolute max-sm:-translate-x-full "
-          : "w-[70px]"
-      }`}
+      className={`bg-gray-950 min-h-screen h-full w-[70px] lg:w-[220px] transition-all duration-200 top-0 left-0 ease-in-out fixed  ${
+        !isSidebarOpen ? "max-sm:absolute max-sm:-translate-x-full" : "w-[70px]"
+      } `}
     >
       <div className="relative h-full">
         {/* TOGGLER */}
@@ -24,7 +22,7 @@ const SideBar = () => {
           onClick={() => handleSidebarToggle()}
           role="button"
           aria-expanded={isSidebarOpen}
-          className={`cursor-pointer absolute bg-gray-900  rounded-full p-1.5 -right-6 top-4`}
+          className={`cursor-pointer absolute bg-gray-900  rounded-full p-1.5 -right-3 top-4 md:hidden`}
         >
           {isSidebarOpen ? (
             <BsChevronDoubleLeft className="w-3 h-3 text-gray-100" />
@@ -36,45 +34,34 @@ const SideBar = () => {
         <nav className="flex flex-col justify-between h-full pb-4 py-2">
           <div className=" space-y-3">
             <div
-              className={`h-11 flex items-center border-b border-b-gray-800 justify-start ${
-                !isSidebarOpen && "justify-center"
-              } `}
+              className={`h-11 flex items-center border-b border-b-gray-800 justify-start `}
             >
               <Link
                 href={"/"}
-                className={`px-6 flex shrink-0 transition-all duration-300 ease-in-out ${
-                  !isSidebarOpen
-                    ? "md:!px-0 flex items-center justify-center"
-                    : ""
-                }`}
-                // } border-b border-b-gray-900`}
+                className={`px-5 flex shrink-0 transition-all duration-300 ease-in-out`}
               >
-                {isSidebarOpen && (
-                  <Image
-                    src={logo}
-                    alt="logo"
-                    width={110}
-                    className="hidden md:block"
-                    priority
-                  />
-                )}
+                <Image
+                  src={logo}
+                  alt="logo"
+                  width={110}
+                  className="hidden lg:block"
+                  priority
+                />
                 <Image
                   src={logoForMobile}
                   alt="logo for mobile"
-                  className={`md:hidden  ${!isSidebarOpen && "md:!block h-7"}`}
+                  className={`lg:hidden`}
                   priority
                 />
               </Link>
             </div>
-            <NavLinks isSidebarOpen={isSidebarOpen} />
+            <NavLinks />
           </div>
 
           <div className=" max-sm:px-2" role="button">
             <div className="flex items-center max-sm:justify-center gap-2 py-3 max-sm:rounded-sm md:py-1.5 md:px-6 text-[.9rem] w-full text-gray-400 hover:text-white hover:bg-secondary-500">
               <IoMdLogOut className="md:w-5 md:h-5 h-6 w-6 shrink-0" />
-              {isSidebarOpen && (
-                <div className="hidden md:block text-nowrap">Sign-out</div>
-              )}
+                <div className="hidden lg:block text-nowrap">Sign-out</div>
             </div>
           </div>
         </nav>

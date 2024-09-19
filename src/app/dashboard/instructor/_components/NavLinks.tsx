@@ -8,6 +8,7 @@ import { IoLayersOutline } from "react-icons/io5";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { SlSettings } from "react-icons/sl";
 import { CiMoneyCheck1 } from "react-icons/ci";
+import { useToggle } from "./NavToggleContext";
 
 const links = [
   {
@@ -26,13 +27,13 @@ const links = [
     path: "/dashboard/instructor/my-courses",
     label: "My Courses",
     id: 2,
-    icon: <IoLayersOutline className="md:w-5 md:h-5 w-6 h-6"/>,
+    icon: <IoLayersOutline className="md:w-5 md:h-5 w-6 h-6" />,
   },
   {
     path: "/dashboard/instructor/earnings",
     label: "Earnings",
     id: 4,
-    icon: <CiMoneyCheck1  className="w-6 h-6"/>,
+    icon: <CiMoneyCheck1 className="w-6 h-6" />,
   },
   {
     path: "/dashboard/instructor/messages",
@@ -47,25 +48,35 @@ const links = [
     icon: <SlSettings className="md:w-5 md:h-5 w-6 h-6" />,
   },
 ];
-const NavLinks = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => {
+const NavLinks = () => {
+  const { handleSidebarToggle, isSidebarOpen } = useToggle();
   const pathname = usePathname();
+
   return (
-    <ul className={`px-2 ${!isSidebarOpen && "px-2"} !space-y-1.5`}>
+    <ul className={`px-2 !space-y-2.5 py-2 lg:py-3`}>
       {links.map((link) => (
-        <Link key={link.id} href={link.path} className=" grid">
-          <li className={`text-gray-500 hover:text-gray-100  ${
+        <Link
+          key={link.id}
+          href={link.path}
+          className=" grid"
+          onClick={() => isSidebarOpen && handleSidebarToggle()}
+        >
+          <li
+            className={`text-gray-500 hover:text-gray-100  ${
               pathname === link.path ? "bg-secondary-500 text-white" : ""
-            } cursor-pointer max-sm:rounded-sm  ${!isSidebarOpen && 'md:rounded-sm flex items-center md:justify-center'} md:rounded md:px-4 px-3 h-10`}>
-          <div className={`flex items-center md:gap-0.5 justify-center w-full  h-full ${isSidebarOpen && '!justify-center'} `}>
+            } cursor-pointer max-sm:rounded-sm md:rounded md:px-4 px-3 h-10`}
+          >
+            <div
+              className={`flex items-center md:gap-0.5 justify-center w-full  h-full`}
+            >
               {" "}
-              <div className={`md:w-[15%] ${!isSidebarOpen?  'md:w-auto': 'md:w-[15%]'} `}>{link.icon}</div>
-              {isSidebarOpen && (
-                <div className="hidden sm:block text-nowrap flex-grow">{link.label}</div>
-              )}
+              <div className={`lg:w-[15%] `}>{link.icon}</div>
+              <div className="hidden lg:block text-nowrap flex-grow">
+                {link.label}
+              </div>
             </div>
           </li>
         </Link>
-
       ))}
     </ul>
   );
