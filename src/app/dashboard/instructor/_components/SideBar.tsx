@@ -12,7 +12,7 @@ const SideBar = () => {
   const { isSidebarOpen, handleSidebarToggle } = useToggle();
   return (
     <aside
-      className={`bg-gray-950 min-h-screen h-full w-[70px] lg:w-[220px] transition-all duration-200 top-0 left-0 ease-in-out fixed  ${
+      className={`bg-gray-950 min-h-dvh h-full w-[70px] lg:w-[220px] transition-all duration-200 top-0 left-0 ease-in-out fixed  ${
         !isSidebarOpen ? "max-sm:absolute max-sm:-translate-x-full" : "w-[70px]"
       } `}
     >
