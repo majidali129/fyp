@@ -101,6 +101,10 @@ const config = {
         'lg': '0.5rem', // 8px
         'full': '9999px', // 9999px
       },
+      gridTemplateColumns: {
+        '16': 'repeat(16, minmax(0, 1fr))',
+        '24': 'repeat(24, minmax(0, 1fr))',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

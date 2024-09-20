@@ -15,7 +15,7 @@ import CourseCard from "./CourseCard";
 const Dashboard = () => {
   return (
     <div className="space-y-9 *:space-y-5 *:px-5">
-      <div >
+      <div>
         <h3>Dashboard</h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           <StatsCard
@@ -23,6 +23,7 @@ const Dashboard = () => {
             title="Enrolled Courses"
             count={643}
             icon={<FaRegPlayCircle className="w-5 h-5 text-primary-500" />}
+            iconBg='bg-primary-100'
           />
           <StatsCard
             className="bg-secondary-100"
@@ -76,20 +77,22 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-function StatsCard({
+export function StatsCard({
   title,
   count,
   icon,
   className,
+  iconBg
 }: {
   title: string;
   count: number;
   icon: React.ReactNode;
   className?: string;
+  iconBg?: string
 }) {
   return (
     <div className={clsx("p-5 flex-start !gap-x-3.5", className)}>
-      <div className="h-[3.1rem] w-[3.1rem] flex-center bg-white">{icon}</div>
+      <div className={clsx(`h-[3.1rem] w-[3.1rem] flex-center bg-white icon-wrapper`, iconBg)}>{icon}</div>
       <div>
         <h5 className="text-gray-800">{count}</h5>
         <span>{title}</span>
