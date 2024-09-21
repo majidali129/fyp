@@ -28,10 +28,9 @@ const chartConfig = {
 
 export function BarChart() {
   return (
-    <ChartContainer config={chartConfig} className="min-h-[210px] w-full">
+    <ChartContainer config={chartConfig} className="min-h-[230px] w-full">
       <MyBarChart accessibilityLayer data={chartData}>
-        <ChartTooltip labelStyle={{color: 'black'}} />
-        <Bar dataKey="desktop" className="fill-success-500"  background={{fill: '#E1F7E3'}}/>
+        <Bar dataKey="desktop" className="fill-success-500 hover:bg-red-400"  background={{fill: '#E1F7E3'}}/>
       </MyBarChart>
     </ChartContainer>
   );
