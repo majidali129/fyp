@@ -1,9 +1,9 @@
 "use client";
 
+import { Card } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import {
@@ -39,9 +39,14 @@ const chartConfig = {
 
 const CourseOverviewChart = () => {
   return (
-    <div className="w-[100%] h-[300px]">
-      <ChartContainer config={chartConfig} className="w-full h-full z-10 ">
-        <ResponsiveContainer width="100%" height="100%">
+    <Card className=" shadow-none border-none rounded-none border *:py-2 *:px-3.5">
+      <div className="flex-between border-b border-b-gray-100">
+        <h6 className="text-gray-700">Course Overview</h6>
+        <span>This week</span>
+      </div>
+      <div className="w-full h-full">
+      <ResponsiveContainer  height="100%" className="min-w-[200px] max-sm:max-w-[310px] lg:w-full">
+        <ChartContainer config={chartConfig} className="min-h-[300px] max-h-[420px] z-10 ">
           <ComposedChart
             data={data}
             margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
@@ -75,9 +80,10 @@ const CourseOverviewChart = () => {
               dot={false}
             />
           </ComposedChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-    </div>
+        </ChartContainer>
+      </ResponsiveContainer>
+      </div>
+    </Card>
   );
 };
 

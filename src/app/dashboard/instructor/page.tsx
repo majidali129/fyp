@@ -31,7 +31,7 @@ const InstructorHomePage = () => {
     <section className="py-5">
       <div className="space-y-5">
         {/* STATS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 *:bg-white">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 *:bg-white *:shadow-md">
           <StatsCard
             className="!gap-x-5 [&>.icon-wrapper]:md:w-[2.7rem] [&>.icon-wrapper]:md:h-[2.7rem]"
             title="Enrolled Courses"
@@ -93,7 +93,7 @@ const InstructorHomePage = () => {
         </div>
 
         {/* ACTIVITIES */}
-        <div className="grid gap-4 md:grid-cols-12 *:md:col-span-6 lg:grid-cols-24">
+        <div className="grid gap-4 md:grid-cols-12 *:md:col-span-6 lg:grid-cols-24 *:bg-white">
           {/* RECENT ACTIVITIES */}
           <div className="lg:col-span-8 bg-white *:py-2 *:px-3.5 ">
             <div className="flex-between border-b border-b-gray-100">
@@ -101,7 +101,7 @@ const InstructorHomePage = () => {
               <span>Today</span>
             </div>
             {/* ACTIVITY LIST */}
-            <ul className="space-y-2.5 max-h-[275px] layout-scroll h-full overflow-y-auto">
+            <ul className="space-y-2.5 max-h-[275px] layout-scroll h-full overflow-y-auto ">
             <UserActivityItem />
             <UserActivityItem />
             <UserActivityItem />
@@ -114,21 +114,11 @@ const InstructorHomePage = () => {
           </div>
 
           {/* REVENUE CHART */}
-          <div className="lg:col-span-10 bg-white *:py-2 *:px-3.5 ">
-            <div className="flex-between border-b border-b-gray-100">
-              <h6 className="text-gray-700">Revenue</h6>
-              <span>This Month</span>
-            </div>
-            <div>
+          <div className="lg:col-span-10  px-3 ">
               <CourseRevenueChart />
-            </div>
           </div>
           {/* PROFILE VIEW CHART */}
-          <div className="lg:col-span-6  *:p-2 bg-white">
-            <div className="flex-between border-b border-b-gray-100 !px-4">
-              <h6 className="text-gray-700">Profile View</h6>
-              <span>Today</span>
-            </div>
+          <div className="lg:col-span-6 ">
             <BarChart />
             <div className="!px-4">
               <h5 className="text-gray-800">${formateNumber(3232)}</h5>
@@ -140,29 +130,22 @@ const InstructorHomePage = () => {
         </div>
 
         {/* RATING + OVERVIEW */}
-        <div className="grid gap-4 lg:grid-cols-[42%_auto] ">
+        <div className="grid gap-4 lg:grid-cols-[42%_auto] *:bg-white">
         {/* <div className="grid gap-4 md:grid-cols-[1fr_1fr] lg:grid-cols-[10fr_14fr] "> */}
           {/* RECENT ACTIVITIES */}
-          <div className=" bg-white *:py-2 *:px-3.5 ">
+          <div className=" *:py-2 *:px-3.5 ">
             <div className="flex-between border-b border-b-gray-100">
               <h6 className="text-gray-700">Overall Course Rating</h6>
               <span>This week</span>
             </div>
-            <div className="max-w-[500px]">
+            <div >
               <CourseRatingChart />
             </div>
           </div>
 
           {/* REVENUE CHART */}
-          <div className=" bg-white *:py-2 *:px-3.5 ">
-            <div className="flex-between border-b border-b-gray-100">
-              <h6 className="text-gray-700">Course Overview</h6>
-              <span>This week</span>
-            </div>
-            <div>
-              {/* Overview chart */}
+          <div className="">
               <CourseOverviewChart />
-            </div>
           </div>
         </div>
       </div>

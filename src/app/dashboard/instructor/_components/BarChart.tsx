@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart as MyBarChart } from "recharts";
+import { Bar, BarChart as MyBarChart, ResponsiveContainer } from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -23,15 +23,31 @@ const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "hsl(var(--chart-1))",
-  }
+  },
 } satisfies ChartConfig;
 
 export function BarChart() {
   return (
-    <ChartContainer config={chartConfig} className="min-h-[230px] w-full">
-      <MyBarChart accessibilityLayer data={chartData}>
-        <Bar dataKey="desktop" className="fill-success-500 hover:bg-red-400"  background={{fill: '#E1F7E3'}}/>
-      </MyBarChart>
-    </ChartContainer>
+    <div className="w-[100%] min-h-[230px] *:py-2">
+      <div className="flex-between border-b border-b-gray-100  !px-4">
+        <h6 className="text-gray-700">Profile View</h6>
+        <span>Today</span>
+      </div>
+      <ResponsiveContainer width={"100%"} height={"100%"}>
+        <ChartContainer
+          config={chartConfig}
+          className="w-[100%] min-h-[230px] h-[100%]"
+        >
+          <MyBarChart accessibilityLayer data={chartData}>
+            <Bar
+              dataKey="desktop"
+              barSize={13}
+              className="fill-success-500 hover:bg-red-400"
+              background={{ fill: "#E1F7E3" }}
+            />
+          </MyBarChart>
+        </ChartContainer>
+      </ResponsiveContainer>
+    </div>
   );
 }
