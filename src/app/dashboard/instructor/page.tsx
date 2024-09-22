@@ -133,14 +133,8 @@ const InstructorHomePage = () => {
         <div className="grid gap-4 lg:grid-cols-[42%_auto] *:bg-white">
         {/* <div className="grid gap-4 md:grid-cols-[1fr_1fr] lg:grid-cols-[10fr_14fr] "> */}
           {/* RECENT ACTIVITIES */}
-          <div className=" *:py-2 *:px-3.5 ">
-            <div className="flex-between border-b border-b-gray-100">
-              <h6 className="text-gray-700">Overall Course Rating</h6>
-              <span>This week</span>
-            </div>
-            <div >
+          <div className=" ">
               <CourseRatingChart />
-            </div>
           </div>
 
           {/* REVENUE CHART */}

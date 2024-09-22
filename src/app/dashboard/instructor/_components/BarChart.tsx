@@ -28,7 +28,7 @@ const chartConfig = {
 
 export function BarChart() {
   return (
-    <div className="w-[100%] min-h-[230px] *:py-2">
+    <div className="w-[100%] min-h-[230px] *:py-2 *:px-3.5">
       <div className="flex-between border-b border-b-gray-100  !px-4">
         <h6 className="text-gray-700">Profile View</h6>
         <span>Today</span>
