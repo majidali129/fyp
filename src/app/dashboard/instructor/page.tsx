@@ -120,7 +120,7 @@ const InstructorHomePage = () => {
           {/* PROFILE VIEW CHART */}
           <div className="lg:col-span-6 ">
             <BarChart />
-            <div className="!px-4">
+            <div className="!px-4 py-2">
               <h5 className="text-gray-800">${formateNumber(3232)}</h5>
               <span className="text-gray-500 text-[1rem]">
                 USD dollar you earned

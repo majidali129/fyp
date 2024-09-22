@@ -51,12 +51,13 @@ const CourseOverviewChart = () => {
             data={data}
             margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
           >
-            <XAxis dataKey="day" tickLine={false} />
+            <XAxis dataKey="day" tickLine={false} tick={{fill: '#A1A5B3'}}/>
             <YAxis
               scale="log"
               domain={[1000, "auto"]}
               width={35}
               tickLine={false}
+              tick={{fill: '#A1A5B3'}}
               tickFormatter={(value) => {
                 if (value >= 100000) return `${value / 1000000}M`;
                 if (value >= 1000) return `${value / 1000}k`;

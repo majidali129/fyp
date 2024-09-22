@@ -27,11 +27,14 @@ const ratingData = [
 export default function Component() {
   return (
     <div className="w-[100%] bg-white ">
+      {/* HEADER */}
       <div className="flex-between border-b border-b-gray-100 px-3.5 py-2">
         <h6 className="text-gray-700">Overall Course Rating</h6>
         <span>This week</span>
       </div>
+      {/* CONTENT */}
       <div className="*:px-3.5 *:py-3.5 lg:*:py-2.5 space-y-3.5">
+        {/* CHART AREA */}
         <div className="grid md:grid-cols-[40%_auto] gap-2 border-b border-b-gray-100">
           <div className="bg-warning-100 flex items-center justify-center flex-col p-5 gap-1">
             <div className="text-5xl font-bold text-gray-900">4.6</div>
@@ -65,6 +68,8 @@ export default function Component() {
             </ResponsiveContainer>
           </div>
         </div>
+
+        {/* RATING STARS */}
         <div className="space-y-2">
           {ratingData.map(({ stars, percentage }) => (
             <div key={stars} className="flex items-center">
