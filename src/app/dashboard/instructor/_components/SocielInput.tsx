@@ -41,7 +41,7 @@ const SocielInput = ({
       render={() => (
         <FormItem className="space-y-1">
           {label && <FormLabel htmlFor="website">{label}</FormLabel>}
-          <div className="grid grid-cols-[35px_2px_auto] place-items-center outline outline-1 outline-gray-100 hover:outline-primary-200 focus-within:!outline-primary-500">
+          <div className="grid grid-cols-[35px_2px_auto] place-items-center outline outline-1 outline-gray-100 hover:outline-primary-200 focus-within:!outline-primary-500 bg-white">
             {icon&& icon}
             <Separator
               orientation="vertical"

@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import TextInput from "@/components/TextInput";
 import { updatePasswordSchema } from "@/schemas/passwordSchemas";
 import UpdateUserInfoForm from "./UpdateUserInfoForm";
-import ChangeStudentPasswordForm from "./ChangePasswordForm";
+import ChangeStudentPasswordForm from "./UpdatePasswordForm";
 
 
 

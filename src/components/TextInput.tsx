@@ -43,8 +43,8 @@ const TextInput = ({
         render={({ field }) => (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
-            <FormControl className="border border-blue-500">
-              <div className="flex relative">
+            <FormControl>
+              <div className="flex relative border border-gray-100">
                 <Input
                   {...inputProps}
                   {...field}

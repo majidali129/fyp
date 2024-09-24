@@ -1,15 +1,16 @@
+'use client'
+
 import SubmitBtn from "@/components/SubmitBtn";
 import TextInput from "@/components/TextInput";
 import { Form } from "@/components/ui/form";
 import { updatePasswordSchema } from "@/schemas/passwordSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type UpdatePasswordFormValues = z.infer<typeof updatePasswordSchema>;
 
-function ChangeStudentPasswordForm() {
+function UpdatePasswordForm() {
     const form = useForm<z.infer<typeof updatePasswordSchema>>({
         resolver: zodResolver(updatePasswordSchema),
         defaultValues: {
@@ -61,4 +62,4 @@ function ChangeStudentPasswordForm() {
 
 
 
-export default ChangeStudentPasswordForm
+export default UpdatePasswordForm

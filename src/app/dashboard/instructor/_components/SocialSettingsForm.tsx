@@ -37,7 +37,7 @@ export default function SocialSettingsForm() {
   }
 
   return (
-    <Card className="w-full rounded-sm border-none">
+    <Card className="w-full rounded-sm border-none shadow-none">
       <CardHeader>
         <CardTitle>Social Profile</CardTitle>
       </CardHeader>
