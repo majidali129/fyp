@@ -46,7 +46,7 @@ const CourseOverviewChart = () => {
       </div>
       <div className="w-full h-full">
       <ResponsiveContainer  height="100%" className="min-w-[200px] max-sm:max-w-[310px] lg:w-full">
-        <ChartContainer config={chartConfig} className="min-h-[300px] max-h-[420px] z-10 ">
+        <ChartContainer config={chartConfig} className="min-h-[300px] lg:min-h-[350px] max-h-[420px] z-10 ">
           <ComposedChart
             data={data}
             margin={{ top: 5, right: 0, left: 0, bottom: 5 }}

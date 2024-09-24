@@ -14,7 +14,7 @@ const CourseCard = ({isActive=false}: {isActive?: boolean}) => {
             {/* LECTURE CARD ACTIONS */}
             <div className="py-2.5">
                 <div className={`${isActive && 'flex-between' } `}>
-                    <Button size={'sm'} className={`hover:bg-primary-500 hover:text-white ${!isActive&& 'w-full'}`} variant={'secondaryPrimary'}>Watch lecture</Button>
+                    <Button size={'sm'} className={`hover:bg-primary-500 rounded-sm hover:text-white ${!isActive&& 'w-full'}`} variant={'secondaryPrimary'}>Watch lecture</Button>
                     {isActive && <div className="text-success-500 text-sm">61% Completed</div>}
                 </div>
             </div>

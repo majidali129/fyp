@@ -26,7 +26,6 @@ enum ActivityType {
 }
 
 const InstructorHomePage = () => {
-
   return (
     <section className="py-5">
       <div className="space-y-5">
@@ -102,20 +101,20 @@ const InstructorHomePage = () => {
             </div>
             {/* ACTIVITY LIST */}
             <ul className="space-y-2.5 max-h-[275px] layout-scroll h-full overflow-y-auto ">
-            <UserActivityItem />
-            <UserActivityItem />
-            <UserActivityItem />
-            <UserActivityItem />
-            <UserActivityItem />
-            <UserActivityItem />
-            <UserActivityItem />
-            <UserActivityItem />
+              <UserActivityItem />
+              <UserActivityItem />
+              <UserActivityItem />
+              <UserActivityItem />
+              <UserActivityItem />
+              <UserActivityItem />
+              <UserActivityItem />
+              <UserActivityItem />
             </ul>
           </div>
 
           {/* REVENUE CHART */}
-          <div className="lg:col-span-10  px-3 ">
-              <CourseRevenueChart />
+          <div className="lg:col-span-10">
+            <CourseRevenueChart />
           </div>
           {/* PROFILE VIEW CHART */}
           <div className="lg:col-span-6 ">
@@ -131,15 +130,15 @@ const InstructorHomePage = () => {
 
         {/* RATING + OVERVIEW */}
         <div className="grid gap-4 lg:grid-cols-[42%_auto] *:bg-white">
-        {/* <div className="grid gap-4 md:grid-cols-[1fr_1fr] lg:grid-cols-[10fr_14fr] "> */}
+          {/* <div className="grid gap-4 md:grid-cols-[1fr_1fr] lg:grid-cols-[10fr_14fr] "> */}
           {/* RECENT ACTIVITIES */}
           <div className=" ">
-              <CourseRatingChart />
+            <CourseRatingChart />
           </div>
 
           {/* REVENUE CHART */}
           <div className="">
-              <CourseOverviewChart />
+            <CourseOverviewChart />
           </div>
         </div>
       </div>

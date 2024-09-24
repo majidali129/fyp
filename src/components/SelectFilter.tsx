@@ -9,42 +9,31 @@ import {
 } from "@/components/ui/select";
 import { usePathname,useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-const SelectItemsList = [
-  {
-    name: "Ascending",
-    value: "asc"
-  },
-  {
-    name: "Descending",
-    value: "desc"
-  },
-  {
-    name: "Latest",
-    value: "latest"
-  }
-];
 
-const SortBy = () => {
+type SelectItemsType = Array<{label: string, value: string}>
+
+const SelectFilter = ({selectItems, filterKey, className}: {selectItems: SelectItemsType, filterKey: string, className?:string}) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
     const onFilterChange = useCallback((value: string) => {
         const params = new URLSearchParams(searchParams.toString())
-        params.set('sort', value)
+        // params.set('sort', value)
+        params.set(filterKey, value)
 
         router.push(`${pathname}?${params.toString()}`, {scroll: false})
-    }, [pathname, router, searchParams])
+    }, [pathname, router, searchParams, filterKey])
 
   return (
     <Select onValueChange={onFilterChange}>
-      <SelectTrigger className="w-[180px] ">
-        <SelectValue placeholder="Latest" />
+      <SelectTrigger className={`w-[180px] rounded-sm ${className}`}>
+        <SelectValue placeholder={selectItems[0].label} />
       </SelectTrigger>
       <SelectContent>
-        {SelectItemsList.map((item) => (
+        {selectItems.map((item) => (
           <SelectItem value={item.value} key={item.value}>
-            {item.name}
+            {item.label}
           </SelectItem>
         ))}
       </SelectContent>
@@ -52,4 +41,4 @@ const SortBy = () => {
   );
 };
 
-export default SortBy;
+export default SelectFilter;

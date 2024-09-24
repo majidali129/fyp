@@ -34,10 +34,10 @@
     @apply text-xl  md:text-4xl text-gray-900 font-bold leading-6;
   }
   h3 {
-    @apply text-xl  md:text-2xl text-gray-900 tracking-wide font-bold;
+    @apply text-xl  md:text-2xl text-gray-900  font-bold;
   }
   h4 {
-    @apply text-lg  md:text-xl text-gray-900 tracking-wide font-semibold;
+    @apply text-lg  md:text-xl text-gray-900 font-semibold;
   }
   h5 {
     @apply text-gray-900 font-semibold text-[.95rem] md:text-[1.05rem];

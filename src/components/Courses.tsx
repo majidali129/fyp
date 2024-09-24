@@ -1,10 +1,25 @@
 import { formateNumber } from "@/helpers";
 import Section from "./Section";
-import SortBy from "./SortBy";
+import SelectFilter from "./SelectFilter";
 import CategoryCourseFilterList from "./CategoryCourseFilterList";
 import Paginate from "./Pagination";
 import CourseList from "./CourseList";
 import { Suspense } from "react";
+
+const SortByItems = [
+  {
+    name: "Ascending",
+    value: "asc"
+  },
+  {
+    name: "Descending",
+    value: "desc"
+  },
+  {
+    name: "Latest",
+    value: "latest"
+  }
+];
 
 // const Courses = ({children}: {children: ReactNode}) => {
 const Courses = () => {
@@ -16,7 +31,7 @@ const Courses = () => {
           <div className="flex-start">
             sort by:{" "}
             <Suspense>
-              <SortBy />
+              <SelectFilter selectItems={SortByItems}/>
             </Suspense>
           </div>
         </div>

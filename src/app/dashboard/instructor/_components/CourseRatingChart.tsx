@@ -24,7 +24,7 @@ const ratingData = [
   { stars: 1, percentage: 0 },
 ];
 
-export default function Component() {
+export default function CourseRatingChart() {
   return (
     <div className="w-[100%] bg-white ">
       {/* HEADER */}
@@ -33,10 +33,11 @@ export default function Component() {
         <span>This week</span>
       </div>
       {/* CONTENT */}
-      <div className="*:px-3.5 *:py-3.5 lg:*:py-2.5 space-y-3.5">
+      <div className="*:px-3.5 *:py-3.5 lg:*:py-4 space-y-[1.15rem]">
+      {/* <div className="*:px-3.5 *:py-3.5 *:border lg:*:py-2.5 space-y-3.5"> */}
         {/* CHART AREA */}
         <div className="grid md:grid-cols-[40%_auto] gap-2 border-b border-b-gray-100">
-          <div className="bg-warning-100 flex items-center justify-center flex-col p-5 gap-1">
+          <div className="bg-warning-100 flex items-center justify-center flex-col p-5 py-7 gap-1">
             <div className="text-5xl font-bold text-gray-900">4.6</div>
             <div className="flex items-center flex-col gap-1.5">
               <div className="flex gap-1">

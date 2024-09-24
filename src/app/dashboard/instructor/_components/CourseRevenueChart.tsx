@@ -18,8 +18,8 @@ const data = [
 
 export default function CourseRevenueChart() {
   return (
-    <Card className=" *:py-2 rounded-none shadow-none border-none">
-      <div className="flex-between border-b border-b-gray-100">
+    <Card className=" *:py-2 rounded-none shadow-none border-none *:px-3">
+      <div className="flex-between border-b border-b-gray-100 px-3.5">
         <h6 className="text-gray-700">Revenue</h6>
         <span>This Month</span>
       </div>
