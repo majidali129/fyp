@@ -8,15 +8,15 @@ import { Suspense } from "react";
 
 const SortByItems = [
   {
-    name: "Ascending",
+    label: "Ascending",
     value: "asc"
   },
   {
-    name: "Descending",
+    label: "Descending",
     value: "desc"
   },
   {
-    name: "Latest",
+    label: "Latest",
     value: "latest"
   }
 ];
@@ -31,7 +31,7 @@ const Courses = () => {
           <div className="flex-start">
             sort by:{" "}
             <Suspense>
-              <SelectFilter selectItems={SortByItems}/>
+              <SelectFilter selectItems={SortByItems} filterKey="sort"/>
             </Suspense>
           </div>
         </div>
