@@ -4,7 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { ComponentProps, useState } from "react";
@@ -18,7 +18,7 @@ interface InputProps extends ComponentProps<"input"> {
   label?: string;
   control: Control<any>;
   type?: string;
-  className?:string;
+  className?: string;
 }
 const TextInput = ({
   type = "text",
@@ -31,7 +31,7 @@ const TextInput = ({
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const {
     fieldState: { error, isTouched },
-    field
+    field,
   } = useController({ control, name });
   const isFilled = field.value !== "";
 
@@ -49,13 +49,16 @@ const TextInput = ({
                   {...inputProps}
                   {...field}
                   type={showPassword ? "text" : type}
-                  className={clsx(`${
-                    isFilled && !error
-                      ? "ring-success-500"
-                      : error
-                      ? "bg-error-50 ring-error-500"
-                      : ""
-                  }`, className)}
+                  className={clsx(
+                    `${
+                      isFilled && !error
+                        ? "ring-success-500"
+                        : error
+                        ? "bg-error-50 ring-error-500"
+                        : ""
+                    }`,
+                    className
+                  )}
                 />
                 <span
                   className="absolute right-3 cursor-pointer  top-1/2 -translate-y-1/2"
@@ -80,32 +83,21 @@ const TextInput = ({
         <FormItem className="space-y-1">
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            {/* <div>
-              <Input
-                {...inputProps}
-                {...field}
-                type={type}
-                className={`${
-                  isFilled && !error
-                    ? "ring-success-500"
-                    : error
-                    ? "bg-error-50 ring-error-500"
-                    : ""
-                }`}
-              />
-            </div> */}
             <div className="flex relative">
               <Input
                 {...inputProps}
                 {...field}
                 type={showPassword ? "text" : type}
-                className={clsx(`${
-                  isFilled && !error
-                    ? "ring-success-500"
-                    : error
-                    ? "bg-error-50 ring-error-500"
-                    : ""
-                }`, className)}
+                className={clsx(
+                  `${
+                    isFilled && !error
+                      ? "ring-success-500"
+                      : error
+                      ? "bg-error-50 ring-error-500"
+                      : ""
+                  }`,
+                  className
+                )}
               />
               {isFilled && !error && (
                 <span className="absolute right-3 cursor-pointer  top-1/2 -translate-y-1/2">

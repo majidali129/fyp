@@ -21,8 +21,6 @@ import {
 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { loginUser } from "@/actions";
-import { AuthError } from "next-auth";
 import { useState } from "react";
 type LoginUserFormValues = z.infer<typeof loginUserSchema>;
 
