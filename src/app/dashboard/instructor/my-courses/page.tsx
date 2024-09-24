@@ -1,19 +1,29 @@
-'use client'
+"use client";
 import SelectFilter from "@/components/SelectFilter";
 import React, { Suspense } from "react";
-import { courseCategories, courseRatingOptions, courseSortOptions } from "../../_lib/filters-data";
+import {
+  courseCategories,
+  courseRatingOptions,
+  courseSortOptions,
+} from "../../_lib/filters-data";
 import SearchInCourse from "../_components/SearchInCourse";
 import { useSearchParams } from "next/navigation";
 import CourseCard from "../_components/CourseCard";
 
+const MyCoursesPageWrapper = () => {
+  return (
+    <Suspense fallback={<div>loading...</div>}>
+      <MyCoursesPage />
+    </Suspense>
+  );
+};
+
 const MyCoursesPage = () => {
-  const params = useSearchParams()
+  const params = useSearchParams();
   // console.log(params.get('search'));
   // console.log(params.get('sort'));
   // console.log(params.get('category'));
   // console.log(params.get('rating'));
-
-
 
   return (
     <section className="py-5">
@@ -24,22 +34,34 @@ const MyCoursesPage = () => {
             <span className="text-gray-500">Search:</span>
             <SearchInCourse />
           </div>
-          <div >
+          <div>
             <span className="text-gray-500">sort by:</span>
             <Suspense>
-              <SelectFilter selectItems={courseSortOptions} filterKey="sort" className="ring-0 w-full"/>
+              <SelectFilter
+                selectItems={courseSortOptions}
+                filterKey="sort"
+                className="ring-0 w-full"
+              />
             </Suspense>
           </div>
-          <div >
+          <div>
             <span className="text-gray-500">Category:</span>
             <Suspense>
-              <SelectFilter selectItems={courseCategories} filterKey="category" className="ring-0 w-full"/>
+              <SelectFilter
+                selectItems={courseCategories}
+                filterKey="category"
+                className="ring-0 w-full"
+              />
             </Suspense>
           </div>
-          <div >
-          <span className="text-gray-500">Rating:</span>
+          <div>
+            <span className="text-gray-500">Rating:</span>
             <Suspense>
-              <SelectFilter selectItems={courseRatingOptions} filterKey="rating" className="ring-0 w-full"/>
+              <SelectFilter
+                selectItems={courseRatingOptions}
+                filterKey="rating"
+                className="ring-0 w-full"
+              />
             </Suspense>
           </div>
         </div>
@@ -61,4 +83,4 @@ const MyCoursesPage = () => {
   );
 };
 
-export default MyCoursesPage;
+export default MyCoursesPageWrapper;
