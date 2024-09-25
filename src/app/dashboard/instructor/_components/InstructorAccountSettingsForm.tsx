@@ -81,13 +81,13 @@ const InstructorAccountSettingsForm = () => {
                     />
                   </div>
                 </div>
-                  <TextInput
-                    className="rounded-none"
-                    control={form.control}
-                    name="username"
-                    label="Username"
-                    placeholder="john129"
-                  />
+                <TextInput
+                  className="rounded-none"
+                  control={form.control}
+                  name="username"
+                  label="Username"
+                  placeholder="john129"
+                />
                 <TextInput
                   className="rounded-none"
                   control={form.control}
@@ -95,7 +95,7 @@ const InstructorAccountSettingsForm = () => {
                   label="Phone Number"
                   placeholder="your phone number..."
                 />
-                 <TextInput
+                <TextInput
                   control={form.control}
                   name="title"
                   label="Title"
@@ -103,7 +103,12 @@ const InstructorAccountSettingsForm = () => {
                   className="rounded-none"
                 />
 
-                <TextArea name="biography" label="Biography" placeholder="Your title, profession..." control={form.control}  />
+                <TextArea
+                  name="biography"
+                  label="Biography"
+                  placeholder="Your title, profession..."
+                  control={form.control}
+                />
               </div>
 
               <div className="md:basis-1/5 order-2 lg:-translate-y-10">
@@ -119,7 +124,11 @@ const InstructorAccountSettingsForm = () => {
                         {!preview && (
                           <IoCloudUploadOutline className="w-16 h-16 text-secondary-300" />
                         )}
-                        <div className={`flex-center absolute bg-secondary-600/10 py-2 w-full bottom-0 left-0 right-0 *:text-secondary-900 ${preview && '!bg-gray-800/50 *:!text-white'}`}>
+                        <div
+                          className={`flex-center absolute bg-secondary-600/10 py-2 w-full bottom-0 left-0 right-0 *:text-secondary-900 ${
+                            preview && "!bg-gray-800/50 *:!text-white"
+                          }`}
+                        >
                           <PiUploadSimple className="h-5 w-5" />
                           <span>Upload Photo</span>
                         </div>
