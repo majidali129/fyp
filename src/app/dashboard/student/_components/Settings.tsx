@@ -2,17 +2,10 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Form } from "@/components/ui/form";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { PiUploadSimple } from "react-icons/pi";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import SubmitBtn from "@/components/SubmitBtn";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import TextInput from "@/components/TextInput";
-import { updatePasswordSchema } from "@/schemas/passwordSchemas";
 import UpdateUserInfoForm from "./UpdateUserInfoForm";
 import ChangeStudentPasswordForm from "./UpdatePasswordForm";
 

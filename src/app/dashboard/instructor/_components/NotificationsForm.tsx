@@ -108,7 +108,7 @@ const NotificationsForm = () => {
                           errors.notifications
                             ? "text-error-400"
                             : "opacity-70 "
-                        }`}
+                        } ${field.value.includes(notification.id) && 'opacity-100' }`}
                       >
                         {notification.label}
                       </FormLabel>

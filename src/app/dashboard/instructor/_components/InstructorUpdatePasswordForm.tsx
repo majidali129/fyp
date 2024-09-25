@@ -60,7 +60,7 @@ export default function InstructorUpdatePasswordForm() {
               type="password"
               placeholder="********"
             />
-           <div className="flex justify-end">
+           <div >
            <SubmitBtn >
               Change Password
             </SubmitBtn>
