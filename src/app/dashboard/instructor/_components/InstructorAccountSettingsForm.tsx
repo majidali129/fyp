@@ -119,9 +119,9 @@ const InstructorAccountSettingsForm = () => {
                         {!preview && (
                           <IoCloudUploadOutline className="w-16 h-16 text-secondary-300" />
                         )}
-                        <div className="flex-center absolute bg-secondary-600/10 py-2 w-full bottom-0 left-0 right-0 *:text-secondary-900">
+                        <div className={`flex-center absolute bg-secondary-600/10 py-2 w-full bottom-0 left-0 right-0 *:text-secondary-900 ${preview && '!bg-gray-800/50 *:!text-white'}`}>
                           <PiUploadSimple className="h-5 w-5" />
-                          <span>Upload Phote</span>
+                          <span>Upload Photo</span>
                         </div>
                         <Input
                           type="file"
@@ -134,7 +134,7 @@ const InstructorAccountSettingsForm = () => {
                             src={preview!}
                             width={240}
                             height={240}
-                            className="object-cover aspect-video"
+                            className="object-cover aspect-video h-full"
                             priority
                             alt="user profile photo"
                           />
