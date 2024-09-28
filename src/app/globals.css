@@ -55,6 +55,10 @@
   span {
     @apply text-gray-800 text-[.9rem];
   }
+
+  label{
+    @apply text-gray-900
+  }
 }
 
 @layer utilities {

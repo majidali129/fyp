@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import { MdOndemandVideo, MdOutlineDateRange } from "react-icons/md";
+import CourseBasicInfoForm from "../_components/CourseBasicInfoForm";
 
 const tabs: Array<{ label: string; value: string; icon: ReactNode }> = [
   {
@@ -30,22 +31,24 @@ const CreateNewCoursePage = () => {
   return (
     <section className="py-5">
       <div className="space-y-8 lg:space-y-5 *:bg-white *:rounded-sm">
-        <div className="py-3">
+        <div className=" py-1 pb-3">
           <Tabs defaultValue="basic-info">
-            <TabsList className="px-0 overflow-x-scroll tablist h-auto max-sm:max-w-[21.4rem]  whitespace-nowrap py-2 w-full justify-between rounded-none lg:gap-2 *:!px-3 lg:*:px-4 *:w-full *:justify-start">
+            <TabsList className="px-0 overflow-x-scroll tablist h-auto max-sm:max-w-[21.4rem]  whitespace-nowrap w-full justify-between rounded-none lg:gap-2 *:!px-3  lg:*:!px-5 *:w-full *:justify-start">
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className={`gap-2 border-b-2 border-b-white md:text-[1rem] text-gray-600 data-[state=active]:text-gray-900 data-[state=active]:border-b-2 data-[state=active]:border-b-primary-500 `}
+                  className={`gap-1.5 lg:gap-2 border-b-2 border-b-white lg:text-[1rem] text-gray-600 data-[state=active]:text-gray-900 data-[state=active]:border-b-2 data-[state=active]:border-b-primary-500 `}
                 >
                   {tab.icon} {tab.label}
                 </TabsTrigger>
               ))}
             </TabsList>
 
-            <div className="px-4">
-              <TabsContent value="basic-info">Basic Info</TabsContent>
+            <div className="*:mt-0">
+              <TabsContent value="basic-info">
+                <CourseBasicInfoForm title="Basic Information"/>
+              </TabsContent>
               <TabsContent value="advance-info">Advance Info</TabsContent>
               <TabsContent value="curriculum">Curriculum</TabsContent>
               <TabsContent value="publish-course">Publish Course</TabsContent>
