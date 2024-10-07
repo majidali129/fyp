@@ -21,6 +21,7 @@ interface InputProps extends ComponentProps<"input"> {
   control: Control<any>;
   type?: string;
   className?: string;
+  count?: number;
 }
 const TextInput = ({
   type = "text",
@@ -28,6 +29,7 @@ const TextInput = ({
   label,
   control,
   className,
+  count,
   ...inputProps
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -36,6 +38,7 @@ const TextInput = ({
     field,
   } = useController({ control, name });
   const isFilled = field.value !== "";
+
 
   if (type === "password") {
     return (
@@ -101,11 +104,17 @@ const TextInput = ({
                   className
                 )}
               />
-              {isFilled && !error && (
+              {isFilled && !error && !count && (
                 <span className="absolute right-3 cursor-pointer  top-1/2 -translate-y-1/2">
                   <FaCheckCircle className="text-success-500" />
                 </span>
               )}
+
+              {
+                !error && count && (
+                  <span className="absolute right-3 cursor-pointer  top-1/2 -translate-y-1/2"> {0} / {count} </span>
+                )
+              }
             </div>
           </FormControl>
           <FormMessage className="text-error-500" />

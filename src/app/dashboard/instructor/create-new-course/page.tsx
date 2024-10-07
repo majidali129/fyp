@@ -4,6 +4,9 @@ import { FaRegPlayCircle } from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import { MdOndemandVideo, MdOutlineDateRange } from "react-icons/md";
 import CourseBasicInfoForm from "../_components/CourseBasicInfoForm";
+import CourseAdvanceInfoForm from "../_components/CourseAdvanceInfoForm";
+import CourseCurriculum from "../_components/CourseCurriculum";
+import PublishCourseForm from "../_components/PublishCourseForm";
 
 const tabs: Array<{ label: string; value: string; icon: ReactNode }> = [
   {
@@ -31,7 +34,7 @@ const CreateNewCoursePage = () => {
   return (
     <section className="py-5">
       <div className="space-y-8 lg:space-y-5 *:bg-white *:rounded-sm">
-        <div className=" py-1 pb-3">
+        <div className=" py-1 pb-8">
           <Tabs defaultValue="basic-info">
             <TabsList className="px-0 overflow-x-scroll tablist h-auto max-sm:max-w-[21.4rem]  whitespace-nowrap w-full justify-between rounded-none lg:gap-2 *:!px-3  lg:*:!px-5 *:w-full *:justify-start">
               {tabs.map((tab) => (
@@ -49,9 +52,15 @@ const CreateNewCoursePage = () => {
               <TabsContent value="basic-info">
                 <CourseBasicInfoForm title="Basic Information"/>
               </TabsContent>
-              <TabsContent value="advance-info">Advance Info</TabsContent>
-              <TabsContent value="curriculum">Curriculum</TabsContent>
-              <TabsContent value="publish-course">Publish Course</TabsContent>
+              <TabsContent value="advance-info">
+                <CourseAdvanceInfoForm title="Advance Information"/>
+              </TabsContent>
+              <TabsContent value="curriculum">
+                <CourseCurriculum />
+              </TabsContent>
+              <TabsContent value="publish-course">
+                <PublishCourseForm />
+              </TabsContent>
             </div>
           </Tabs>
         </div>
