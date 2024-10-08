@@ -36,12 +36,12 @@ const CreateNewCoursePage = () => {
       <div className="space-y-8 lg:space-y-5 *:bg-white *:rounded-sm">
         <div className=" py-1 pb-8">
           <Tabs defaultValue="basic-info">
-            <TabsList className="px-0 overflow-x-scroll tablist h-auto max-sm:max-w-[21.4rem]  whitespace-nowrap w-full justify-between rounded-none lg:gap-2 *:!px-3  lg:*:!px-5 *:w-full *:justify-start">
+            <TabsList className="px-0 overflow-x-scroll border-b border-b-gray-100 tablist h-auto max-sm:max-w-[21.4rem]  whitespace-nowrap w-full justify-between rounded-none lg:gap-2 *:!px-3 !py-0  lg:*:!px-5 *:w-full *:justify-start">
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className={`gap-1.5 lg:gap-2 border-b-2 border-b-white lg:text-[1rem] text-gray-600 data-[state=active]:text-gray-900 data-[state=active]:border-b-2 data-[state=active]:border-b-primary-500 `}
+                  className={`gap-1.5 py-2 lg:gap-2 border-b-2 border-b-white lg:text-[1rem] text-gray-600 data-[state=active]:text-gray-900 data-[state=active]:border-b-2 data-[state=active]:border-b-primary-500 `}
                 >
                   {tab.icon} {tab.label}
                 </TabsTrigger>
