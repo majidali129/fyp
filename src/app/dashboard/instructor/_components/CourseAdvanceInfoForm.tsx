@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import SubmitBtn from "@/components/SubmitBtn";
+import RTE from "./RTE";
 
 const profileFormSchema = z.object({
   whatYouWillTeach: z
@@ -103,7 +104,8 @@ const CourseAdvanceInfoForm = ({ title }: { title: string }) => {
   });
 
   function onSubmit(data: ProfileFormValues) {
-    console.log({...data, thumbnail, trailer, description});
+    alert(description);
+    console.log({ ...data, thumbnail, trailer, description });
   }
 
   const handleThumbnailUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -231,15 +233,7 @@ const CourseAdvanceInfoForm = ({ title }: { title: string }) => {
       <div className="space-y-2.5">
         <h6>Course Description</h6>
 
-        <textarea
-        value={description}
-        onChange={(e:ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
-          name="description"
-          id=""
-          placeholder="Enter your course description..."
-          rows={6}
-          className="w-full focus:outline-none border border-gray-100 p-2 rounded-sm "
-        ></textarea>
+        <RTE value={description} setValue={setDescription} />
       </div>
 
       {/* DYNAMIC FORM => COURSE DETAILS */}
@@ -278,7 +272,9 @@ const CourseAdvanceInfoForm = ({ title }: { title: string }) => {
             />
 
             <div className="md:flex-between max-sm:*:w-full">
-                <Button type="button" variant="outline" >Previous</Button>
+              <Button type="button" variant="outline">
+                Previous
+              </Button>
               <SubmitBtn>Save & Next</SubmitBtn>
             </div>
           </form>
@@ -323,7 +319,7 @@ function DynamicFormSection({
           + Add new
         </Button>
       </FormLabel>
-      <div className="space-y-8">
+      <div className="space-y-4">
         {fields.map((fieldItem, index) => (
           <FormField
             control={formControl}
