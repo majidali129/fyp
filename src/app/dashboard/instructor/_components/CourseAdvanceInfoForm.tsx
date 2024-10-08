@@ -271,7 +271,7 @@ const CourseAdvanceInfoForm = ({ title }: { title: string }) => {
               formControl={form.control}
             />
 
-            <div className="md:flex-between max-sm:*:w-full">
+            <div className="md:flex-between max-sm:*:w-full space-y-3">
               <Button type="button" variant="outline">
                 Previous
               </Button>
