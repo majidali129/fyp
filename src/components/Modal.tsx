@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogOverlay } from './ui/dialog';
-import { DialogClose } from '@radix-ui/react-dialog';
-import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogOverlay, DialogTitle } from './ui/dialog';
 
 interface ModalProps {
   isOpen: boolean;
@@ -25,7 +23,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogOverlay />
       <DialogContent className="p-6 rounded-lg shadow-md bg-white">
-        {title && <DialogHeader className='text-lg font-semibold text-gray-800 !space-y-0'>{title}</DialogHeader>}
+        {title && <DialogHeader>
+          <DialogTitle className='text-gray-900 font-normal !space-y-0'>
+          {title}
+          </DialogTitle>
+        </DialogHeader>}
         {children}
       </DialogContent>
     </Dialog>

@@ -125,7 +125,7 @@ const CourseAdvanceInfoForm = ({ title }: { title: string }) => {
   };
 
   return (
-    <section className="*:px-7 space-y-5">
+    <section className="*:px-4 lg:*:px-7 space-y-5">
       {/* header */}
       <div className="flex-between py-3.5 border-b border-b-gray-100">
         <h4>{title}</h4>
