@@ -233,7 +233,7 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
       <div className="space-y-2.5">
         <h6>Course Description</h6>
 
-        <RTE value={description} setValue={setDescription} />
+        {/* <RTE value={description} setValue={setDescription} /> */}
       </div>
 
       {/* DYNAMIC FORM => COURSE DETAILS */}
