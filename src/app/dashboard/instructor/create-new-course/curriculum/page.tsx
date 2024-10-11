@@ -1,8 +1,7 @@
+import CourseCurriculumForm from "../../_components/CourseCurriculumForm"
 
 const NewCourseCurriculumPage = () => {
-    return (
-      <div>New course curriculum page</div>
-    )
+    return <CourseCurriculumForm />
   }
 
   export default NewCourseCurriculumPage

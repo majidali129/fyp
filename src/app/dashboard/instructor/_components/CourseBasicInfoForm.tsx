@@ -32,7 +32,7 @@ const defaultValues = {
   ['subtitle-language']: "",
 };
 
-const CourseBasicInfoForm = ({ title }: { title: string }) => {
+const CourseBasicInfoForm = ({ title }: { title?: string }) => {
   const form = useForm<z.infer<typeof courseBasicInfoSchema>>({
     resolver: zodResolver(courseBasicInfoSchema),
     defaultValues,
@@ -53,11 +53,11 @@ const CourseBasicInfoForm = ({ title }: { title: string }) => {
     });
   };
   return (
-    <section className="*:px-7 space-y-5">
+    <section className="*:px-4 lg:*:px-7 space-y-5">
       {/* header */}
-      <div className="flex-between py-3.5 border-b border-b-gray-100">
-        <h4>{title}</h4>
-        <div className="md:space-x-2">
+      <div className="md:flex-between space-y-3 py-4 border-b border-b-gray-100">
+        <h4>{!title && 'Basic Information'}</h4>
+        <div className="md:space-x-2 max-sm:flex-end">
           <Button size="sm" variant="secondaryPrimary">
             Save
           </Button>

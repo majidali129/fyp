@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import dynamic from "next/dynamic";
 import { ChevronDown, Trash2 } from "lucide-react";
 import { useId, useState } from "react";
 
@@ -17,6 +18,16 @@ import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
 import { z } from "zod";
 import EditSectionNameForm from "./EditSectionNameForm";
 import EditLectureNameForm from "./EditLectureNameForm";
+import AddLectureNotesForm from "./AddLectureNotesForm";
+import AddLectureFileForm from "./AddLectureFileForm";
+// import AddLectureVideoForm from "./AddLectureVideoForm";
+import AddLectureCaptionForm from "./AddLectureCaptionForm";
+import AddLectureDescriptionForm from "./AddLectureDescriptionForm";
+import { BsThreeDotsVertical } from "react-icons/bs";
+const AddLectureVideoForm = dynamic(() => import("./AddLectureVideoForm"), {
+  loading: () => <p>Loading...</p>, // Add a loader if needed
+  ssr: false, // Disable server-side rendering for this component
+});
 
 const lectureSchema = z.object({
   name: z.string().min(1, "Lecture name is required"),
@@ -32,9 +43,25 @@ const sectionSchema = z.object({
 type Section = z.infer<typeof sectionSchema>;
 type Lecture = z.infer<typeof lectureSchema>;
 
-const CourseCurriculum = () => {
+const CourseCurriculumForm = () => {
   const [editSectionId, setEditSectionId] = useState<string | null>(null);
   const [editLectureId, setEditLectureId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean | null>(null);
+  const [selectedForm, setSelectedForm] = useState<string | null>(null);
+  const [modalTitle, setModalTitle] = useState<string>("");
+
+  const openModalWithForm = (formType: string, title: string) => {
+    setSelectedForm(formType);
+    setModalTitle(title);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedForm(null);
+    setModalTitle("");
+  };
+
   const id = useId();
   const [sections, setSections] = useState<Array<Section>>([
     {
@@ -142,12 +169,29 @@ const CourseCurriculum = () => {
     );
   };
 
+  const renderForm = () => {
+    switch (selectedForm) {
+      case "upload-video":
+        return <AddLectureVideoForm />;
+      case "attach-file":
+        return <AddLectureFileForm />;
+      case "add-notes":
+        return <AddLectureNotesForm />;
+      case "add-caption":
+        return <AddLectureCaptionForm />;
+      case "add-description":
+        return <AddLectureDescriptionForm />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <section className="*:px-4 lg:*:px-7 space-y-5">
       {/* header */}
-      <div className="flex-between py-4 border-b border-b-gray-100">
+      <div className="md:flex-between space-y-3 py-4 border-b border-b-gray-100">
         <h4>Course Curriculum</h4>
-        <div className="md:space-x-2">
+        <div className="md:space-x-2 max-sm:flex-end">
           <Button size="sm" variant="secondaryPrimary">
             Save
           </Button>
@@ -175,11 +219,11 @@ const CourseCurriculum = () => {
                 </div>
                 <div className="space-x-3 *:text-gray-500 hover:*:text-gray-800 flex items-center *:cursor-pointer">
                   <GoPlus
-                    className="w-5 h-5 "
+                    className="md:w-5 w-4 md:h-5 h-4 "
                     onClick={() => addLecture(section.id)}
                   />
                   <RiEdit2Line
-                    className="w-5 h-5 "
+                    className="md:w-5 w-4 md:h-5 h-4 "
                     onClick={() => {
                       setEditSectionId(section.id);
                     }}
@@ -196,7 +240,7 @@ const CourseCurriculum = () => {
                     />
                   </Modal>
                   <RiDeleteBin6Line
-                    className="w-5 h-5 hover:!text-error-500"
+                    className="md:w-5 w-4 md:h-5 h-4 hover:!text-error-500"
                     onClick={() => deleteSection(section.id)}
                   />
                 </div>
@@ -207,35 +251,84 @@ const CourseCurriculum = () => {
                 {section.lectures.map((lecture, index) => (
                   <div
                     key={lecture.id + Math.random()}
-                    className="flex-between bg-white px-4 py-3 rounded-sm"
+                    className="flex-between bg-white px-3 md:px-4 py-3 rounded-sm"
                   >
                     <div>
-                      <div className="flex items-center gap-1.5">
-                        <IoMenuOutline className="w-5 h-5 text-gray-800/70" />
-                        <span>{lecture.name}</span>
+                      <div className="grid grid-cols-[20px_auto] items-center gap-1.5">
+                        <IoMenuOutline className="w-5 h-5 text-gray-800/70 " />
+                        <span className="line-clamp-1">{lecture.name}</span>
                       </div>
                     </div>
-                    <div className="space-x-3 *:text-gray-500 grid grid-cols-[120px_auto_auto] items-center *:cursor-pointer">
+                    <div className="space-x-3 *:text-gray-500 grid grid-cols-[30px_auto_auto] md:grid-cols-[120px_auto_auto] items-center *:cursor-pointer ">
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                        <DropdownMenuTrigger>
                           <Button
                             variant="secondaryPrimary"
                             size="sm"
-                            className="!text-primary-500"
+                            className="!text-primary-500 max-sm:px-1"
                           >
-                            Contents <ChevronDown className="ml-2 h-4 w-4" />
+                            <div className="hidden md:flex-start">
+                              Contents <ChevronDown className="ml-2 h-4 w-4" />
+                            </div>
+                            <BsThreeDotsVertical className="w-4 h-4 md:hidden" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="z-50">
-                          <DropdownMenuItem>Video</DropdownMenuItem>
-                          <DropdownMenuItem>Attach File</DropdownMenuItem>
-                          <DropdownMenuItem>Captions</DropdownMenuItem>
-                          <DropdownMenuItem>Description</DropdownMenuItem>
-                          <DropdownMenuItem>Lecture Notes</DropdownMenuItem>
+                        <DropdownMenuContent className="py-2 *:cursor-pointer bg-white hover:*:bg-primary-100 border-gray-100">
+                          <DropdownMenuItem
+                            onClick={() =>
+                              openModalWithForm("upload-video", "Lecture Video")
+                            }
+                          >
+                            Video
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              openModalWithForm("attach-file", "Attach File")
+                            }
+                          >
+                            Attach File
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              openModalWithForm(
+                                "add-caption",
+                                "Add Lecture Caption"
+                              )
+                            }
+                          >
+                            Captions
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              openModalWithForm(
+                                "add-description",
+                                "Add Lecture Description"
+                              )
+                            }
+                          >
+                            Description
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              openModalWithForm(
+                                "add-notes",
+                                "Add Lecture Notes"
+                              )
+                            }
+                          >
+                            Lecture Notes
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
+                      <Modal
+                        title={modalTitle}
+                        onClose={closeModal}
+                        isOpen={isModalOpen!}
+                      >
+                        {renderForm()}
+                      </Modal>
                       <RiEdit2Line
-                        className="w-5 h-5 hover:text-gray-800"
+                        className="md:w-5 w-4 md:h-5 h-4 hover:text-gray-800"
                         onClick={() => setEditLectureId(lecture.id)}
                       />
                       <Modal
@@ -251,7 +344,7 @@ const CourseCurriculum = () => {
                         />
                       </Modal>
                       <Trash2
-                        className="h-5 w-5 hover:text-error-500 "
+                        className="md:w-5 w-4 md:h-5 h-4 hover:text-error-500 "
                         onClick={() => deleteLecture(lecture.id, section.id)}
                       />
                     </div>
@@ -260,6 +353,10 @@ const CourseCurriculum = () => {
               </ul>
             </div>
           ))}
+
+          {/* <AddLectureNotesForm  />
+          <AddLectureFileForm  /> */}
+          {/* <AddLectureVideoForm  /> */}
 
           <Button
             variant="secondaryPrimary"
@@ -270,8 +367,16 @@ const CourseCurriculum = () => {
           </Button>
         </div>
       </div>
+
+      <div className="md:flex-between max-sm:*:w-full py-2 space-y-3">
+        <Button type="button" variant="outline">
+          Previous
+        </Button>
+        {/* <SubmitBtn>Submit For Review</SubmitBtn> */}
+        <Button>Save & Next</Button>
+      </div>
     </section>
   );
 };
 
-export default CourseCurriculum;
+export default CourseCurriculumForm;

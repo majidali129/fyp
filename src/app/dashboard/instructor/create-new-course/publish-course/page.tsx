@@ -1,8 +1,7 @@
+import PublishCourseForm from "../../_components/PublishCourseForm"
 
 const NewCoursePublishCoursePage = () => {
-    return (
-      <div>New course advanced info page</div>
-    )
+    return <PublishCourseForm />
   }
 
   export default NewCoursePublishCoursePage

@@ -54,30 +54,37 @@ const NavLinks = () => {
 
   return (
     <ul className={`px-2 !space-y-2.5 py-2 lg:py-3`}>
-      {links.map((link) => (
-        <Link
-          key={link.id}
-          href={link.path}
-          className=" grid"
-          onClick={() => isSidebarOpen && handleSidebarToggle()}
-        >
-          <li
-            className={`text-gray-500 hover:text-gray-100  ${
-              pathname === link.path ? "bg-secondary-500 text-white" : ""
-            } cursor-pointer max-sm:rounded-sm md:rounded md:px-4 px-3 h-10`}
+      {links.map((link) => {
+        const isActive =
+          pathname === link.path ||
+          (link.path === "/dashboard/instructor/create-new-course" &&
+            pathname.startsWith("/dashboard/instructor/create-new-course"));
+
+        return (
+          <Link
+            key={link.id}
+            href={link.path}
+            className=" grid"
+            onClick={() => isSidebarOpen && handleSidebarToggle()}
           >
-            <div
-              className={`flex items-center md:gap-0.5 justify-center w-full  h-full`}
+            <li
+              className={`text-gray-500 hover:text-gray-100  ${
+                isActive ? "bg-secondary-500 text-white" : ""
+              } cursor-pointer max-sm:rounded-sm md:rounded md:px-4 px-3 h-10`}
             >
-              {" "}
-              <div className={`lg:w-[15%] `}>{link.icon}</div>
-              <div className="hidden lg:block text-nowrap flex-grow">
-                {link.label}
+              <div
+                className={`flex items-center md:gap-0.5 justify-center w-full  h-full`}
+              >
+                {" "}
+                <div className={`lg:w-[15%] `}>{link.icon}</div>
+                <div className="hidden lg:block text-nowrap flex-grow">
+                  {link.label}
+                </div>
               </div>
-            </div>
-          </li>
-        </Link>
-      ))}
+            </li>
+          </Link>
+        );
+      })}
     </ul>
   );
 };

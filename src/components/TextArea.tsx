@@ -34,6 +34,7 @@ const TextArea = ({
           <FormControl>
             <>
             <Textarea
+
               {...props}
               className={clsx(`resize-none border-gray-100`, className)}
               {...field}

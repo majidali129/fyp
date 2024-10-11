@@ -30,7 +30,7 @@ const defaultValues = {
   congratulationMessage: "",
 };
 
-const PublishCourseForm = () => {
+const PublishCourseForm = ({ title }: { title?: string }) => {
   const [instructors, setInstructors] = useState<Array<string> | []>([]);
   const [instructorQuery, setInstructorQuery] = useState<string>("");
 
@@ -56,9 +56,9 @@ const PublishCourseForm = () => {
   return (
     <section className=" *:px-4 lg:*:px-7 space-y-5">
       {/* header */}
-      <div className="flex-between py-3.5 border-b border-b-gray-100">
-        <h4>Publish Course</h4>
-        <div className="md:space-x-2">
+      <div className="md:flex-between space-y-3 py-4 border-b border-b-gray-100">
+        <h4>{!title && 'Publish Course'}</h4>
+        <div className="md:space-x-2 max-sm:flex-end">
           <Button size="sm" variant="secondaryPrimary">
             Save
           </Button>
