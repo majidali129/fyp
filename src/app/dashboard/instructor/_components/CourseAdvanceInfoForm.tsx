@@ -19,7 +19,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import SubmitBtn from "@/components/SubmitBtn";
-import RTE from "./RTE";
+import dynamic from "next/dynamic";
+const RTE = dynamic(() => import('./RTE'), { ssr: false });
+
 
 const profileFormSchema = z.object({
   whatYouWillTeach: z
@@ -233,7 +235,7 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
       <div className="space-y-2.5">
         <h6>Course Description</h6>
 
-        {/* <RTE value={description} setValue={setDescription} /> */}
+        <RTE value={description} setValue={setDescription} />
       </div>
 
       {/* DYNAMIC FORM => COURSE DETAILS */}
