@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex min-h-screen max-h-screen">
       <SideBar />
       <main
-        className={`flex-grow overflow-y-scroll layout-scroll md:ml-[70px] lg:ml-[220px] grid grid-rows-[75px_auto_60px] bg-gray-50 `}
+        className={`flex-grow overflow-y-scroll layout-scroll md:ml-[70px] lg:ml-[220px] grid grid-rows-[auto_auto_60px] md:grid-rows-[75px_auto_60px] lg:grid-rows-[75px_auto_60px] bg-gray-50 `}
       >
         <Navbar />
         <ContentWrapper>{children}</ContentWrapper>

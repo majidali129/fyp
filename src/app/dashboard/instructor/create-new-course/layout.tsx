@@ -47,7 +47,7 @@ export default function CreateNewCourseLayout({
   const pathname = usePathname();
 
   return (
-    <section className="py-8">
+    <section className="py-5 md:py-8">
       <ul
         className={`flex items-center justify-between *:w-full gap-1.5 bg-white border-b border-b-gray-100`}
       >
