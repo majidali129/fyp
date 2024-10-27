@@ -14,7 +14,7 @@ export const connectDB = async () => {
 
   try {
     const connectionInstance = await mongoose.connect(
-      process.env.MONGODB_URI! || ""
+      process.env.MONGODB_URI! || "", {autoIndex: false}
     );
     connection = connectionInstance.connection;
     console.log("DB connected Successfully 🚀🚀");

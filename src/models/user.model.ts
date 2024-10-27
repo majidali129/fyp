@@ -49,6 +49,7 @@ export interface User extends Document {
 }
 
 const userSchema: Schema<User> = new Schema(
+
   {
     firstName: {
       type: String,

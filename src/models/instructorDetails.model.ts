@@ -16,7 +16,7 @@ const instructorDetailsSchema: Schema<InstructorDetails> = new Schema(
     fieldOfExpertise: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     bio: { type: String, required: true },
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true }
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );
