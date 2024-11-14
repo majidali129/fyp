@@ -1,141 +1,16 @@
+import {
+  CourseFormat,
+  CourseStatus,
+  Duration,
+  ICourse,
+  Level,
+  PricingType,
+} from "@/types/course";
 import mongoose, { Document, Schema, Model, ObjectId } from "mongoose";
 
-enum Level {
-  Beginner = "Beginner",
-  Intermediate = "Intermediate",
-  Advanced = "Advanced",
-  Expert = "Expert",
-  All = "All Levels",
-}
-enum CourseFormat {
-  "self-paced" = "self-paced",
-  "live" = "live",
-}
 
-enum CourseStatus {
-  "Draft" = "Draft",
-  "Pending-Approval" = "Pending-Approval",
-  "Published" = "Published",
-  "Archived" = "Archived",
-}
 
-enum Duration {
-  "6-12 Months" = "6-12 Months",
-  "3-6 Months" = "3-6 Months",
-  "1-3 Months" = "1-3 Months",
-  "1-4 Weeks" = "1-4 Weeks",
-  "1-7 Days" = "1-7 Days",
-}
-
-enum PricingType {
-  "Free" = "Free",
-  "Paid" = "Paid",
-}
-
-interface S3File {
-  url: string;
-  filename: string;
-  mimeType: string;
-  size: number;
-  uploadedAt: Date;
-}
-
-interface Lecture extends Document {
-  videoUrl: string;
-  lectureMetada: S3File;
-  attachments: Array<S3File>;
-  caption: string;
-  description: string;
-  notes: Array<S3File>;
-  title: string;
-  duration: string;
-  quizzes: [ObjectId];
-  comments: [ObjectId];
-  isCompleted: boolean;
-  order: number;
-}
-
-interface Section extends Document {
-  sectionTitle: string;
-  lectures: Array<Lecture>;
-  order: number;
-}
-
-interface NewCourse extends Document {
-  title: string;
-  subTitle: string;
-  category: string;
-  subCategory: string;
-  courseTopic: string;
-  language: string;
-  subtitleLanguage: string;
-  courseLevel: Level;
-  courseDuration: Duration;
-  pricingType: PricingType;
-  price: number;
-  oldPrice: number;
-  discount: number;
-  enrollmentLimit: number;
-  courseFormat: string;
-  status: CourseStatus;
-  courseBriefSummary: string;
-  courseDescription: string;
-  whatYouWillLearn: Array<string>;
-  targetAudience: Array<string>;
-  courseRequirements: Array<string>;
-  thumbnail: string;
-  trailerUrl: string;
-  //   curriculum
-  sections: Array<Section>;
-  // publish course
-  welcomeMessage: string;
-  congratulationMessage: string;
-  courseInstructors: [ObjectId];
-  createdBy: ObjectId;
-  isPublished: boolean;
-  enrolledStudents: number;
-  ratings: number;
-  reviews: [ObjectId];
-  bookMarks: [ObjectId];
-}
-
-const FileAttachmentSchema: Schema<S3File> = new Schema({
-  filename: { type: String, required: true },
-  url: { type: String, required: true },
-  mimeType: { type: String, required: true },
-  size: { type: Number, required: true },
-  uploadedAt: { type: Date, default: Date.now },
-});
-
-const LectureSchema: Schema<Lecture> = new Schema({
-  title: { type: String, required: true, trim: true },
-  caption: { type: String, trim: true },
-  description: { type: String, trim: true },
-  duration: { type: String, required: true },
-  isCompleted: { type: Boolean, default: false },
-  videoUrl: { type: String, required: true },
-  lectureMetada: { type: FileAttachmentSchema },
-  attachments: { type: [FileAttachmentSchema], default: [] },
-  notes: { type: [FileAttachmentSchema], default: [] },
-  quizzes: { type: [Schema.Types.ObjectId], ref: "Quizzes" },
-  comments: { type: [Schema.Types.ObjectId], ref: "LectureComments" },
-  order: { type: Number, required: true },
-});
-
-const SectionSchema: Schema<Section> = new Schema({
-  sectionTitle: {
-    type: String,
-    required: [true, "Course title is mendatory"],
-    trim: true,
-  },
-  lectures: {
-    type: [LectureSchema],
-    default: [],
-  },
-  order: { type: Number, required: true },
-});
-
-const CourseSchema = new Schema<NewCourse>(
+const CourseSchema = new Schema<ICourse>(
   {
     title: { type: String, required: true, trim: true },
     subTitle: { type: String, required: true, trim: true },
@@ -160,18 +35,32 @@ const CourseSchema = new Schema<NewCourse>(
       default: PricingType.Paid,
       required: true,
     },
-    price: { type: Number, required: true, default: 0 },
-    oldPrice: { type: Number, default: 0 },
-    discount: { type: Number, default: 0 },
+    price: {
+      type: Number,
+      required: true,
+      default: 0,
+      min: [0, "Price cannot be negative"],
+    },
+    oldPrice: {
+      type: Number,
+      default: 0,
+      min: [0, "Old price cannot be negative"],
+    },
+    discount: {
+      type: Number,
+      default: 0,
+      min: [0, "Discount cannot be negative"],
+    },
     enrollmentLimit: {
       type: Number,
       required: true,
-      max: [100, "Students more than 100 can not be enrolled."],
+      max: [100, "Enrollment limit exceeds maximum allowed (100)"],
     },
     courseFormat: {
       type: String,
       enum: Object.values(CourseFormat),
       default: CourseFormat["self-paced"],
+      required: true,
     },
     status: {
       type: String,
@@ -188,9 +77,10 @@ const CourseSchema = new Schema<NewCourse>(
     trailerUrl: { type: String, required: true, trim: true },
     // curriculum
     sections: {
-      type: [SectionSchema],
+      type: [Schema.Types.ObjectId],
+      ref: "CourseSection",
       default: [],
-      required: [true, "Please add course sections."],
+      // required: [true, "Please add course sections."],
     },
     welcomeMessage: { type: String, required: true, trim: true },
     congratulationMessage: { type: String, required: true, trim: true },
@@ -235,8 +125,8 @@ CourseSchema.index({
   enrolledStudents: 1,
 });
 
-const Course =
-  (mongoose.models?.NewCourse as Model<NewCourse>) ||
-  mongoose.model<NewCourse>("Course", CourseSchema);
+const CourseModel =
+  (mongoose.models?.Course as Model<ICourse>) ||
+  mongoose.model<ICourse>("Course", CourseSchema);
 
-export default Course;
+export default CourseModel;

@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 export const apiResponse = ({
   success = true,
   message,
-  status = 200
+  status = 200,
+  data
 }: ApiResponseProp) => {
-  return NextResponse.json({ success, message }, { status });
+  return NextResponse.json({ success, message, data }, { status });
 };
