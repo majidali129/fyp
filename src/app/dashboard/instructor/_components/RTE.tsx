@@ -6,13 +6,15 @@ import "react-quill/dist/quill.snow.css";
 function RTE({
   value,
   setValue,
+  placeholder
 }: {
   value: string;
   setValue: (value: string) => void;
+  placeholder?: string
 }) {
   return (
     <ReactQuill
-      placeholder="Enter your course description..."
+      placeholder={placeholder}
       theme="snow"
       value={value}
       onChange={setValue}

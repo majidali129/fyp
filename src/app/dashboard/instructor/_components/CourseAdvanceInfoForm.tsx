@@ -20,6 +20,10 @@ import {
 } from "@/components/ui/form";
 import SubmitBtn from "@/components/SubmitBtn";
 import dynamic from "next/dynamic";
+import { useNewCourseProvider } from "@/context/new-course/new-course";
+import Router from "next/router";
+import { usePathname, useRouter } from "next/navigation";
+import { set } from "mongoose";
 const RTE = dynamic(() => import('./RTE'), { ssr: false });
 
 
@@ -73,12 +77,29 @@ const defaultValues: Partial<ProfileFormValues> = {
   ],
 };
 
+const courseAdvanceInfoSchema = z.object({
+  thumbnail: z.any(),
+   trailer: z.any(),
+   briefSummary: z.string().min(10, "Brief summary is required."),
+   description: z.string().min(10, "Description is required."),
+});
+
+const combineSchema = courseAdvanceInfoSchema.merge(profileFormSchema);
+
+// type combineValues = z.infer<typeof combineSchema>;
+
 const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [trailer, setTrailer] = useState<File | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [trailerPreview, setTrailerPreview] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("");
+  const [briefSummary, setBriefSummary] = useState<string>("");
+
+  const { setMetadata } = useNewCourseProvider();
+  const router = useRouter()
+  const currentPath = usePathname()
+  const newPath = currentPath.split('/')?.slice(0,-1).join('/') + '/curriculum'
 
   // dynamic form
   const form = useForm<ProfileFormValues>({
@@ -105,11 +126,6 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
     control: form.control,
   });
 
-  function onSubmit(data: ProfileFormValues) {
-    alert(description);
-    console.log({ ...data, thumbnail, trailer, description });
-  }
-
   const handleThumbnailUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -125,6 +141,41 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
       setTrailerPreview(url);
     }
   };
+
+  function onSubmit(data: ProfileFormValues) {
+    const advanceInfoData = {...data, description, briefSummary, thumbnail, trailer};
+
+
+    const result = combineSchema.safeParse(advanceInfoData);
+    console.log(result);
+    if(result.success){
+      console.log(result.data);
+      setMetadata(result.data);
+      handleMoveNext()
+      handleFormReset()
+    }
+
+  }
+
+  function handleFormReset() {
+    form.reset(defaultValues, {
+      keepDirty: false,
+      keepErrors: false,
+      keepTouched: false,
+    });
+
+    // other fields reset
+    setDescription('')
+    setBriefSummary('')
+    setThumbnail(null)
+    setTrailer(null)
+  }
+
+  function handleMoveNext() {
+    router.push(newPath);
+  }
+
+
 
   return (
     <section className="*:px-4 lg:*:px-7 space-y-5">
@@ -235,7 +286,14 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
       <div className="space-y-2.5">
         <h6>Course Description</h6>
 
-        <RTE value={description} setValue={setDescription} />
+        <RTE value={description} setValue={setDescription} placeholder="Enter your course description" />
+      </div>
+
+      {/* COURSE DESCRIPTION */}
+      <div className="space-y-2.5">
+        <h6>Brief Summary</h6>
+
+        <RTE value={briefSummary} setValue={setBriefSummary} placeholder="Enter briefly course summary" />
       </div>
 
       {/* DYNAMIC FORM => COURSE DETAILS */}
@@ -274,7 +332,7 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
             />
 
             <div className="md:flex-between max-sm:*:w-full space-y-3">
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" onClick={() => router.back()}>
                 Previous
               </Button>
               <SubmitBtn>Save & Next</SubmitBtn>
@@ -308,7 +366,7 @@ function DynamicFormSection({
   return (
     <div className="space-y-4">
       <FormLabel className="flex justify-between items-center font-bold">
-        {title && "Advance Information"} ({fields.length}/8)
+        {title } ({fields.length}/8)
         <Button
           type="button"
           variant="transparentPrimary"

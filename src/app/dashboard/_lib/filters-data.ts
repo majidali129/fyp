@@ -55,6 +55,16 @@ const courseCategories: Array<ItemType> = [
     { value: "japanese", label: "Japanese" },
   ];
 
+  const courseFormats: Array<ItemType> = [
+    { value: "self-paced", label: "Self-paced" },
+    { value: "live", label: "Live" },
+  ]
+
+  const coursePricingTypes: Array<ItemType> = [
+    { value: "free", label: "Free" },
+    { value: "paid", label: "Paid" },
+  ]
+
 
 
   const subtitleLanguages: Array<ItemType> = [
@@ -273,4 +283,4 @@ const courseCategories: Array<ItemType> = [
   ];
 
 
-  export {courseCategories, courseSortOptions, courseRatingOptions, courseDurations, courseLevels, subtitleLanguages, courseLanguages}
+  export {courseCategories, courseFormats, coursePricingTypes, courseSortOptions, courseRatingOptions, courseDurations, courseLevels, subtitleLanguages, courseLanguages}

@@ -6,7 +6,7 @@ import {
   Level,
   PricingType,
 } from "@/types/course";
-import mongoose, { Document, Schema, Model, ObjectId } from "mongoose";
+import mongoose, {Schema, Model } from "mongoose";
 
 
 

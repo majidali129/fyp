@@ -36,8 +36,16 @@ const TextInput = ({
   const {
     fieldState: { error, isTouched },
     field,
-  } = useController({ control, name });
-  const isFilled = field.value !== "";
+
+  } = useController({ control, name, defaultValue: inputProps.defaultValue || '' });
+  const value =
+  type === "number" ? parseFloat(field.value || "0") : field.value;
+
+const isFilled =
+  type === "number"
+    ? !isNaN(value) && value > 0
+    : field.value?.trim() !== "";
+
 
 
   if (type === "password") {
@@ -80,6 +88,7 @@ const TextInput = ({
     );
   }
 
+
   return (
     <FormField
       control={control}
@@ -92,7 +101,11 @@ const TextInput = ({
               <Input
                 {...inputProps}
                 {...field}
-                type={showPassword ? "text" : type}
+                type={type}
+                onChange={(e) => {
+                  const value = type === 'number'? +e.target.value: e.target.value;
+                  field.onChange(value)
+                }}
                 className={clsx(
                   `${
                     isFilled && !error
@@ -104,7 +117,7 @@ const TextInput = ({
                   className
                 )}
               />
-              {isFilled && !error && !count && (
+              {isFilled && !error && !count && type !== 'number' && (
                 <span className="absolute right-3 cursor-pointer  top-1/2 -translate-y-1/2">
                   <FaCheckCircle className="text-success-500" />
                 </span>

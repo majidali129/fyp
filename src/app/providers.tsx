@@ -1,9 +1,10 @@
 "use client";
 
+import { NewCourseProvider } from "@/context/new-course/new-course";
 import {
   QueryClient,
   QueryClientProvider,
-  isServer
+  isServer,
 } from "@tanstack/react-query";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -15,9 +16,9 @@ function makeQueryClient() {
       queries: {
         staleTime: 60 * 1000,
         refetchOnWindowFocus: false,
-        retry: 4
-      }
-    }
+        retry: 4,
+      },
+    },
   });
 }
 
@@ -37,7 +38,8 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <NewCourseProvider>{children}</NewCourseProvider>
+
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );

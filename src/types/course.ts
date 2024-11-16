@@ -63,6 +63,8 @@ export interface ISection extends Document {
 }
 
 
+
+
 export interface ICourse extends Document {
   title: string;
   subTitle: string;
@@ -70,7 +72,7 @@ export interface ICourse extends Document {
   subCategory: string;
   courseTopic: string;
   language: string;
-  subtitleLanguage: string;
+  subtitleLanguage?: string;
   courseLevel: Level;
   courseDuration: Duration;
   pricingType: PricingType;
@@ -80,13 +82,14 @@ export interface ICourse extends Document {
   enrollmentLimit: number;
   courseFormat: string;
   status: CourseStatus;
+  // Advance Info
+  thumbnail: string;
+  trailerUrl: string;
   courseBriefSummary: string;
   courseDescription: string;
   whatYouWillLearn: Array<string>;
   targetAudience: Array<string>;
   courseRequirements: Array<string>;
-  thumbnail: string;
-  trailerUrl: string;
   //   curriculum
   sections: Array<ObjectId>;
   // publish course

@@ -36,7 +36,8 @@ const SelectOption = ({
   label,
 }: SelectOptionProp) => {
   const { field, fieldState: {error} } = useController({ control, name });
-  console.log(error)
+
+
 
   return (
     <FormField
@@ -45,10 +46,11 @@ const SelectOption = ({
       render={() => (
           <FormItem className="space-y-1.5">
             {label && <FormLabel>{label}</FormLabel>}
-            <Select onValueChange={field.onChange} value={field.value}>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
                 <SelectTrigger className={`w-full rounded-sm ${className}`}>
-                  <SelectValue placeholder={placeholder} />
+                  {/* <SelectValue placeholder={placeholder!}  /> */}
+                  <SelectValue placeholder={placeholder? placeholder: selectItems[0].label}  />
                 </SelectTrigger>
               </FormControl>
               <FormMessage className="text-error-400" />

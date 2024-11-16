@@ -24,6 +24,7 @@ import AddLectureFileForm from "./AddLectureFileForm";
 import AddLectureCaptionForm from "./AddLectureCaptionForm";
 import AddLectureDescriptionForm from "./AddLectureDescriptionForm";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import SubmitBtn from "@/components/SubmitBtn";
 const AddLectureVideoForm = dynamic(() => import("./AddLectureVideoForm"), {
   loading: () => <p>Loading...</p>, // Add a loader if needed
   ssr: false, // Disable server-side rendering for this component
@@ -372,8 +373,7 @@ const CourseCurriculumForm = () => {
         <Button type="button" variant="outline">
           Previous
         </Button>
-        {/* <SubmitBtn>Submit For Review</SubmitBtn> */}
-        <Button>Save & Next</Button>
+        <SubmitBtn>Submit For Review</SubmitBtn>
       </div>
     </section>
   );
