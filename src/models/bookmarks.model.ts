@@ -1,9 +1,9 @@
-import { IBookmark } from "@/types/bookmarks";
+// import { IBookmark } from "@/types/bookmarks";
 import mongoose, { Schema, Model } from "mongoose";
 
 
 
-const bookmarkSchema = new Schema<IBookmark>(
+const bookmarkSchema = new Schema<any>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -22,7 +22,7 @@ const bookmarkSchema = new Schema<IBookmark>(
 bookmarkSchema.index({ user: 1, course: 1 }, { unique: true });
 
 const bookmarks =
-  (mongoose.models?.bookmarks as Model<IBookmark>) ||
-  mongoose.model<IBookmark>("Bookmarks", bookmarkSchema);
+  (mongoose.models?.bookmarks as Model<any>) ||
+  mongoose.model<any>("Bookmarks", bookmarkSchema);
 
 export default bookmarks;
