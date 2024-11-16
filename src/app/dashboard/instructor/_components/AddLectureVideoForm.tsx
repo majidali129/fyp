@@ -32,10 +32,12 @@ function AddLectureVideoForm({
   onCancel,
   sectionId,
   lectureId,
+  onFileUpload
 }: {
   onCancel?: () => void;
-  sectionId?: string;
-  lectureId?: string;
+  sectionId: string,
+  lectureId: string
+  onFileUpload: (video: File, secId: string, lecId: string) => void;
 }) {
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [videoDuration, setVideoDuration] = useState<string | null>(null);
@@ -56,6 +58,7 @@ function AddLectureVideoForm({
       setVideoDuration(null);
     }
   };
+
 
   useEffect(() => {
     let objectURL: string | null = null;
@@ -84,7 +87,7 @@ function AddLectureVideoForm({
   }, [attachedFile]);
 
   const onSubmit = (data: LecFileFormType) => {
-    console.log(data);
+    onFileUpload?.(data.video[0], sectionId, lectureId)
     onCancel?.();
   };
 

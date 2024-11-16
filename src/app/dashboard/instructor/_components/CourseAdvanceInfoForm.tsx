@@ -147,14 +147,11 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
 
 
     const result = combineSchema.safeParse(advanceInfoData);
-    console.log(result);
     if(result.success){
-      console.log(result.data);
       setMetadata(result.data);
       handleMoveNext()
       handleFormReset()
     }
-
   }
 
   function handleFormReset() {

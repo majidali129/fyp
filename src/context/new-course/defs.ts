@@ -24,6 +24,11 @@ interface Sections {
   lectures: Array<Lecture>
 }
 
+interface UserGuides {
+value: string,
+placeholder: string
+}
+
 // Only for text data & without state updators
 
 interface NewCourseMetadataState {
@@ -31,7 +36,7 @@ interface NewCourseMetadataState {
   subTitle: string;
   category: string;
   subCategory: string;
-  courseTopic: string;
+  topic: string;
   language: string;
   subtitleLanguage?: string;
   courseLevel: Level;
@@ -40,16 +45,16 @@ interface NewCourseMetadataState {
   price: number;
   discount: number;
   enrollmentLimit: number;
-  courseFormat: string;
+  format: string;
   status: CourseStatus;
   // Advance Info
   thumbnail: File | null;
   trailer: File | null;
   briefSummary: string;
   description: string;
-  whatYouWillLearn: Array<string>;
-  targetAudience: Array<string>;
-  courseRequirements: Array<string>;
+  whatYouWillTeach: Array<UserGuides>;
+  targetAudience: Array<UserGuides>;
+  courseRequirements: Array<UserGuides>;
   //   curriculum
   sections:Array<Sections> | [];
   // publish course

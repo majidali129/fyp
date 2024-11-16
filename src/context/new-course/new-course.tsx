@@ -1,3 +1,5 @@
+'use client'
+
 import {
   createContext,
   useContext,
@@ -17,7 +19,7 @@ const initialState: NewCourseMetadataState = {
   subTitle: "",
   category: "",
   subCategory: "",
-  courseTopic: "",
+  topic: "",
   language: "",
   subtitleLanguage: undefined,
   courseLevel: Level.Beginner,
@@ -26,7 +28,7 @@ const initialState: NewCourseMetadataState = {
   price: 0,
   discount: 0,
   enrollmentLimit: 0,
-  courseFormat: "",
+  format: "",
   status: CourseStatus.Draft,
 
   // Advance Info
@@ -34,7 +36,7 @@ const initialState: NewCourseMetadataState = {
   trailer: null,
   briefSummary: "",
   description: "",
-  whatYouWillLearn: [],
+  whatYouWillTeach: [],
   targetAudience: [],
   courseRequirements: [],
 
@@ -53,6 +55,8 @@ const NewCourseProvider = ({ children }: NewCourseContextProviderProp) => {
   console.log("Rerender in NewCourseProvider");
 
   const updateMetadata = (newData: Partial<NewCourseMetadataState>) => {
+    console.log(`state updater called with`, newData);
+
     setMetadata((prevData) => ({...prevData, ...newData}));
   }
   const value: NewCourseValue = useMemo(() => {
@@ -64,9 +68,6 @@ const NewCourseProvider = ({ children }: NewCourseContextProviderProp) => {
     };
   }, [metadata]);
 
-  console.log(metadata);
-
-
   return (
     <NewCourseContext.Provider value={value}>
       {children}
@@ -77,7 +78,6 @@ const NewCourseProvider = ({ children }: NewCourseContextProviderProp) => {
 // CUSTOM HOOK FOR ACCESSING THE CONTEXT
 const useNewCourseProvider = () => {
   const ctx = useContext(NewCourseContext);
-
   if (!ctx) {
     throw new Error(
       "You overlooked wrapping with NewCourseContextProvider or your initial state is falsy"

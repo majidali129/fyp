@@ -57,7 +57,7 @@ const CourseBasicInfoForm = ({ title }: { title?: string }) => {
     if (result.success) {
       setMetadata(result.data);
       handleFormReset();
-      handleMoveNext()
+      handleMoveNext();
     }
   };
 
@@ -203,7 +203,7 @@ const CourseBasicInfoForm = ({ title }: { title?: string }) => {
                 variant="outline"
                 className="text-gray-900"
                 type="reset"
-                onClick={handleFormReset}
+                onClick={() => router.replace('/dashboard/instructor')}
               >
                 Cancel
               </Button>

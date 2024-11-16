@@ -5,34 +5,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const nameSchema = z.object({
-  lectureName: z
+const captionSchema = z.object({
+  caption: z
     .string()
-    .min(5, { message: "lecture name must be grater than 5 letters." }),
+    .min(5, { message: "Caption must be grater than 5 letters." }),
 });
 
-type NameType = z.infer<typeof nameSchema>;
+type CaptionType = z.infer<typeof captionSchema>;
 
-function EditLectureNameForm({
-  onCancel,
+function EditLectureCaptionForm({
   sectionId,
   lectureId,
-  handleUpdateLectureName,
+  handleCaptionUpdate,
+  onCancel,
 }: {
-  onCancel: () => void;
   sectionId: string;
   lectureId: string;
-  handleUpdateLectureName: (sectionId: string, lectureId: string, newName: string) => void;
+  handleCaptionUpdate: (newCaption: string ,secId: string, lecId: string) => void;
+  onCancel: () => void;
 }) {
-  const form = useForm<z.infer<typeof nameSchema>>({
-    resolver: zodResolver(nameSchema),
+  const form = useForm<z.infer<typeof captionSchema>>({
+    resolver: zodResolver(captionSchema),
     defaultValues: {
-        lectureName: "",
+        caption: "",
     },
   });
 
-  const onSubmit = (data: NameType) => {
-    handleUpdateLectureName(sectionId, lectureId, data.lectureName)
+
+  const onSubmit = (data: CaptionType) => {
+    handleCaptionUpdate(data.caption, sectionId, lectureId)
     onCancel?.()
   };
 
@@ -44,8 +45,8 @@ function EditLectureNameForm({
       >
         <TextInput
           control={form.control}
-          name="lectureName"
-          label="Section"
+          name="caption"
+          label="Caption"
           placeholder="Write your section name here"
         />
 
@@ -60,4 +61,4 @@ function EditLectureNameForm({
   );
 }
 
-export default EditLectureNameForm;
+export default EditLectureCaptionForm;

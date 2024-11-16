@@ -32,10 +32,12 @@ function AddLectureNotesForm({
   onCancel,
   sectionId,
   lectureId,
+  onNotesUpload,
 }: {
   onCancel?: () => void;
-  sectionId?: string;
-  lectureId?: string;
+  sectionId: string,
+  lectureId: string,
+  onNotesUpload: (notes: { file: File, message: string }, secId: string, lecId: string) => void;
 }) {
   const [file, setFile] = useState<File | undefined>(undefined);
   const form = useForm<z.infer<typeof notesFormSchema>>({
@@ -46,12 +48,11 @@ function AddLectureNotesForm({
     },
   });
 
-
-  const {isValid} = useFormState({control: form.control})
+  const { isValid } = useFormState({ control: form.control });
 
   const onSubmit = (data: NotesFormType) => {
-    // handleAddDescription(sectionId, lectureId, data.description);
-    console.log(data);
+    console.log('notes', data.noteFile[0]);
+    onNotesUpload?.({ file: data.noteFile[0], message: data.message }, sectionId, lectureId);
     onCancel?.();
   };
 
@@ -114,7 +115,9 @@ function AddLectureNotesForm({
           <Button type="button" variant={"transparentGhost"} onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={!isValid}>Add Description</Button>
+          <Button type="submit" disabled={!isValid}>
+            Upload Notes
+          </Button>
         </div>
       </form>
     </Form>

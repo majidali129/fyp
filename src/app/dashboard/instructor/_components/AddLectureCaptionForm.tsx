@@ -11,22 +11,18 @@ const captionSchema = z.object({
   caption: z.string().min(2, { message: "Caption is mendatory." }),
 });
 
-type NameType = z.infer<typeof captionSchema>;
+type CaptionType = z.infer<typeof captionSchema>;
 
 function AddLectureCaptionForm({
   onCancel,
   sectionId,
   lectureId,
-  handleAddCaption,
+  onCaptionAdd,
 }: {
   onCancel?: () => void;
-  sectionId?: string;
-  lectureId?: string;
-  handleAddCaption?: (
-    sectionId: string,
-    lectureId: string,
-    caption: string
-  ) => void;
+  sectionId: string;
+  lectureId: string;
+  onCaptionAdd: (caption: string, secId: string, lecId: string) => void;
 }) {
   const form = useForm<z.infer<typeof captionSchema>>({
     resolver: zodResolver(captionSchema),
@@ -35,10 +31,10 @@ function AddLectureCaptionForm({
     },
   });
 
-  const {isValid} = useFormState({control: form.control})
+  const { isValid } = useFormState({ control: form.control });
 
-  const onSubmit = (data: NameType) => {
-    // handleAddCaption(sectionId, lectureId, data.caption);
+  const onSubmit = (data: CaptionType) => {
+    onCaptionAdd?.(data.caption, sectionId, lectureId);
     onCancel?.();
   };
 
@@ -61,7 +57,9 @@ function AddLectureCaptionForm({
           <Button type="button" variant={"transparentGhost"} onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={!isValid} >Add Caption</Button>
+          <Button type="submit" disabled={!isValid}>
+            Add Caption
+          </Button>
         </div>
       </form>
     </Form>

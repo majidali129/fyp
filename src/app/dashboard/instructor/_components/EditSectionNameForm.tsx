@@ -29,11 +29,8 @@ function EditSectionNameForm({
     },
   });
 
-  console.log(sectionId);
-
 
   const onSubmit = (data: NameType) => {
-    console.log(data);
     handleUpdateSectionName(sectionId, data.sectionName)
     onCancel?.()
   };

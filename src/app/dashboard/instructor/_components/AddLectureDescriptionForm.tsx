@@ -11,16 +11,18 @@ const descriptionSchema = z.object({
   description: z.string().min(2, { message: "Description is mendatory." }),
 });
 
-type NameType = z.infer<typeof descriptionSchema>;
+type DescriptionValue = z.infer<typeof descriptionSchema>;
 
 function AddLectureDescriptionForm({
   onCancel,
   sectionId,
   lectureId,
+  onDescriptionAdd,
 }: {
   onCancel?: () => void;
-  sectionId?: string;
-  lectureId?: string;
+  sectionId: string,
+  lectureId: string,
+  onDescriptionAdd: (description: string, secId: string, lecId: string) => void;
 }) {
   const form = useForm<z.infer<typeof descriptionSchema>>({
     resolver: zodResolver(descriptionSchema),
@@ -29,11 +31,10 @@ function AddLectureDescriptionForm({
     },
   });
 
-  const {isValid} = useFormState({control: form.control})
+  const { isValid } = useFormState({ control: form.control });
 
-
-  const onSubmit = (data: NameType) => {
-    // handleAddDescription(sectionId, lectureId, data.description);
+  const onSubmit = (data: DescriptionValue) => {
+    onDescriptionAdd?.(data.description, sectionId, lectureId);
     onCancel?.();
   };
 
@@ -56,7 +57,9 @@ function AddLectureDescriptionForm({
           <Button type="button" variant={"transparentGhost"} onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={!isValid} >Add Description</Button>
+          <Button type="submit" disabled={!isValid}>
+            Add Description
+          </Button>
         </div>
       </form>
     </Form>

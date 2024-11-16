@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { Button } from "@/components/ui/button";
 import img from "../../../../../public/images/instructor2.png";
@@ -13,6 +13,8 @@ import { GoSearch } from "react-icons/go";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { BsXLg } from "react-icons/bs";
+import { useNewCourseProvider } from "@/context/new-course/new-course";
+import { usePathname, useRouter } from "next/navigation";
 // import { Textarea } from "@/components/ui/textarea";
 
 const MessageSchema = z.object({
@@ -34,6 +36,15 @@ const PublishCourseForm = ({ title }: { title?: string }) => {
   const [instructors, setInstructors] = useState<Array<string> | []>([]);
   const [instructorQuery, setInstructorQuery] = useState<string>("");
 
+  const router = useRouter()
+  const currentPath = usePathname()
+  const newPath = currentPath.split('/')?.slice(0,-1).join('/') + '/preview-course'
+
+  // READ data from context
+  const {sections, welcomeMessage, congratulationMessage ,setMetadata} = useNewCourseProvider()
+  console.log({sections, welcomeMessage, congratulationMessage});
+
+
   // TODO: WE'LL TRIGGER API CALL AS USER WILL ENTER SOMETHING TO SEARCH FIELD;
 
   const form = useForm<z.infer<typeof MessageSchema>>({
@@ -50,8 +61,13 @@ const PublishCourseForm = ({ title }: { title?: string }) => {
 
   const onSubmit = (data: MessageType) => {
     console.log(data);
-    alert(JSON.stringify(data));
+    setMetadata({...data})
+    handleMoveNext()
   };
+
+  function handleMoveNext() {
+    router.push('/preview-course');
+  }
 
   return (
     <section className=" *:px-4 lg:*:px-7 space-y-5">
