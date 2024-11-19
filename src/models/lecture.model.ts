@@ -1,27 +1,35 @@
-import { ILecture, IS3File } from "@/types/course";
 import mongoose, { Schema, Model } from "mongoose";
+import { IFileMetadata, ILecture } from "./newCourse.model";
 
-const FileAttachmentSchema: Schema<IS3File> = new Schema({
-  url: { type: String, required: true },
+const FileAttachmentSchema: Schema<IFileMetadata> = new Schema({
   filename: { type: String, required: true },
   mimeType: { type: String, required: true },
   size: { type: Number, required: true },
   uploadedAt: { type: Date, default: Date.now },
 });
 
-const LectureSchema = new Schema<ILecture>({
-  videoUrl: { type: String, required: true },
+export const LectureSchema = new Schema<ILecture>({
+  publicId: { type: String, required: true },
   title: { type: String, required: true, trim: true },
   caption: { type: String, trim: true },
   description: { type: String, trim: true },
-  duration: { type: String, required: true },
   isCompleted: { type: Boolean, default: false },
-  lectureMetada: FileAttachmentSchema,
-  attachments: { type: [FileAttachmentSchema], default: [] },
+  video: {
+    playback_url: { type: String, required: true },
+    resolutions: [
+      {
+        resolution: String,
+        url: String,
+        secure_url: String,
+        status: String,
+      },
+    ],
+  },
   notes: { type: [FileAttachmentSchema], default: [] },
-  quizzes: { type: [Schema.Types.ObjectId], ref: "Quizzes" },
   comments: { type: [Schema.Types.ObjectId], ref: "LectureComments" },
   order: { type: Number, required: true },
+  // duration: { type: String, required: true },
+  // quizzes: { type: [Schema.Types.ObjectId], ref: "Quizzes" },
 });
 
 const LectureModel =

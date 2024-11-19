@@ -1,4 +1,4 @@
-import { CourseStatus, Duration, Level, PricingType } from "@/types/course";
+import { CourseStatus, Duration, Level, PricingType } from "@/models/newCourse.model";
 import type { ReactNode } from "react";
 
 interface NewCourseContextProviderProp {

@@ -1,8 +1,12 @@
-import { ISection } from "@/types/course";
 import mongoose, { Model, Schema } from "mongoose";
+import { ISection } from "./newCourse.model";
 
 const SectionSchema = new Schema<ISection>({
-  sectionTitle: {
+  publicId: {
+    type: String,
+    required: true
+  },
+  title: {
     type: String,
     required: [true, "Course title is mendatory"],
     trim: true,

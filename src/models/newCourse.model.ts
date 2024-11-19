@@ -1,16 +1,131 @@
-import {
-  CourseFormat,
-  CourseStatus,
-  Duration,
-  ICourse,
-  Level,
-  PricingType,
-} from "@/types/course";
-import mongoose, {Schema, Model } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
 
+import { Document } from "mongoose";
+import { ObjectId } from "mongoose";
 
+export enum Level {
+  Beginner = "Beginner",
+  Intermediate = "Intermediate",
+  Advanced = "Advanced",
+  Expert = "Expert",
+  All = "All Levels",
+}
+export enum CourseFormat {
+  "self-paced" = "self-paced",
+  "live" = "live",
+}
 
-const CourseSchema = new Schema<ICourse>(
+export enum CourseStatus {
+  "Draft" = "Draft",
+  "Pending-Approval" = "Pending-Approval",
+  "Published" = "Published",
+  "Archived" = "Archived",
+}
+
+export enum Duration {
+  "6-12 Months" = "6-12 Months",
+  "3-6 Months" = "3-6 Months",
+  "1-3 Months" = "1-3 Months",
+  "1-4 Weeks" = "1-4 Weeks",
+  "1-7 Days" = "1-7 Days",
+}
+
+export enum PricingType {
+  "Free" = "Free",
+  "Paid" = "Paid",
+}
+
+export interface IFileMetadata {
+  filename: string;
+  mimeType: string;
+  size: number;
+  uploadedAt: Date;
+}
+
+export interface IUserGuide {
+  value: string;
+  placeholder?: string;
+}
+
+export interface ILecture extends Document {
+  publicId: string; // Unique identifier for the lecture from client
+  title: string;
+  caption: string;
+  description: string;
+  isCompleted: boolean;
+  // duration: string;
+  // videoUrl: string;
+  // lectureMetada: IFileMetadata;
+  // quizzes: [ObjectId];
+  video: {
+    playback_url: {
+      type: string;
+      required: true;
+    };
+    resolutions: Array<{
+      resolution: string;
+      url: string;
+      secure_url: string;
+      status: string;
+    }>;
+  };
+  notes: Array<IFileMetadata>;
+  comments: [ObjectId];
+  order: number;
+}
+
+export interface ISection extends Document {
+  title: string;
+  order: number;
+  publicId: string;
+  lectures: Array<ObjectId>;
+}
+
+export interface ICourse extends Document {
+  title: string;
+  subTitle: string;
+  category: string;
+  subCategory: string;
+  courseTopic: string;
+  language: string;
+  subtitleLanguage?: string;
+  courseLevel: Level;
+  courseDuration: Duration;
+  pricingType: PricingType;
+  price: number;
+  oldPrice: number;
+  discount: number;
+  enrollmentLimit: number;
+  courseFormat: string;
+  status: CourseStatus;
+  // Advance Info
+  thumbnail: string;
+  trailerUrl: string;
+  courseBriefSummary: string;
+  courseDescription: string;
+  whatYouWillTeach: Array<IUserGuide>;
+  targetAudience: Array<IUserGuide>;
+  courseRequirements: Array<IUserGuide>;
+  //   curriculum
+  sections: Array<ObjectId>;
+  // publish course
+  welcomeMessage: string;
+  congratulationMessage: string;
+  courseInstructors: Array<ObjectId>;
+  createdBy: ObjectId;
+  isPublished: boolean;
+  enrolledStudents: number;
+  ratings: number;
+  reviews: Array<ObjectId>;
+  bookMarks: Array<ObjectId>;
+}
+
+const UserGuideSchema: Schema<IUserGuide> = new Schema({
+  value: { type: String, required: true, trim: true },
+  placeholder: { type: String, required: true, trim: true },
+});
+
+const CourseSchema: Schema<ICourse> = new Schema(
   {
     title: { type: String, required: true, trim: true },
     subTitle: { type: String, required: true, trim: true },
@@ -70,9 +185,16 @@ const CourseSchema = new Schema<ICourse>(
     },
     courseBriefSummary: { type: String, required: true, trim: true },
     courseDescription: { type: String, required: true, trim: true },
-    whatYouWillLearn: { type: [String], default: [], maxlength: 8 },
-    targetAudience: { type: [String], default: [], maxlength: 8 },
-    courseRequirements: { type: [String], default: [], maxlength: 8 },
+    whatYouWillTeach: {
+      type: [UserGuideSchema],
+      required: true,
+    },
+    targetAudience: { type: [UserGuideSchema], required: true, maxlength: 8 },
+    courseRequirements: {
+      type: [UserGuideSchema],
+      required: true,
+      maxlength: 8,
+    },
     thumbnail: { type: String, required: true, trim: true },
     trailerUrl: { type: String, required: true, trim: true },
     // curriculum

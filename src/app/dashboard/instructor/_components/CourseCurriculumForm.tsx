@@ -29,32 +29,27 @@ const AddLectureVideoForm = dynamic(() => import("./AddLectureVideoForm"), {
 });
 
 const lectureSchema = z.object({
+  publicId: z.string().min(1, "Public ID is required"),
+  title: z.string().min(1, "Lecture caption is required"),
   caption: z.string().min(1, "Lecture caption is required"),
   description: z.string().min(1, "Lecture description is required"),
-  id: z.string(),
   order: z.number().nonnegative("Order must be non-negative"),
+  tags: z.array(z.string()).optional(),
   video: z.any().refine((files) => {
     if (!files || files.length === 0) return true;
     return files[0]?.size <= 1024 * 1024 * 1024 * 4;
   }, `Max file size is 4GB.`),
-  notes: z.object({
-    file: z.any().refine((files) => {
-      if (!files || files.length === 0) return true;
-    }),
-    message: z.string(),
-  }),
 });
 
 const sectionSchema = z.object({
   title: z.string().min(1, "Section name is required"),
-  id: z.string(),
+  publicId: z.string(),
   order: z.number().nonnegative("Order must be non-negative"),
   lectures: z.array(lectureSchema),
 });
 
 type Section = z.infer<typeof sectionSchema>;
 type Lecture = z.infer<typeof lectureSchema>;
-
 
 const CourseCurriculumForm = () => {
   const [editSectionId, setEditSectionId] = useState<string | null>(null);
@@ -65,11 +60,12 @@ const CourseCurriculumForm = () => {
   const [secOrder, setSecOrder] = useState<number>(1);
   const [lecOrder, setLecOrder] = useState<number>(1);
 
-  const {setMetadata} = useNewCourseProvider()
+  const { setMetadata } = useNewCourseProvider();
 
-  const router = useRouter()
-  const currentPath = usePathname()
-  const newPath = currentPath.split('/')?.slice(0,-1).join('/') + '/publish-course'
+  const router = useRouter();
+  const currentPath = usePathname();
+  const newPath =
+    currentPath.split("/")?.slice(0, -1).join("/") + "/publish-course";
 
   const openModalWithForm = (formType: string, title: string) => {
     setSelectedForm(formType);
@@ -89,7 +85,7 @@ const CourseCurriculumForm = () => {
   function addNewSection() {
     setSecOrder((prevOrder) => prevOrder + 1);
     const newSection: Section = {
-      id: id + String(Math.random() * 1000),
+      publicId: id + String(Math.random() * 1000),
       title: `Section ${secOrder}`,
       order: secOrder,
       lectures: [],
@@ -101,7 +97,7 @@ const CourseCurriculumForm = () => {
   const handleUpdateSectionName = (sectionId: string, newTitle: string) => {
     setSections(
       sections.map((section) => {
-        if (section.id === sectionId) {
+        if (section.publicId === sectionId) {
           return {
             ...section,
             title: newTitle,
@@ -113,27 +109,27 @@ const CourseCurriculumForm = () => {
   };
 
   const deleteSection = (sectionId: string) => {
-
-    setSections(sections.filter((section) => section.id !== sectionId));
+    setSections(sections.filter((section) => section.publicId !== sectionId));
     setSecOrder((currentOrder) => currentOrder - 1);
   };
 
   const addLecture = (sectionId: string) => {
     const newLecture: Lecture = {
-      caption: "New Lecture",
+      title: "Lecture 1",
+      caption: "little caption for lecture is here",
       description: "",
       video: null,
-      notes: {
-        message: "",
-        file: null,
-      },
+      // notes: {
+      //   message: "",
+      //   file: null,
+      // },
       order: lecOrder,
-      id: id + String(Math.random() * 1000),
+      publicId: id + String(Math.random() * 1000),
     };
 
     setSections(
       sections.map((section) => {
-        if (section.id === sectionId) {
+        if (section.publicId === sectionId) {
           return {
             ...section,
             lectures: [...section.lectures, newLecture],
@@ -149,11 +145,11 @@ const CourseCurriculumForm = () => {
   const deleteLecture = (lectureId: string, sectionId: string) => {
     setSections(
       sections.map((section) => {
-        if (section.id === sectionId) {
+        if (section.publicId === sectionId) {
           return {
             ...section,
             lectures: section.lectures.filter(
-              (lecture) => lecture.id !== lectureId
+              (lecture) => lecture.publicId !== lectureId
             ),
           };
         }
@@ -167,16 +163,15 @@ const CourseCurriculumForm = () => {
     secId: string,
     lecId: string
   ) => {
-
-    console.log('update lec called...');
+    console.log("update lec called...");
 
     setSections(
       sections.map((section) => {
-        if (section.id === secId) {
+        if (section.publicId === secId) {
           return {
             ...section,
             lectures: section.lectures.map((lecture) =>
-              lecture.id === lecId
+              lecture.publicId === lecId
                 ? { ...lecture, caption: newCaption }
                 : lecture
             ),
@@ -193,11 +188,11 @@ const CourseCurriculumForm = () => {
   ) => {
     setSections(
       sections.map((section) => {
-        if (section.id === secId) {
+        if (section.publicId === secId) {
           return {
             ...section,
             lectures: section.lectures.map((lecture) =>
-              lecture.id === lecId ? { ...lecture, description } : lecture
+              lecture.publicId === lecId ? { ...lecture, description } : lecture
             ),
           };
         }
@@ -212,11 +207,11 @@ const CourseCurriculumForm = () => {
   ) => {
     setSections(
       sections.map((section) => {
-        if (section.id === secId) {
+        if (section.publicId === secId) {
           return {
             ...section,
             lectures: section.lectures.map((lecture) =>
-              lecture.id === lecId ? { ...lecture, caption } : lecture
+              lecture.publicId === lecId ? { ...lecture, caption } : lecture
             ),
           };
         }
@@ -228,11 +223,11 @@ const CourseCurriculumForm = () => {
   const handleLecVideoUpload = (video: File, secId: string, lecId: string) => {
     setSections(
       sections.map((section) => {
-        if (section.id === secId) {
+        if (section.publicId === secId) {
           return {
             ...section,
             lectures: section.lectures.map((lecture) =>
-              lecture.id === lecId ? { ...lecture, video } : lecture
+              lecture.publicId === lecId ? { ...lecture, video } : lecture
             ),
           };
         }
@@ -247,11 +242,11 @@ const CourseCurriculumForm = () => {
   ) => {
     setSections(
       sections.map((section) => {
-        if (section.id === secId) {
+        if (section.publicId === secId) {
           return {
             ...section,
             lectures: section.lectures.map((lecture) =>
-              lecture.id === lecId ? { ...lecture, notes } : lecture
+              lecture.publicId === lecId ? { ...lecture, notes } : lecture
             ),
           };
         }
@@ -265,7 +260,7 @@ const CourseCurriculumForm = () => {
       case "upload-video":
         return (
           <AddLectureVideoForm
-          onCancel= {closeModal}
+            onCancel={closeModal}
             onFileUpload={handleLecVideoUpload}
             sectionId={secId}
             lectureId={lecId}
@@ -274,7 +269,7 @@ const CourseCurriculumForm = () => {
       case "add-notes":
         return (
           <AddLectureNotesForm
-          onCancel= {closeModal}
+            onCancel={closeModal}
             onNotesUpload={handleLecNotesUpload}
             sectionId={secId}
             lectureId={lecId}
@@ -283,7 +278,7 @@ const CourseCurriculumForm = () => {
       case "add-caption":
         return (
           <AddLectureCaptionForm
-          onCancel= {closeModal}
+            onCancel={closeModal}
             onCaptionAdd={handleLecCaptionUpload}
             sectionId={secId}
             lectureId={lecId}
@@ -292,7 +287,7 @@ const CourseCurriculumForm = () => {
       case "add-description":
         return (
           <AddLectureDescriptionForm
-          onCancel= {closeModal}
+            onCancel={closeModal}
             onDescriptionAdd={handleLecDescriptionUpload}
             sectionId={secId}
             lectureId={lecId}
@@ -304,13 +299,13 @@ const CourseCurriculumForm = () => {
   };
 
   const handleSaveCurriculum = () => {
-    setMetadata({sections});
-    handleMoveNext()
-    }
+    setMetadata({ sections });
+    handleMoveNext();
+  };
 
-    function handleMoveNext() {
-      router.push(newPath);
-    }
+  function handleMoveNext() {
+    router.push(newPath);
+  }
 
   return (
     <section className="*:px-4 lg:*:px-7 space-y-5">
@@ -331,7 +326,7 @@ const CourseCurriculumForm = () => {
         <div className="space-y-7">
           {sections.map((section, index) => (
             <div
-              key={section.id}
+              key={section.publicId}
               className="bg-gray-50 p-4 px-3 lg:px-5 space-y-4"
             >
               {/* SECTION HEADER */}
@@ -348,28 +343,28 @@ const CourseCurriculumForm = () => {
                 <div className="space-x-3 *:text-gray-500 hover:*:text-gray-800 flex items-center *:cursor-pointer">
                   <GoPlus
                     className="md:w-5 w-4 md:h-5 h-4 "
-                    onClick={() => addLecture(section.id)}
+                    onClick={() => addLecture(section.publicId)}
                   />
                   <RiEdit2Line
                     className="md:w-5 w-4 md:h-5 h-4 "
                     onClick={() => {
-                      setEditSectionId(section.id);
+                      setEditSectionId(section.publicId);
                     }}
                   />
                   <Modal
-                    isOpen={editSectionId === section.id}
+                    isOpen={editSectionId === section.publicId}
                     onClose={() => setEditSectionId(null)}
                     title="Edit Section Name"
                   >
                     <EditSectionNameForm
-                      sectionId={section.id}
+                      sectionId={section.publicId}
                       handleUpdateSectionName={handleUpdateSectionName}
                       onCancel={() => setEditSectionId(null)}
                     />
                   </Modal>
                   <RiDeleteBin6Line
                     className="md:w-5 w-4 md:h-5 h-4 hover:!text-error-500"
-                    onClick={() => deleteSection(section.id)}
+                    onClick={() => deleteSection(section.publicId)}
                   />
                 </div>
               </div>
@@ -378,7 +373,7 @@ const CourseCurriculumForm = () => {
               <ul className="space-y-3">
                 {section.lectures.map((lecture, index) => (
                   <div
-                    key={lecture.id + Math.random()}
+                    key={lecture.publicId + Math.random()}
                     className="flex-between bg-white px-3 md:px-4 py-3 rounded-sm"
                   >
                     <div>
@@ -446,27 +441,29 @@ const CourseCurriculumForm = () => {
                         onClose={closeModal}
                         isOpen={isModalOpen!}
                       >
-                        {renderForm(section.id, lecture.id)}
+                        {renderForm(section.publicId, lecture.publicId)}
                       </Modal>
                       <RiEdit2Line
                         className="md:w-5 w-4 md:h-5 h-4 hover:text-gray-800"
-                        onClick={() => setEditLectureId(lecture.id)}
+                        onClick={() => setEditLectureId(lecture.publicId)}
                       />
                       <Modal
-                        isOpen={editLectureId === lecture.id}
+                        isOpen={editLectureId === lecture.publicId}
                         onClose={() => setEditLectureId(null)}
                         title="Edit Lecture Caption"
                       >
                         <EditLectureCaptionForm
-                          sectionId={section.id}
-                          lectureId={lecture.id}
+                          sectionId={section.publicId}
+                          lectureId={lecture.publicId}
                           handleCaptionUpdate={handleLecCaptionUpdate}
                           onCancel={() => setEditLectureId(null)}
                         />
                       </Modal>
                       <Trash2
                         className="md:w-5 w-4 md:h-5 h-4 hover:text-error-500 "
-                        onClick={() => deleteLecture(lecture.id, section.id)}
+                        onClick={() =>
+                          deleteLecture(lecture.publicId, section.publicId)
+                        }
                       />
                     </div>
                   </div>
@@ -489,7 +486,9 @@ const CourseCurriculumForm = () => {
           Previous
         </Button>
 
-        <Button type="button" onClick={handleSaveCurriculum}>Save & Next</Button>
+        <Button type="button" onClick={handleSaveCurriculum}>
+          Save & Next
+        </Button>
       </div>
     </section>
   );

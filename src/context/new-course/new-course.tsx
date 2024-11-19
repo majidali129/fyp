@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { NewCourseMetadataState, NewCourseContextProviderProp, NewCourseValue } from "./defs";
-import { CourseStatus, Duration, Level, PricingType } from "@/types/course";
+import { CourseStatus, Duration, Level, PricingType } from "@/models/newCourse.model";
 
 
 const NewCourseContext = createContext<NewCourseValue | undefined>(undefined);

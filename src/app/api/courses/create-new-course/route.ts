@@ -1,79 +1,60 @@
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
-import CourseSectionModel from "@/models/courseSection.model";
-import LectureModel from "@/models/lecture.model";
 import CourseModel from "@/models/newCourse.model";
-import {
-  createCourseSchema,
-  LectureSchema,
-  SectionSchema,
-} from "@/schemas/create-course-schemas";
-import { NextRequest, NextResponse } from "next/server";
+import { createCourseSchema } from "@/schemas/course-schema";
+import { uploadFile } from "@/services/cloudinary-video-upload";
+import formidable from "formidable";
+import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   await connectDB();
+  if (request.method !== "POST") {
+    return apiResponse({
+      success: false,
+      message: "Method not allowed",
+      status: 405,
+    });
+  }
 
   try {
-    const courseData = await request.json();
-    console.log(courseData);
+    const formData = await request.formData();
+    const parsedData = Object.fromEntries(formData.entries());
 
-    const parsedCourseData = createCourseSchema.safeParse(courseData);
-    if (!parsedCourseData.success) {
-      const formatedError = parsedCourseData.error.issues.map((issue) => ({
-        field: issue.path[0],
-        message: issue.message,
-      }));
-      return NextResponse.json(
-        {
-          success: false,
-          message: formatedError,
-        },
-        { status: 400 }
-      );
-    }
-    const { sections } = parsedCourseData.data;
-    console.log(sections);
-
-    const sectionPromises = sections.map(async (section) => {
-      const parsedSection = SectionSchema.parse(section);
-      // STORING LECS TO DB
-      const lectureDocs = await Promise.all(
-        parsedSection.lectures.map(
-          async (lecture: any) => await LectureModel.create(lecture)
-        )
-      );
-      // GETING LEC'S REFERENCE
-      const lectureIds = lectureDocs.map((lecture) => lecture._id);
-
-      // STORING SECS TO DB ALONG WITH LEC'S REFERENCE
-      const savedSections = await CourseSectionModel.create({
-        ...section,
-        lectures: lectureIds,
+    const result = createCourseSchema.safeParse(parsedData);
+    if (!result.success) {
+      return apiResponse({
+        success: false,
+        message: "Invalid course data",
+        status: 400,
+        data: result.error.errors,
       });
+    }
 
-      return savedSections._id;
-    });
+    const { thumbnail, trailer } = result.data;
 
-    // GETING SEC'S REFERENCE
-    const sectionIds = await Promise.all(sectionPromises);
+    const [courseThumbnail, courseTrailer] = await Promise.all([
+      await uploadFile(thumbnail),
+      await uploadFile(trailer),
+    ]);
+    console.log("thumbnail", courseThumbnail);
 
-    const savedCourse = await CourseModel.create({
-      ...courseData,
-      sections: sectionIds, // Add section IDs to the course document
+    const course = await CourseModel.create({
+      ...result.data,
+      thumbnail: courseThumbnail.secure_url,
+      trailer: courseTrailer.secure_url,
     });
 
     return apiResponse({
       success: true,
       message: "Course created successfully",
-      data: savedCourse,
+      data: course,
       status: 201,
     });
   } catch (error) {
-    console.log("Error creating new course", error);
-
+    console.log("Error while creating new course");
     return apiResponse({
       success: false,
-      message: "Error creating new course",
+      message: "Failed to create new course",
       status: 500,
     });
   }
