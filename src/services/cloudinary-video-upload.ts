@@ -4,6 +4,7 @@ import {
 } from "@/lib/cloudinary-config";
 
 interface TranscodedVideo {
+  public_id: string;
   original: string;
   playback_url: string;
   resolutions: Array<{
@@ -53,14 +54,7 @@ export const uploadAndTranscodeVideo = async (
   });
 
   // Parse response to extract transcoding URLs
-  const { secure_url, playback_url, eager } = result;
-
-  // const parsedEager = eager.map((item: any) => ({
-  //   resolution: item.url.includes("w_480") ? "480p" : item.url.includes("w_720") ? "720p" : "1080p",
-  //   url: item.url,
-  //   secure_url: item.secure_url,
-  //   status: item.status,
-  // }));
+  const { secure_url, playback_url, eager , public_id} = result;
   const resolutions = eager.map((item: any) => ({
     resolution: item.url.includes("w_480")
       ? "480p"
@@ -73,6 +67,7 @@ export const uploadAndTranscodeVideo = async (
   }));
 
   return {
+    public_id,
     original: secure_url,
     playback_url,
     resolutions,

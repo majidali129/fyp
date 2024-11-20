@@ -6,6 +6,10 @@ import { uploadFile } from "@/services/cloudinary-video-upload";
 import formidable from "formidable";
 import { NextRequest } from "next/server";
 
+/**
+ * ! Make sure to check user role befor any DB operations
+ */
+
 export async function POST(request: NextRequest) {
   await connectDB();
   if (request.method !== "POST") {
@@ -18,7 +22,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const formData = await request.formData();
-    const parsedData = Object.fromEntries(formData.entries());
+    const parsedData = Object.fromEntries(formData.entries()); // 1. Parse the form data into an object
 
     const result = createCourseSchema.safeParse(parsedData);
     if (!result.success) {
@@ -26,7 +30,7 @@ export async function POST(request: NextRequest) {
         success: false,
         message: "Invalid course data",
         status: 400,
-        data: result.error.errors,
+        data: result.error,
       });
     }
 
@@ -56,6 +60,7 @@ export async function POST(request: NextRequest) {
       success: false,
       message: "Failed to create new course",
       status: 500,
+      data: error instanceof Error ? error.message : "Unknow Error"
     });
   }
 }

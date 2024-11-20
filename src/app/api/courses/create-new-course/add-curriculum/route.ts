@@ -9,18 +9,20 @@ import { ObjectId } from "mongoose";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 
+/**
+ * ! Make sure to check user role befor any DB operations
+ */
+
 export async function PATCH(request: NextRequest) {
   // connect to DB
   await connectDB();
   try {
     // TODO: Receive req data
-    // const { section } = await request.json();
     const formData = await request.formData();
-
-    const sectionData  = formData.get("section")
+    const sectionData = formData.get("section");
 
     // TODO: Validate req data
-    if (!sectionData ) {
+    if (!sectionData) {
       return apiResponse({
         success: false,
         message: "Section data is required.",
@@ -28,12 +30,11 @@ export async function PATCH(request: NextRequest) {
       });
     }
 
-
     const results = sectionSchema.safeParse(sectionData);
     if (!results.success) {
       return apiResponse({
         success: false,
-        message: "invalid section data",
+        message: "Invalid section data",
         data: results.error.errors,
       });
     }
@@ -51,7 +52,7 @@ export async function PATCH(request: NextRequest) {
     if (!course) {
       return apiResponse({
         success: false,
-        message: "Course not found.",
+        message: "Course not found. Make sure to create course from scratch.",
         status: 404,
       });
     }
@@ -73,6 +74,7 @@ export async function PATCH(request: NextRequest) {
             order,
             tags,
             video: {
+              public_id: res.public_id,
               playback_url: res.playback_url,
               resolutions: res.resolutions,
             },
@@ -116,7 +118,6 @@ export async function PATCH(request: NextRequest) {
     // Add section ID to the course document
     course.sections.push(savedSection._id as ObjectId);
 
-    // console.log("updated-course", updatedCourse);
     await course.save();
 
     // Return response
@@ -136,6 +137,7 @@ export async function PATCH(request: NextRequest) {
       success: false,
       message: "Error while creating new course",
       status: 500,
+      data: error instanceof Error ? error.message : "Unknow Error",
     });
   }
 }

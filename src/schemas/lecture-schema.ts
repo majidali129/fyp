@@ -14,3 +14,4 @@ export const lectureSchema = z.object({
   tags: z.array(z.string()).optional(),
   video: z.any(),
 });
+

@@ -58,10 +58,8 @@ export interface ILecture extends Document {
   // lectureMetada: IFileMetadata;
   // quizzes: [ObjectId];
   video: {
-    playback_url: {
-      type: string;
-      required: true;
-    };
+    public_id: string;
+    playback_url: string;
     resolutions: Array<{
       resolution: string;
       url: string;
@@ -69,6 +67,7 @@ export interface ILecture extends Document {
       status: string;
     }>;
   };
+  tags: Array<string>;
   notes: Array<IFileMetadata>;
   comments: [ObjectId];
   order: number;
