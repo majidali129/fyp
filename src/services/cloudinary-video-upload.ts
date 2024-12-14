@@ -18,6 +18,8 @@ interface TranscodedVideo {
 interface CloudinaryUploadResult {
   public_id: string;
   bytes: number;
+  url: string;
+  secure_url: string;
   duration?: number;
   [key: string]: any;
 }
@@ -54,7 +56,7 @@ export const uploadAndTranscodeVideo = async (
   });
 
   // Parse response to extract transcoding URLs
-  const { secure_url, playback_url, eager , public_id} = result;
+  const { secure_url, playback_url, eager, public_id } = result;
   const resolutions = eager.map((item: any) => ({
     resolution: item.url.includes("w_480")
       ? "480p"
@@ -78,7 +80,8 @@ export const uploadAndTranscodeVideo = async (
  * ! FOR NOW, IT IS ONLY FOR VIDEO HANDLING not FOR IMAGE
  */
 export const uploadFile = async (
-  file: File
+  file: File,
+  folder?: string
 ): Promise<CloudinaryUploadResult> => {
   await verifyCloudinaryCredentials();
   const bytes = await file.arrayBuffer();
@@ -86,24 +89,37 @@ export const uploadFile = async (
 
   const result = await new Promise<CloudinaryUploadResult>(
     (resolve, reject) => {
+      const isVideo = file.type.startsWith("video");
+
       const uploadStream = cloudinary.uploader.upload_stream(
         {
-          resource_type: "video",
-          folder: "video-uploads",
-          transformation: [{ quality: "auto", fetch_format: "mp4" }],
+          resource_type: isVideo ? "video" : "image",
+          folder: isVideo ? "trailers" : folder === 'profile-photos'? folder :  "thumbnails",
+          transformation: isVideo
+            ? [
+                { quality: "auto", fetch_format: "mp4" },
+                // { duration: "30", crop: "limit" },
+              ]
+            : [
+                { quality: "auto", fetch_format: "auto" }, // Convert images to WebP
+                // { width: 800, height: 800, crop: "limit" },
+              ],
         },
         (error, result) => {
           if (error) reject(error);
           else resolve(result as CloudinaryUploadResult);
         }
       );
+
       uploadStream.end(buffer);
     }
   );
 
   return {
     public_id: result.public_id,
+    secure_url: result.secure_url,
+    url: result.url,
     bytes: result.bytes,
-    duration: result.duration,
+    ...(file.type.startsWith("video") && { duration: result.duration }),
   };
 };

@@ -1,50 +1,51 @@
-import UserModel from "@/models/user.model";
+import User from "@/models/user.model";
 import { NextRequest } from "next/server";
 import bcryptjs from "bcryptjs";
 import { connectDB } from "@/lib/connectDB";
 import { apiResponse } from "@/lib/apiResponse";
-import { auth } from "../../../../../auth";
-import mongoose from "mongoose";
+import { cookies } from "next/headers";
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 export async function PATCH(request: NextRequest) {
   await connectDB();
 
-  const session = await auth();
-
-  if (!session?.user || session.user.isVerified) {
-    return apiResponse({
-      success: false,
-      message: "Unauthorized access",
-      status: 401
-    });
-  }
-
   try {
+    const cookieStore = await cookies();
+    const incomingAccessToken = cookieStore.get('accessToken')?.value;
+
+    if(!incomingAccessToken)
+      return apiResponse({
+    success: false,
+     message: "Unauthorized request. Access token not found.",
+     status: 401
+    });
     const { oldPassword, newPassword } = await request.json();
 
     if (!oldPassword) {
       return apiResponse({
         success: false,
         message: "Please provide old password to set new one",
-        status: 400
+        status: 400,
       });
     }
     if (!newPassword) {
       return apiResponse({
         success: false,
         message: "Please provide new password",
-        status: 400
+        status: 400,
       });
     }
 
-    const userId = new mongoose.Types.ObjectId(session.user._id);
-    const user = await UserModel.findById({ _id: userId });
+    const decodedToken = await jwt.verify(incomingAccessToken, process.env.ACCESS_TOKEN_SECRET!) as JwtPayload
+
+
+    const user = await User.findById(decodedToken._id);
 
     if (!user) {
       return apiResponse({
         success: false,
         message: "User or Account no longer exist",
-        status: 401 // Unauthorized for invalid tokens
+        status: 401
       });
     }
 
@@ -57,7 +58,7 @@ export async function PATCH(request: NextRequest) {
       return apiResponse({
         success: false,
         message: "Invalid old password. please add the right one",
-        status: 400 // Unauthorized for invalid tokens
+        status: 400,
       });
     }
 
@@ -69,7 +70,7 @@ export async function PATCH(request: NextRequest) {
     return apiResponse({
       success: true,
       message: "Password changed successfully",
-      status: 200 // Unauthorized for invalid tokens
+      status: 200,
     });
   } catch (error) {
     console.log("Error while updating password", error);
@@ -77,7 +78,7 @@ export async function PATCH(request: NextRequest) {
     return apiResponse({
       success: false,
       message: "Error while updating password",
-      status: 500
+      status: 500,
     });
   }
 }

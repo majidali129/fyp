@@ -37,15 +37,23 @@ export async function POST(request: NextRequest) {
     const { thumbnail, trailer } = result.data;
 
     const [courseThumbnail, courseTrailer] = await Promise.all([
-      await uploadFile(thumbnail),
-      await uploadFile(trailer),
+      uploadFile(thumbnail),
+      uploadFile(trailer),
     ]);
-    console.log("thumbnail", courseThumbnail);
 
     const course = await CourseModel.create({
       ...result.data,
-      thumbnail: courseThumbnail.secure_url,
-      trailer: courseTrailer.secure_url,
+      thumbnail: {
+        public_id: courseThumbnail.public_id,
+        url: courseThumbnail.url,
+        bytes: courseThumbnail.bytes,
+      },
+      trailer: {
+        public_id: courseTrailer.public_id,
+        url: courseTrailer.url,
+        duration: courseTrailer.duration,
+        bytes: courseTrailer.bytes,
+      },
     });
 
     return apiResponse({
@@ -60,7 +68,7 @@ export async function POST(request: NextRequest) {
       success: false,
       message: "Failed to create new course",
       status: 500,
-      data: error instanceof Error ? error.message : "Unknow Error"
+      data: error instanceof Error ? error.message : "Unknow Error",
     });
   }
 }

@@ -16,7 +16,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: parsedCode.error.format().code?._errors
+          message: parsedCode.error.format().code?._errors,
         },
         { status: 400 }
       );
@@ -28,14 +28,20 @@ export async function PATCH(request: NextRequest) {
       return apiResponse({
         success: false,
         message: "User not found",
-        status: 404
+        status: 404,
       });
     }
 
     const isTokenNotExpired = new Date(user?.verifyCodeExpiry!) > new Date();
-    const isVerificationCodeValid = user.verifyCode === code;
+    const isVerificationCodeValid = Number(user.verifyCode) === +code;
 
     console.log(isTokenNotExpired, isVerificationCodeValid);
+
+    if (!isVerificationCodeValid)
+      return apiResponse({
+        message: "Invalid verification code",
+        status: 400,
+      });
 
     if (isTokenNotExpired && isVerificationCodeValid) {
       user.isVerified = true;
@@ -45,21 +51,21 @@ export async function PATCH(request: NextRequest) {
       await user.save();
 
       return apiResponse({
-        message: "Account verified successfully"
+        message: "Account verified successfully",
       });
     } else if (!isTokenNotExpired) {
       return apiResponse({
         success: false,
         message:
           "Verification code has expired. Please sign up again to get a new code.",
-        status: 400
+        status: 400,
       });
     }
   } catch (error) {
     return apiResponse({
       success: false,
       message: "Error verifying email",
-      status: 500
+      status: 500,
     });
   }
 }

@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
+
     const user = await UserModel.findOne({ email });
     if (!user) {
       return apiResponse({
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
         status: 404
       });
     } else {
-      const resetToken = await bcryptjs.hash(process.env.SECRET!, 10);
+      const resetToken = await bcryptjs.hash(process.env.SECRET_KEY!, 10);
       const resetTokenExpiry = new Date();
       resetTokenExpiry.setMinutes(resetTokenExpiry.getMinutes() + 30);
 

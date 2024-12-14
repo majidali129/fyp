@@ -13,7 +13,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { userRoleSchema } from "@/schemas/userRoleSchema";
+import { userRoleSchema } from "@/schemas/user-role-schema";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import { PiStudentFill } from "react-icons/pi";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";

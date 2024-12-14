@@ -1,6 +1,6 @@
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
-import CourseSectionModel from "@/models/courseSection.model";
+import Section from "@/models/courseSection.model";
 import LectureModel from "@/models/lecture.model";
 import CourseModel, { ICourse } from "@/models/newCourse.model";
 import { sectionSchema } from "@/schemas/section-schema";
@@ -113,7 +113,7 @@ export async function PATCH(request: NextRequest) {
       lectures: uploadedLecs,
     };
 
-    const savedSection = await CourseSectionModel.create(newSection);
+    const savedSection = await Section.create(newSection);
 
     // Add section ID to the course document
     course.sections.push(savedSection._id as ObjectId);

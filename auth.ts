@@ -9,17 +9,17 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     Credentials({
       name: "Credentials",
       credentials: {
-        identifier: { type: "text", label: "Email Address" },
-        password: { type: "password", label: "Password" }
+        username: { type: "text", label: "Username" },
+        password: { type: "password", label: "Password" },
       },
 
       authorize: async (credentials): Promise<any> => {
-        const identifier = credentials.identifier as string;
+        const username = credentials.username as string;
         const password = credentials.password as string;
         await connectDB();
         try {
           const user = await UserModel.findOne({
-            $or: [{ email: identifier }, { username: identifier }]
+            $or: [{ username }],
           });
           if (!user) return null;
 
@@ -39,8 +39,8 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
           console.log("login failed", error);
           throw new Error(error);
         }
-      }
-    })
+      },
+    }),
   ],
 
   callbacks: {
@@ -65,12 +65,12 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         session.user.isVerified = token.isVerified as boolean;
       }
       return session;
-    }
+    },
   },
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   pages: {
-    signIn: "/sign-in"
-  }
+    signIn: "/sign-in",
+  },
 });

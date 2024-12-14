@@ -48,6 +48,7 @@ export interface IUserGuide {
 }
 
 export interface ILecture extends Document {
+  courseId: ObjectId;
   publicId: string; // Unique identifier for the lecture from client
   title: string;
   caption: string;
@@ -74,6 +75,7 @@ export interface ILecture extends Document {
 }
 
 export interface ISection extends Document {
+  couseId: ObjectId;
   title: string;
   order: number;
   publicId: string;
@@ -98,8 +100,17 @@ export interface ICourse extends Document {
   courseFormat: string;
   status: CourseStatus;
   // Advance Info
-  thumbnail: string;
-  trailerUrl: string;
+  thumbnail: {
+    public_id: string;
+    url: string;
+    bytes: number
+  };
+  trailer: {
+    public_id: string;
+    url: string;
+    duration: number;
+    bytes: number
+  };
   courseBriefSummary: string;
   courseDescription: string;
   whatYouWillTeach: Array<IUserGuide>;
@@ -113,8 +124,9 @@ export interface ICourse extends Document {
   courseInstructors: Array<ObjectId>;
   createdBy: ObjectId;
   isPublished: boolean;
-  enrolledStudents: number;
+  enrolledStudents: Array<ObjectId>;
   ratings: number;
+  avgRatings: number;
   reviews: Array<ObjectId>;
   bookMarks: Array<ObjectId>;
 }
@@ -194,12 +206,12 @@ const CourseSchema: Schema<ICourse> = new Schema(
       required: true,
       maxlength: 8,
     },
-    thumbnail: { type: String, required: true, trim: true },
-    trailerUrl: { type: String, required: true, trim: true },
+    // thumbnail: { type: String, required: true, trim: true },
+    // trailerUrl: { type: String, required: true, trim: true },
     // curriculum
     sections: {
       type: [Schema.Types.ObjectId],
-      ref: "CourseSection",
+      ref: "Section",
       default: [],
       // required: [true, "Please add course sections."],
     },
@@ -217,21 +229,26 @@ const CourseSchema: Schema<ICourse> = new Schema(
     },
     isPublished: { type: Boolean, default: false },
     enrolledStudents: {
-      type: Number,
-      default: 0,
+      type: [Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
     },
     ratings: {
       type: Number,
       default: 0,
     },
+    avgRatings: {
+      type: Number,
+      default: 0
+    },
     reviews: {
       type: [Schema.Types.ObjectId],
-      ref: "CourseReviews",
+      ref: "CourseReview",
       default: [],
     },
     bookMarks: {
       type: [Schema.Types.ObjectId],
-      ref: "BookMarks",
+      ref: "BookMark",
       default: [],
     },
   },
@@ -239,15 +256,19 @@ const CourseSchema: Schema<ICourse> = new Schema(
 );
 
 CourseSchema.index({
+  _id: 1,
   title: 1,
   category: 1,
   price: 1,
   ratings: 1,
+  courseLevel: 1,
+  courseDuration: 1,
+  pricingType: 1,
   enrolledStudents: 1,
 });
 
-const CourseModel =
+const Course =
   (mongoose.models?.Course as Model<ICourse>) ||
   mongoose.model<ICourse>("Course", CourseSchema);
 
-export default CourseModel;
+export default Course;

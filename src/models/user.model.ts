@@ -4,7 +4,7 @@ enum ROLE {
   STUDENT = "STUDENT",
   INSTRUCTOR = "INSTRUCTOR",
   USER = "USER",
-  ADMIN = "ADMIN"
+  ADMIN = "ADMIN",
 }
 
 export interface InstructorDetails extends Document {
@@ -30,14 +30,15 @@ export interface User extends Document {
   username: string;
   email: string;
   password: string;
+  refreshToken?: string;
   role: ROLE;
-  isVerified: boolean;
-  profilePhoto: string;
-  verifyCode?: string;
-  verifyCodeExpiry?: Date;
-  resetPasswordToken?: string;
-  resetPasswordTokenExpiry?: Date;
-
+  permissions?: [string];
+  profilePhoto: {
+    public_id: string;
+    url: string;
+    secure_url: string;
+  };
+  isVerified?: boolean;
   //NOTE: ROLE BASED for INSTRUCTOR
   instructorDetails?: InstructorDetails;
 
@@ -46,18 +47,24 @@ export interface User extends Document {
 
   //NOTE: ROLE BASED for STUDENT
   studentDetails?: StudentDetails;
+
+  verifyCode?: string;
+  verifyCodeExpiry?: Date;
+  resetPasswordToken?: string;
+  resetPasswordTokenExpiry?: Date;
 }
 
 const userSchema: Schema<User> = new Schema(
-
   {
     firstName: {
       type: String,
-      required: true
+      required: true,
+      trim: true,
     },
     lastName: {
       type: String,
-      required: true
+      required: true,
+      trim: true,
     },
     username: {
       type: String,
@@ -65,28 +72,48 @@ const userSchema: Schema<User> = new Schema(
       lowercase: true,
       trim: true,
       unique: true,
-      index: true
+      index: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
+    },
+    refreshToken: {
+      type: String,
     },
     role: {
       type: String,
-      required: true,
       enum: Object.values(ROLE),
-      default: ROLE.USER
+      default: ROLE.USER,
+      trim: true,
+    },
+    permissions: {
+      type: [{ type: String }],
+      default: [],
     },
     isVerified: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    profilePhoto: String,
+    profilePhoto: {
+        public_id: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+        secure_url: {
+          type: String,
+          required: true,
+        },
+    },
     verifyCode: String,
     verifyCodeExpiry: Date,
     resetPasswordToken: String,
@@ -95,19 +122,19 @@ const userSchema: Schema<User> = new Schema(
     // References to role-specific details
     instructorDetails: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "InstructorDetails"
+      ref: "InstructorDetails",
     },
     studentDetails: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "StudentDetails"
+      ref: "StudentDetails",
     },
-    adminDetails: { type: mongoose.Schema.Types.ObjectId, ref: "AdminDetails" }
+    adminDetails: { type: mongoose.Schema.Types.ObjectId, ref: "AdminDetails" },
   },
   { timestamps: true }
 );
 
-const UserModel =
+const User =
   (mongoose.models?.User as Model<User>) ||
   mongoose.model<User>("User", userSchema);
 
-export default UserModel;
+export default User;

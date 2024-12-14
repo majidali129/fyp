@@ -18,7 +18,8 @@ export const registerUserSchema = z.object({
     .max(14, { message: "Username must be below 14 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(8, "Password must be 8 characters long"),
-  role: z.enum(["USER", "STUDENT", "INSTRUCTOR", "ADMIN"]).default("USER")
+  role: z.string(),
+  file: z.any(),
 });
 
 // confirmPassword: z.string() // StrongPass1!

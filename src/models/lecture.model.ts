@@ -9,6 +9,10 @@ const FileAttachmentSchema: Schema<IFileMetadata> = new Schema({
 });
 
 export const LectureSchema = new Schema<ILecture>({
+  courseId: {
+    type: String,
+    required: true,
+  },
   publicId: { type: String, required: true },
   title: { type: String, required: true, trim: true },
   caption: { type: String, trim: true },
@@ -32,8 +36,8 @@ export const LectureSchema = new Schema<ILecture>({
   // quizzes: { type: [Schema.Types.ObjectId], ref: "Quizzes" },
 });
 
-const LectureModel =
+const Lecture =
   (mongoose.models?.Lecture as Model<ILecture>) ||
   mongoose.model<ILecture>("Lecture", LectureSchema);
 
-export default LectureModel;
+export default Lecture;

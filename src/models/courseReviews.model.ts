@@ -1,34 +1,40 @@
-import mongoose, { Schema, ObjectId, Types, Document, Model } from "mongoose";
+import mongoose, { Schema, ObjectId, Document, Model } from "mongoose";
 
 interface CourseReview extends Document {
-  user: ObjectId;
-  message: string;
+  userId: ObjectId;
+  courseId: ObjectId;
+  review: string;
   rating: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const courseReviewSchema = new Schema<CourseReview>(
+const courseReviewSchema: Schema<CourseReview> = new Schema(
   {
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    message: {
+    courseId: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+    review: {
       type: String,
-      required: [true, "Please add a message for review."],
+      required: [true, "Review text is required"],
     },
     rating: {
       type: Number,
+      min: [1, "Rating can't be less than 1"],
+      max: [5, "Rating can't be more than 5"],
       default: 0,
     },
   },
   { timestamps: true }
 );
 
-const courseReviewModel =
+const CourseReview =
   (mongoose.models?.CourseReview as Model<CourseReview>) ||
   mongoose.model<CourseReview>("CourseReview", courseReviewSchema);
 
-
-  export default courseReviewModel;
+export default CourseReview;

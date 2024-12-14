@@ -31,3 +31,8 @@ declare module "next-auth/jwt" {
     isVerified?: boolean;
   }
 }
+
+
+interface JwtPayload {
+  _id: string
+}

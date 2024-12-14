@@ -1,28 +1,46 @@
-// import { IBookmark } from "@/types/bookmarks";
-import mongoose, { Schema, Model } from "mongoose";
+import mongoose, { Schema, Model, ObjectId } from "mongoose";
 
+interface IBookmarkItem {
+  courseId: ObjectId;
+  quantity: Number;
+}
 
+interface IBookmarks {
+  owner: ObjectId;
+  items: Array<IBookmarkItem>;
+}
 
-const bookmarkSchema = new Schema<any>(
+const bookmarkSchema: Schema<IBookmarks> = new Schema(
   {
-    user: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
-    course: {
-      type: Schema.Types.ObjectId,
-      ref: "Course",
-      required: true,
+    items: {
+      type: [
+        {
+          courseId: {
+            type: Schema.Types.ObjectId,
+            ref: "Course",
+          },
+          quantity: {
+            type: Number,
+            default: 1,
+            min: [1, "Quantity can not be less then 1."],
+            required: true,
+          },
+        },
+      ],
+      default: [],
     },
   },
   { timestamps: true }
 );
 
-bookmarkSchema.index({ user: 1, course: 1 }, { unique: true });
+bookmarkSchema.index({ owner: 1, "user.course": 1 }, { unique: true });
 
-const bookmarks =
-  (mongoose.models?.bookmarks as Model<any>) ||
-  mongoose.model<any>("Bookmarks", bookmarkSchema);
+const Bookmarks =
+  (mongoose.models?.bookmarks as Model<IBookmarks>) ||
+  mongoose.model<IBookmarks>("Bookmarks", bookmarkSchema);
 
-export default bookmarks;
+export default Bookmarks;
