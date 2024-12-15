@@ -14,19 +14,21 @@ const courseReviewSchema: Schema<CourseReview> = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: [true, 'Review must belong to a user']
     },
     courseId: {
       type: Schema.Types.ObjectId,
       ref: "Product",
+      required: [true, 'Review must belong to a course'],
     },
     review: {
       type: String,
-      required: [true, "Review text is required"],
+      required: [true, "Can't post an empty review"],
     },
     rating: {
       type: Number,
-      min: [1, "Rating can't be less than 1"],
-      max: [5, "Rating can't be more than 5"],
+      min:1,
+      max:5,
       default: 0,
     },
   },

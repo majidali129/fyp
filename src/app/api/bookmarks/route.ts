@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
           title: 1,
           category: 1,
           ratings: 1,
+          avgRatings: 1,
           price: 1,
           oldPrice: 1,
           reviews: 1,

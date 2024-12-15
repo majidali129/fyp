@@ -4,9 +4,9 @@ import { connectDB } from "@/lib/connectDB";
 import CourseReview from "@/models/courseReviews.model";
 import Course from "@/models/newCourse.model";
 import { courseReviewSchema } from "@/schemas/course-review-schema";
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { NextRequest } from "next/server";
-
+import { getSession } from "../../../../../../lib/sessions";
 
 // /api/courses/course/course-id/reviews => get, add or update , delete
 export async function POST(
@@ -16,27 +16,32 @@ export async function POST(
   await connectDB();
 
   try {
-    // TODO: get userID from request header after user authorizations
-
     const courseId = (await params).courseId;
-    const requestData = await request.json();
-    const parsedData = courseReviewSchema.safeParse(requestData);
+    const session = await getSession();
+
+    if (!session)
+      return apiResponse({
+        message: "User not logged in",
+        success: false,
+        status: 401,
+      });
+    const { userId } = session;
+    const requestData = Object.fromEntries(await request.formData());
+    const parsedData = courseReviewSchema.safeParse({
+      ...requestData,
+      rating: Number(requestData.rating),
+    });
     if (!parsedData.success) {
       return apiResponse({
         message: "Invalid review data",
         status: 400,
-        error: parsedData.error.flatten().fieldErrors,
       });
     }
 
-    const addedReview = await CourseReview.updateOne(
-      { userId: "user-1", courseId },
-      {
-        ...parsedData,
-        courseId,
-        userId: "user-101",
-      },
-      { upsert: true }
+    const addedReview = await CourseReview.findOneAndUpdate(
+      { userId, courseId },
+      { ...parsedData.data, courseId, userId },
+      { new: true, upsert: true, includeResultMetadata: true }
     );
 
     const reviewStats = await CourseReview.aggregate([
@@ -45,30 +50,31 @@ export async function POST(
       },
       {
         $group: {
-          _id: "$courseId",
+          _id: "courseId",
+          nRatings: { $sum: 1 },
           avgRating: { $avg: "$rating" },
-          count: { $sum: 1 },
         },
       },
     ]);
 
-    const { avgRating = 0, count = 0 } = reviewStats[0] || {};
-
-    await Course.updateOne(
-      { _id: courseId },
-      {
-        avgRatings: avgRating,
-        ratings: count,
-      }
-    );
+    if (reviewStats.length > 0) {
+      await Course.findByIdAndUpdate(courseId, {
+        avgRatings: reviewStats[0].avgRating,
+        ratings: reviewStats[0].nRatings,
+      });
+    } else {
+      await Course.findByIdAndUpdate(courseId, {
+        avgRatings: 0,
+        ratings: 0,
+      });
+    }
 
     return apiResponse({
-      message:
-        addedReview.upsertedCount > 0
-          ? "Review added successfully"
-          : "Review updated successfully",
+      message: addedReview.lastErrorObject?.updatedExisting
+        ? "Review updated successfully"
+        : "Review added successfully",
       status: 201,
-      data: { avgRating, ratingsCount: count },
+      data: reviewStats[0],
     });
   } catch (error) {
     console.log("Error while reviewing to course.", error);
@@ -80,11 +86,10 @@ export async function POST(
   }
 }
 
-export async function GET({
-  params,
-}: {
-  params: Promise<{ courseId: string }>;
-}) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ courseId: string }> }
+) {
   await connectDB();
 
   try {
@@ -97,7 +102,7 @@ export async function GET({
 
     const reviews = await CourseReview.aggregate([
       {
-        $match: { courseId: new Types.ObjectId(courseId) },
+        $match: { courseId: new mongoose.Types.ObjectId(courseId) },
       },
       {
         $lookup: {
@@ -115,6 +120,7 @@ export async function GET({
           updatedAt: 1,
           "user.username": 1,
           "user.profilePhoto": 1,
+          "user._id": 1,
         },
       },
     ]);
@@ -133,11 +139,14 @@ export async function GET({
   }
 }
 
-export async function DELETE({
-  params,
-}: {
-  params: Promise<{ courseId: string }>;
-}) {
+export async function DELETE(
+  _request: NextRequest,
+  {
+    params,
+  }: {
+    params: Promise<{ courseId: string }>;
+  }
+) {
   await connectDB();
   try {
     const courseId = (await params).courseId;
@@ -147,15 +156,23 @@ export async function DELETE({
         status: 400,
       });
 
+    const session = await getSession();
+    if (!session)
+      return apiResponse({
+        message: "User not logged in",
+        success: false,
+        status: 401,
+      });
+    const { userId } = session;
+
     const deletedReview = await CourseReview.findOneAndDelete({
-      userId: "user-123",
+      userId,
       courseId,
     });
 
-    console.log("deleted review result", deletedReview);
     if (!deletedReview) {
       return apiResponse({
-        message: "Review not found or unauthorized to delete",
+        message: "No review found for this course by the current user",
         status: 404,
       });
     }
@@ -168,17 +185,22 @@ export async function DELETE({
         $group: {
           _id: "$courseId",
           avgRating: { $avg: "$rating" },
-          count: { $sum: 1 },
+          nRatings: { $sum: 1 },
         },
       },
     ]);
 
-    const { avgRating = 0, count = 0 } = reviewStats[0] || {};
-
-    await Course.findByIdAndUpdate(courseId, {
-      avgRatings: avgRating,
-      ratings: count,
-    });
+    if (reviewStats.length > 0) {
+      await Course.findByIdAndUpdate(courseId, {
+        avgRatings: reviewStats[0].avgRating,
+        ratings: reviewStats[0].nRatings,
+      });
+    }else {
+      await Course.findByIdAndUpdate(courseId, {
+        avgRatings: 0,
+        ratings: 0,
+      });
+    }
 
     return apiResponse({
       message: "Review deleted successfully",
@@ -192,4 +214,3 @@ export async function DELETE({
     });
   }
 }
-
