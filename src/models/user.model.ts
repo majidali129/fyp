@@ -101,18 +101,18 @@ const userSchema: Schema<User> = new Schema(
       default: false,
     },
     profilePhoto: {
-        public_id: {
-          type: String,
-          required: true,
-        },
-        url: {
-          type: String,
-          required: true,
-        },
-        secure_url: {
-          type: String,
-          required: true,
-        },
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+      secure_url: {
+        type: String,
+        required: true,
+      },
     },
     verifyCode: String,
     verifyCodeExpiry: Date,

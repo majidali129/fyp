@@ -34,7 +34,7 @@ export const auth = async () => {
       );
     }
 
-    return user;
+    return {  token: accessToken, _id: user._id, username: user.username, role: user.role, user };
   } catch (error) {
     console.log("Error in authorization", error);
     throw new Error(error instanceof Error ? error.message : "Auth Error");

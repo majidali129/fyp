@@ -1,6 +1,7 @@
 import { auth } from "@/helpers/auth";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
+import { verifySession } from "@/lib/sessions";
 import User from "@/models/user.model";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,9 +11,10 @@ export async function POST(request: NextRequest) {
 
   try {
     const cookieStore = await cookies();
-    const user = await auth();
+    // const user = await auth();
+    const {userId} = await verifySession()
     await User.findByIdAndUpdate(
-      user._id,
+      userId,
       {
         $unset: {
           refreshToken: 1,
@@ -31,9 +33,6 @@ export async function POST(request: NextRequest) {
     cookieStore.set("accessToken", "", cookieOption);
     cookieStore.set("refreshToken", "", cookieOption);
 
-    // const loginUrl = new URL('/sign-in', request.url);
-
-    // return NextResponse.redirect(loginUrl)
     const response = NextResponse.json({
       message: "User logged out",
       success: true,

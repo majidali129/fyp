@@ -1,26 +1,27 @@
 // get all bookmarks
 // add to bookmark
 
+import { auth } from "@/helpers/auth";
 import { isMongoId } from "@/helpers/isMongoId";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
-import Bookmarks from "@/models/bookmarks.model";
+import { getSession, verifySession } from "@/lib/sessions";
+import UserBookmarks from "@/models/bookmarks.model";
 import Course from "@/models/newCourse.model";
-import { Schema } from "mongoose";
 import { NextRequest } from "next/server";
 
 const getBookmarks = async (userId: string) => {
-  const bookmarkStats = await Bookmarks.aggregate([
+  const bookmarkStats = await UserBookmarks.aggregate([
     {
       $match: { owner: userId },
     },
     {
-      $unwind: "$items",
+      $unwind: "$courses",
     },
     {
       $lookup: {
         from: "courses",
-        localField: "items.courseId",
+        localField: "courses.courseId",
         foreignField: "_id",
         as: "course",
       },
@@ -29,21 +30,27 @@ const getBookmarks = async (userId: string) => {
     {
       $project: {
         course: { $first: "$course" },
-        "course.title": 1,
-        "course.ratings": 1,
-        "course.avgRatings": 1,
-        "course.reviews": 1,
-        "course.price": 1,
-        "course.oldPrice": 1,
-        "course.thumbnail": 1,
-        "course.trailer": 1,
       },
     },
+
+    // {
+    //   $project: {
+    //     course: { $first: "$course" },
+    //     "course.title": 1,
+    //     "course.ratings": 1,
+    //     "course.avgRatings": 1,
+    //     "course.reviews": 1,
+    //     "course.price": 1,
+    //     "course.oldPrice": 1,
+    //     "course.thumbnail": 1,
+    //     "course.trailer": 1,
+    //   },
+    // },
     {
       $group: {
         _id: "$_id",
         totalBookmarks: { $sum: 1 },
-        items: {
+        courses: {
           $push: "$$ROOT",
         },
       },
@@ -53,7 +60,7 @@ const getBookmarks = async (userId: string) => {
   return (
     bookmarkStats[0] ?? {
       _id: null,
-      items: [],
+      courses: [],
       totalBookmarks: 0,
     }
   );
@@ -62,15 +69,32 @@ const getBookmarks = async (userId: string) => {
 export async function GET(request: NextRequest) {
   await connectDB();
   try {
-    //TODO: get userid from request
-    const bookMarks = await getBookmarks("user-123");
+    //TODO: get userid for authorization from request
+    const session = await getSession();
+    if (!session) {
+      return apiResponse({
+        success: false,
+        message: "You are not logged in! please log in to get access",
+        status: 401,
+      });
+    }
+
+    /**
+     * TODO:
+     * ! limit course fields on populate
+     */
+    const bookmarks = await UserBookmarks.find({
+      bookmarkedBy: session.userId,
+    }).populate("courseId");
 
     return apiResponse({
       message: "Bookmarks fetched successfully",
       status: 200,
-      data: {...bookMarks},
+      data: { bookmarks },
     });
   } catch (error) {
+    console.log(error);
+
     return apiResponse({
       message: "Error while fetching bookmarks",
       status: 500,
@@ -82,33 +106,59 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   await connectDB();
   try {
-    const { courseId, quantity } = await request.json();
+    const session = await getSession();
+    if (!session) {
+      return apiResponse({
+        success: false,
+        message:
+          "You are not logged in! please log in to add course to wishlist",
+        status: 401,
+      });
+    }
+    const { userId } = session;
+    const { courseId } = await request.json();
+
     if (!isMongoId(courseId))
       return apiResponse({ message: "Invalid course ID", status: 400 });
 
-    const course = await Course.findById(new Schema.Types.ObjectId(courseId));
+    const course = await Course.findById(courseId);
+
     if (!course)
       return apiResponse({ message: "Course no longer exists", status: 404 });
 
-    const bookmarks = await Bookmarks.findOne({ owner: "user-id" });
+    const isAlreadyBookmarked = await UserBookmarks.findOne({
+      courseId,
+      bookmarkedBy: userId,
+    });
+    console.log("already bookmarked", isAlreadyBookmarked);
 
-    const addedCourse = bookmarks?.items.find(
-      (course) => course.courseId === courseId
-    );
+    if (isAlreadyBookmarked) {
+      await UserBookmarks.findOneAndDelete({
+        courseId,
+        bookmarkedBy: userId,
+      });
 
-    if (addedCourse) {
-      addedCourse.quantity = quantity;
+      return apiResponse({
+        message: "Bookmark deleted successfully",
+        status: 200,
+      });
     } else {
-      bookmarks?.items.push({ courseId, quantity });
-    }
+      await UserBookmarks.create({
+        courseId,
+        bookmarkedBy: userId,
+      });
 
-    await bookmarks?.save();
+      return apiResponse({
+        message: "Bookmark added successfully",
+        status: 201,
+        data: { isBookmarked: true },
+      });
+    }
   } catch (error) {
     console.log("Error while adding to bookmark", error);
     return apiResponse({
-      message: "Error while saving course to bookmark",
+      message: "Error while performing action to bookmark",
       status: 500,
-      error: error instanceof Error ? error.message : "Unknow Error",
     });
   }
 }

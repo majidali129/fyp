@@ -2,14 +2,11 @@ import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import User from "@/models/user.model";
 import { loginUserSchema } from "@/schemas/loginUserSchema";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import bcryptjs from "bcryptjs";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from "@/helpers/generate-tokens";
 import mongoose from "mongoose";
 import { cookies } from "next/headers";
+import { generateAccessToken, generateRefreshToken } from "@/lib/sessions";
 
 const setAccessAndRefreshTokens = async (userId: string) => {
   await connectDB();
@@ -20,14 +17,18 @@ const setAccessAndRefreshTokens = async (userId: string) => {
     });
     if (!user) throw new Error("User not found to geenerate tokens");
     const accessToken = await generateAccessToken(
-      user._id as string,
-      user.username,
-      user.role
+      {
+        username: user.username,
+        role: user.role,
+        userId: user._id as string,
+    }
     );
     const refreshToken = await generateRefreshToken(
-      user._id as string,
-      user.username,
-      user.role
+      {
+        username: user.username,
+        role: user.role,
+        userId: user._id as string,
+    }
     );
 
     user.refreshToken = refreshToken;
