@@ -8,88 +8,48 @@ import { connectDB } from "@/lib/connectDB";
 import { getSession, verifySession } from "@/lib/sessions";
 import UserBookmarks from "@/models/bookmarks.model";
 import Course from "@/models/newCourse.model";
+import mongoose from "mongoose";
 import { NextRequest } from "next/server";
-
-const getBookmarks = async (userId: string) => {
-  const bookmarkStats = await UserBookmarks.aggregate([
-    {
-      $match: { owner: userId },
-    },
-    {
-      $unwind: "$courses",
-    },
-    {
-      $lookup: {
-        from: "courses",
-        localField: "courses.courseId",
-        foreignField: "_id",
-        as: "course",
-      },
-    },
-
-    {
-      $project: {
-        course: { $first: "$course" },
-      },
-    },
-
-    // {
-    //   $project: {
-    //     course: { $first: "$course" },
-    //     "course.title": 1,
-    //     "course.ratings": 1,
-    //     "course.avgRatings": 1,
-    //     "course.reviews": 1,
-    //     "course.price": 1,
-    //     "course.oldPrice": 1,
-    //     "course.thumbnail": 1,
-    //     "course.trailer": 1,
-    //   },
-    // },
-    {
-      $group: {
-        _id: "$_id",
-        totalBookmarks: { $sum: 1 },
-        courses: {
-          $push: "$$ROOT",
-        },
-      },
-    },
-  ]);
-
-  return (
-    bookmarkStats[0] ?? {
-      _id: null,
-      courses: [],
-      totalBookmarks: 0,
-    }
-  );
-};
 
 export async function GET(request: NextRequest) {
   await connectDB();
   try {
-    //TODO: get userid for authorization from request
     const session = await getSession();
-    if (!session) {
-      return apiResponse({
-        success: false,
-        message: "You are not logged in! please log in to get access",
-        status: 401,
-      });
-    }
 
-    /**
-     * TODO:
-     * ! limit course fields on populate
-     */
-    const bookmarks = await UserBookmarks.find({
-      bookmarkedBy: session.userId,
-    }).populate("courseId");
+    const bookmarks = await UserBookmarks.aggregate([
+      {
+        $match: { bookmarkedBy: new mongoose.Types.ObjectId(session?.userId) },
+      },
+      {
+        $lookup: {
+          from: "courses",
+          foreignField: "_id",
+          localField: "courseId",
+          as: "course",
+        },
+      },
+      {
+        $project: {
+          courseId: 1,
+          title: 1,
+          category: 1,
+          ratings: 1,
+          price: 1,
+          oldPrice: 1,
+          reviews: 1,
+          thumbnail: 1,
+          createdBy: 1
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        }
+      }
+    ]);
 
     return apiResponse({
       message: "Bookmarks fetched successfully",
-      status: 200,
       data: { bookmarks },
     });
   } catch (error) {
