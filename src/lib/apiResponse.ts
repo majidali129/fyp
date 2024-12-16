@@ -5,7 +5,15 @@ export const apiResponse = ({
   success = true,
   message,
   status = 200,
-  data
+  data,
+  error,
 }: ApiResponseProp) => {
-  return NextResponse.json({ success, message, data }, { status });
+  if (error) {
+    return NextResponse.json(
+      { success, message, data: null, error },
+      { status }
+    );
+  } else {
+    return NextResponse.json({ success, message, data }, { status });
+  }
 };

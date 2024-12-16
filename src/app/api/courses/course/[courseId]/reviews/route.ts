@@ -7,6 +7,7 @@ import { courseReviewSchema } from "@/schemas/course-review-schema";
 import mongoose, { Types } from "mongoose";
 import { NextRequest } from "next/server";
 import { getSession } from "../../../../../../lib/sessions";
+import { formatErrors } from "@/helpers/parseErrors";
 
 // /api/courses/course/course-id/reviews => get, add or update , delete
 export async function POST(
@@ -29,12 +30,14 @@ export async function POST(
     const requestData = Object.fromEntries(await request.formData());
     const parsedData = courseReviewSchema.safeParse({
       ...requestData,
-      rating: Number(requestData.rating),
     });
+
     if (!parsedData.success) {
       return apiResponse({
+        success: false,
         message: "Invalid review data",
         status: 400,
+        error: formatErrors(parsedData.error),
       });
     }
 
@@ -195,7 +198,7 @@ export async function DELETE(
         avgRatings: reviewStats[0].avgRating,
         ratings: reviewStats[0].nRatings,
       });
-    }else {
+    } else {
       await Course.findByIdAndUpdate(courseId, {
         avgRatings: 0,
         ratings: 0,
