@@ -80,7 +80,6 @@ export async function POST(
       data: reviewStats[0],
     });
   } catch (error) {
-    console.log("Error while reviewing to course.", error);
     return apiResponse({
       message: "Error while adding review to course",
       status: 500,
@@ -133,7 +132,6 @@ export async function GET(
       data: reviews,
     });
   } catch (error) {
-    console.log("Error while getting reviews on this course", error);
     return apiResponse({
       message: "Error while geting course reviews",
       status: 500,
@@ -209,7 +207,6 @@ export async function DELETE(
       message: "Review deleted successfully",
     });
   } catch (error) {
-    console.log("Error while deleting review on this course", error);
     return apiResponse({
       message: "Error while deleting course review",
       status: 500,
