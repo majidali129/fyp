@@ -6,46 +6,9 @@ import { NextRequest } from "next/server";
 import bcryptjs from "bcryptjs";
 import mongoose from "mongoose";
 import { cookies } from "next/headers";
-import { generateAccessToken, generateRefreshToken } from "@/lib/sessions";
+import { setAccessAndRefreshTokens } from "@/lib/sessions";
 
-const setAccessAndRefreshTokens = async (userId: string) => {
-  await connectDB();
 
-  try {
-    const user = await User.findById({
-      _id: new mongoose.Types.ObjectId(userId),
-    });
-    if (!user) throw new Error("User not found to geenerate tokens");
-    const accessToken = await generateAccessToken(
-      {
-        username: user.username,
-        role: user.role,
-        userId: user._id as string,
-    }
-    );
-    const refreshToken = await generateRefreshToken(
-      {
-        username: user.username,
-        role: user.role,
-        userId: user._id as string,
-    }
-    );
-
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
-
-    return { accessToken, refreshToken };
-  } catch (error) {
-    console.log(
-      "Something went wrong while generating access refresh token",
-      error
-    );
-
-    throw new Error(
-      "Something went wrong while generating access refresh token"
-    );
-  }
-};
 
 export async function POST(request: NextRequest) {
   await connectDB();

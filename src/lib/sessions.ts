@@ -2,6 +2,9 @@ import User from "@/models/user.model";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { apiResponse } from "./apiResponse";
+import { connectDB } from "./connectDB";
+import mongoose from "mongoose";
 
 interface ITokenPayload {
   username: string;
@@ -19,10 +22,10 @@ const encrypt = async (
   });
 };
 
-export const decrypt = async (token: string): Promise<ITokenPayload> => {
+export const decrypt = async (token: string, secret: string): Promise<ITokenPayload> => {
   return (await jwt.verify(
     token,
-    process.env.ACCESS_TOKEN_SECRET!
+    secret,
   )) as ITokenPayload;
 };
 
@@ -48,12 +51,12 @@ export const getSession = async () => {
   if (!token) return null;
 
 
-  const payload = await decrypt(token as unknown as string);
+  const payload = await decrypt(token as unknown as string, process.env.ACCESS_TOKEN_SECRET!);
 
   const user = await User.findById(payload.userId).select(
     "-password -refreshToken -__v"
   );
-  return {...payload, user}
+  return {...payload, user, token}
 };
 
 export const verifySession = async () => {
@@ -63,6 +66,7 @@ export const verifySession = async () => {
   return {
     isAuthenticated: true,
     userId: session.userId,
+    token: session.token
   };
 };
 
@@ -71,4 +75,44 @@ export const deleteSession = async () => {
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
   redirect("/login");
+};
+
+
+export const setAccessAndRefreshTokens = async (userId: string) => {
+  await connectDB();
+
+  try {
+    const user = await User.findById({
+      _id: new mongoose.Types.ObjectId(userId),
+    });
+    if (!user) throw new Error("User not found to geenerate tokens");
+    const accessToken = await generateAccessToken(
+      {
+        username: user.username,
+        role: user.role,
+        userId: user._id as string,
+    }
+    );
+    const refreshToken = await generateRefreshToken(
+      {
+        username: user.username,
+        role: user.role,
+        userId: user._id as string,
+    }
+    );
+
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+  } catch (error) {
+    console.log(
+      "Something went wrong while generating access refresh token",
+      error
+    );
+
+    throw new Error(
+      "Something went wrong while generating access refresh token"
+    );
+  }
 };
