@@ -134,13 +134,13 @@ function CoursePreview() {
             {briefSummary && (
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-2">Brief Summary</h3>
-                <p className="text-gray-700">{briefSummary}</p>
+                <p className="text-gray-700">{JSON.stringify(briefSummary)}</p>
               </div>
             )}
             {description && (
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-2">Description</h3>
-                <p className="text-gray-700">{description}</p>
+                <p className="text-gray-700">{JSON.stringify(description)}</p>
               </div>
             )}
           </CardContent>
