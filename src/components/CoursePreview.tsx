@@ -159,18 +159,18 @@ function CoursePreview() {
       {thumbnail && trailer && (
         <Card>
           <CardContent>
-            <section className="grid md:grid-cols-2 gap-5 ">
-              <div className="!w-full space-y-2">
+            <section className="flex justify-center items-center gap-5 ">
+              <div className="w-60 space-y-2">
                 <h5>Course Thumbnail</h5>
                 <Image
                   src={URL.createObjectURL(thumbnail)}
                   alt={title}
-                  className="w-full h-96 rounded-md object-cover"
+                  className="w-full h-auto rounded-md object-cover"
                 />
               </div>
-              <div className="!w-full space-y-2">
+              <div className="!w-60 space-y-2">
                 <h5>Course Trailer</h5>
-                <video controls className="w-full h-96 rounded-md object-cover">
+                <video controls className="w-full h-72 rounded-md object-cover">
                   <source
                     src={URL.createObjectURL(trailer)}
                     type={trailer.type}
