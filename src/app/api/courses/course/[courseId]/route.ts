@@ -86,7 +86,7 @@ export async function GET(request: NextRequest,
   }
 }
 
-export async function DELETE({
+export async function DELETE(request: NextRequest, {
   params,
 }: {
   params: Promise<{ courseId: string }>;
