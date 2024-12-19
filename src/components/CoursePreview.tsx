@@ -158,7 +158,7 @@ function CoursePreview() {
       {thumbnail && trailer && (
         <Card>
           <CardContent>
-            <section className="grid md:grid-cols-2 gap-3 ">
+            <section className="grid md:grid-cols-2 gap-5 ">
               <div className="!w-full space-y-2">
                 <h5>Course Thumbnail</h5>
                 <Image
@@ -188,11 +188,7 @@ function CoursePreview() {
             <CardTitle>Course Content</CardTitle>
           </CardHeader>
           <CardContent>
-            <Accordion
-              type="single"
-              collapsible
-              className=""
-            >
+            <Accordion type="single" collapsible className="">
               {sections.map((section: Sections, index: number) => (
                 <AccordionItem
                   value={`section-${index}`}
@@ -203,11 +199,11 @@ function CoursePreview() {
                     {section.title}
                   </AccordionTrigger>
                   <AccordionContent>
-                    <ul className="space-y-4">
+                    <ul className="space-y-8">
                       {section.lectures.map((lecture, lectureIndex) => (
                         <li
                           key={lecture.id}
-                          className="shadow md:space-x-10 md:grid md:grid-cols-2 px-3"
+                          className="shadow md:grid md:grid-cols-2 gap-5 px-3"
                         >
                           <div className="h-full md:grid md:grid-rows-2 ">
                             <div>
@@ -396,7 +392,7 @@ function CoursePreview() {
             <CardTitle>Instructor Messages</CardTitle>
           </CardHeader>
           <CardContent>
-            <section className="grid md:grid-cols-2">
+            <section className="grid md:grid-cols-2 gap-5">
               <div>
                 <h5>Welcome Message</h5>
                 <p className="text-gray-700">{welcomeMessage}</p>
