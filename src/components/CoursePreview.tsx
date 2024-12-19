@@ -157,19 +157,18 @@ function CoursePreview() {
       {thumbnail && trailer && (
         <Card>
           <CardContent>
-           <section className="grid md:grid-cols-2 *:w-full">
-           <div>
+           <section className="grid md:grid-cols-2 *:border *:border-red-500">
+           <div className="border border-blue-500 !w-full">
               <h5>Course Thumbnail</h5>
               <Image
                 src={URL.createObjectURL(thumbnail)}
                 alt={title}
-                width={300}
-                height={200}
+                className="w-full !h-32"
               />
             </div>
-            <div>
+            <div className="border border-blue-500 !w-full">
               <h5>Course Trailer</h5>
-              <video controls className="w-full h-40 rounded-lg object-cover">
+              <video controls className="w-full h-60 rounded-lg object-cover">
                 <source
                   src={URL.createObjectURL(trailer)}
                   type={trailer.type}
@@ -188,7 +187,7 @@ function CoursePreview() {
             <CardTitle>Course Content</CardTitle>
           </CardHeader>
           <CardContent>
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion type="single" collapsible className="w-full !border-white">
               {sections.map((section: Sections, index: number) => (
                 <AccordionItem value={`section-${index}`} key={section.id} className="border-b-0 border border-gray-100 -mt-2 !mb-4">
                   <AccordionTrigger className="text-[1rem] [&>div]:flex-between [&>div]:px-3 [&>div]:py-2 [&>div]:!gap-x-0 ">
@@ -199,23 +198,27 @@ function CoursePreview() {
                       {section.lectures.map((lecture, lectureIndex) => (
                         <li
                           key={lecture.id}
-                          className="border p-4 rounded-lg shadow"
+                          className="shadow md:space-x-10 md:grid md:grid-cols-2 px-3"
                         >
-                          <h4 className="font-semibold text-lg">
-                            {lecture.caption}
-                          </h4>
-                          <p className="text-gray-600 mt-2">
-                            {lecture.description}
-                          </p>
-                          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="h-full md:grid md:grid-rows-2 ">
+                            <div>
+                              <h5>Caption</h5>
+                              <p className="text-gray-700 rounded-md">{lecture.caption}</p>
+                            </div>
+                            <div>
+                              <h5>Description</h5>
+                              <p className="text-gray-700 rounded-md">{lecture.description}</p>
+                            </div>
+                          </div>
+                          <div className=" !w-full">
                             {lecture.video && (
-                              <div>
+                              <div className="w-full ">
                                 <h5 className="font-semibold mb-2">
                                   Lecture Video
                                 </h5>
                                 <video
                                   controls
-                                  className="w-full h-40 rounded-lg object-cover"
+                                  className="w-full h-72 object-cover"
                                 >
                                   <source
                                     src={URL.createObjectURL(lecture.video)}
@@ -236,6 +239,7 @@ function CoursePreview() {
                               </div>
                             )}
                           </div>
+
                         </li>
                       ))}
                     </ul>
@@ -279,7 +283,7 @@ function CoursePreview() {
               <CardTitle>Course Details</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className=" space-y-4">
                 <div>
                   <h3 className="text-xl font-semibold mb-4">
                     What You Will Learn
@@ -362,25 +366,27 @@ function CoursePreview() {
         </Card>
       )}
 
-      {welcomeMessage ||
+      {welcomeMessage &&
         (congratulationMessage && (
           <Card>
             <CardHeader>
-              <CardTitle>Course Messages</CardTitle>
+              <CardTitle>Instructor Messages</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Welcome Message</h3>
+            <CardContent >
+              <section className="grid md:grid-cols-2">
+              <div>
+                <h5>Welcome Message</h5>
                 <p className="text-gray-700 p-4 rounded-md">{welcomeMessage}</p>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">
+                <h5 >
                   Congratulation Message
-                </h3>
+                </h5>
                 <p className="text-gray-700 p-4 rounded-md">
                   {congratulationMessage}
                 </p>
               </div>
+              </section>
             </CardContent>
             <CardFooter>
               <Button size="lg">Save Course</Button>
