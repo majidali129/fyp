@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -149,7 +148,9 @@ function CoursePreview() {
       ) : (
         <Card className="mb-8">
           <CardHeader>
-            <h4 className="opacity-80 text-center">No Course Data Found. Please Try To Uplaod Course.</h4>
+            <h4 className="opacity-80 text-center">
+              No Course Data Found. Please Try To Uplaod Course.
+            </h4>
           </CardHeader>
         </Card>
       )}
@@ -157,26 +158,26 @@ function CoursePreview() {
       {thumbnail && trailer && (
         <Card>
           <CardContent>
-           <section className="grid md:grid-cols-2 *:border *:border-red-500">
-           <div className="border border-blue-500 !w-full">
-              <h5>Course Thumbnail</h5>
-              <Image
-                src={URL.createObjectURL(thumbnail)}
-                alt={title}
-                className="w-full !h-32"
-              />
-            </div>
-            <div className="border border-blue-500 !w-full">
-              <h5>Course Trailer</h5>
-              <video controls className="w-full h-60 rounded-lg object-cover">
-                <source
-                  src={URL.createObjectURL(trailer)}
-                  type={trailer.type}
+            <section className="grid md:grid-cols-2 gap-3 ">
+              <div className="!w-full space-y-2">
+                <h5>Course Thumbnail</h5>
+                <Image
+                  src={URL.createObjectURL(thumbnail)}
+                  alt={title}
+                  className="w-full h-60 rounded-md object-cover"
                 />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-           </section>
+              </div>
+              <div className="!w-full space-y-2">
+                <h5>Course Trailer</h5>
+                <video controls className="w-full h-60 rounded-md object-cover">
+                  <source
+                    src={URL.createObjectURL(trailer)}
+                    type={trailer.type}
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </section>
           </CardContent>
         </Card>
       )}
@@ -187,9 +188,17 @@ function CoursePreview() {
             <CardTitle>Course Content</CardTitle>
           </CardHeader>
           <CardContent>
-            <Accordion type="single" collapsible className="w-full !border-white">
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full !border-white"
+            >
               {sections.map((section: Sections, index: number) => (
-                <AccordionItem value={`section-${index}`} key={section.id} className="border-b-0 border border-gray-100 -mt-2 !mb-4">
+                <AccordionItem
+                  value={`section-${index}`}
+                  key={section.id}
+                  className="border-b-0 border border-gray-100 -mt-2 !mb-4"
+                >
                   <AccordionTrigger className="text-[1rem] [&>div]:flex-between [&>div]:px-3 [&>div]:py-2 [&>div]:!gap-x-0 ">
                     {section.title}
                   </AccordionTrigger>
@@ -203,11 +212,15 @@ function CoursePreview() {
                           <div className="h-full md:grid md:grid-rows-2 ">
                             <div>
                               <h5>Caption</h5>
-                              <p className="text-gray-700 rounded-md">{lecture.caption}</p>
+                              <p className="text-gray-700 rounded-md">
+                                {lecture.caption}
+                              </p>
                             </div>
                             <div>
                               <h5>Description</h5>
-                              <p className="text-gray-700 rounded-md">{lecture.description}</p>
+                              <p className="text-gray-700 rounded-md">
+                                {lecture.description}
+                              </p>
                             </div>
                           </div>
                           <div className=" !w-full">
@@ -239,11 +252,10 @@ function CoursePreview() {
                               </div>
                             )}
                           </div>
-
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-6">
+                    <div className="mt-6 flex justify-end">
                       <Button
                         onClick={() => handleSaveSection(section.id)}
                         disabled={
@@ -290,7 +302,11 @@ function CoursePreview() {
                   </h3>
                   <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                     {whatYouWillTeach.map((item, index) => (
-                      <div role="li" key={index} className="text-gray-700 space-x-2 flex-start">
+                      <div
+                        role="li"
+                        key={index}
+                        className="text-gray-700 space-x-2 flex-start"
+                      >
                         <span>
                           <FaCircleCheck className="text-success-500" />
                         </span>{" "}
@@ -305,7 +321,11 @@ function CoursePreview() {
                   </h3>
                   <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                     {targetAudience.map((item, index) => (
-                      <div role="li" key={index} className="text-gray-700 space-x-2 flex-start">
+                      <div
+                        role="li"
+                        key={index}
+                        className="text-gray-700 space-x-2 flex-start"
+                      >
                         <span>
                           <FaCircleCheck className="text-success-500" />
                         </span>{" "}
@@ -321,7 +341,11 @@ function CoursePreview() {
                 </h3>
                 <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                   {courseRequirements.map((item, index) => (
-                    <div role="li" key={index} className="text-gray-700space-x-2 flex-start">
+                    <div
+                      role="li"
+                      key={index}
+                      className="text-gray-700space-x-2 flex-start"
+                    >
                       <span>
                         <FaCircleCheck className="text-success-500" />
                       </span>{" "}
@@ -366,33 +390,28 @@ function CoursePreview() {
         </Card>
       )}
 
-      {welcomeMessage &&
-        (congratulationMessage && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Instructor Messages</CardTitle>
-            </CardHeader>
-            <CardContent >
-              <section className="grid md:grid-cols-2">
+      {welcomeMessage && congratulationMessage && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Instructor Messages</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <section className="grid md:grid-cols-2">
               <div>
                 <h5>Welcome Message</h5>
-                <p className="text-gray-700 p-4 rounded-md">{welcomeMessage}</p>
+                <p className="text-gray-700">{welcomeMessage}</p>
               </div>
               <div>
-                <h5 >
-                  Congratulation Message
-                </h5>
-                <p className="text-gray-700 p-4 rounded-md">
-                  {congratulationMessage}
-                </p>
+                <h5>Congratulation Message</h5>
+                <p className="text-gray-700">{congratulationMessage}</p>
               </div>
-              </section>
-            </CardContent>
-            <CardFooter>
-              <Button size="lg">Save Course</Button>
-            </CardFooter>
-          </Card>
-        ))}
+            </section>
+          </CardContent>
+          <CardFooter>
+            <Button size="lg">Save Course</Button>
+          </CardFooter>
+        </Card>
+      )}
     </div>
   );
 }
