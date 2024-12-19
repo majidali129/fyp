@@ -17,9 +17,9 @@ import {
   subtitleLanguages,
 } from "../../_lib/filters-data";
 import SubmitBtn from "@/components/SubmitBtn";
-import { courseBasicInfoSchema } from "@/schemas/create-course-schemas";
 import { useNewCourseProvider } from "@/context/new-course/new-course";
 import { usePathname, useRouter } from "next/navigation";
+import { courseBasicInfoSchema } from "@/schemas/course-basic-info-schema";
 
 type BasicInfoType = z.infer<typeof courseBasicInfoSchema>;
 

@@ -1,6 +1,6 @@
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
-import { decrypt, getSession, setAccessAndRefreshTokens } from "@/lib/sessions";
+import { decrypt, setAccessAndRefreshTokens } from "@/lib/sessions";
 import User from "@/models/user.model";
 import { cookies } from "next/headers";
 

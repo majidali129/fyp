@@ -64,7 +64,7 @@ export async function PATCH(request: NextRequest) {
         try {
           const { video, title, description, caption, publicId, order, tags } =
             lecture;
-          const res = await uploadAndTranscodeVideo(video);
+          const res = await uploadAndTranscodeVideo(video); // TO FILE SYSTEM
 
           const newLecture = {
             title,

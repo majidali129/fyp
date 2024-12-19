@@ -43,7 +43,7 @@ interface NewCourseMetadataState {
   courseDuration: Duration;
   pricingType: PricingType;
   price: number;
-  discount: number;
+  discount?: number;
   enrollmentLimit: number;
   format: string;
   status: CourseStatus;

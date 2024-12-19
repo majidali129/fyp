@@ -24,12 +24,12 @@ const initialState: NewCourseMetadataState = {
   subtitleLanguage: undefined,
   courseLevel: Level.Beginner,
   courseDuration: Duration["1-3 Months"],
+  format: "Self-Paced",
+  status: CourseStatus.Draft,
   pricingType: PricingType.Paid,
   price: 0,
   discount: 0,
   enrollmentLimit: 0,
-  format: "",
-  status: CourseStatus.Draft,
 
   // Advance Info
   thumbnail: null,

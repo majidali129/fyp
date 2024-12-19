@@ -14,7 +14,7 @@ export const courseBasicInfoSchema = z.object({
     duration: z.string().min(1, "Duration is required."),
     pricingType: z.string().min(1, "Pricing type is required."),
     price: z.number().min(0, "Price cannot be less than 0."),
-    discount: z.number().min(0, "Discount cannot be less than 0."),
+    discount: z.number().min(0, "Discount cannot be less than 0.").optional(),
     enrollmentLimit: z.number().min(1, "Enrollment limit cannot be less than 1."),
     format: z.string().min(1, "Course format is required."),
   });
