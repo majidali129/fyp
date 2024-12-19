@@ -165,12 +165,12 @@ function CoursePreview() {
                 <Image
                   src={URL.createObjectURL(thumbnail)}
                   alt={title}
-                  className="w-full h-80 rounded-md object-cover"
+                  className="w-full h-96 rounded-md object-cover"
                 />
               </div>
               <div className="!w-full space-y-2">
                 <h5>Course Trailer</h5>
-                <video controls className="w-full h-80 rounded-md object-cover">
+                <video controls className="w-full h-96 rounded-md object-cover">
                   <source
                     src={URL.createObjectURL(trailer)}
                     type={trailer.type}
