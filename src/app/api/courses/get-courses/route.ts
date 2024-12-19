@@ -7,8 +7,8 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   await connectDB();
 
+  const searchParams = request.nextUrl.searchParams;
   try {
-    const searchParams = request.nextUrl.searchParams;
     const {
       search,
       sort,

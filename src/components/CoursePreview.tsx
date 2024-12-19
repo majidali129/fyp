@@ -282,7 +282,7 @@ function CoursePreview() {
                   <h3 className="text-xl font-semibold mb-4">
                     What You Will Learn
                   </h3>
-                  <ul className="list-disc pl-5 space-y-2">
+                  <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                     {whatYouWillTeach.map((item, index) => (
                       <li key={index} className="text-gray-700 space-x-2">
                         <span>
@@ -297,7 +297,7 @@ function CoursePreview() {
                   <h3 className="text-xl font-semibold mb-4">
                     Target Audience
                   </h3>
-                  <ul className="list-disc pl-5 space-y-2">
+                  <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                     {targetAudience.map((item, index) => (
                       <li key={index} className="text-gray-700 space-x-2">
                         <span>
@@ -313,7 +313,7 @@ function CoursePreview() {
                 <h3 className="text-xl font-semibold mb-4">
                   Course Requirements
                 </h3>
-                <ul className="list-disc pl-5 space-y-2">
+                <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                   {courseRequirements.map((item, index) => (
                     <li key={index} className="text-gray-700 space-x-2">
                       <span>
