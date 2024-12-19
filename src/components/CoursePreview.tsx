@@ -155,7 +155,7 @@ function CoursePreview() {
               No Course Data Found. Please Try To Uplaod Course.
             </h4>
           </CardHeader>
-          <CardFooter>
+          <CardFooter className="flex items-center justify-center">
             {/* <Link href={"/dashboard/instructor/create-new-course"}>Lets Upload New One</Link> */}
             <LinkButton  to="/dashboard/instructor/create-new-course">Lets Upload New One</LinkButton>
           </CardFooter>
@@ -176,7 +176,7 @@ function CoursePreview() {
               </div>
               <div className="w-3/4 space-y-2">
                 <h5>Course Trailer</h5>
-                <video controls className="w-full h-72 rounded-md object-cover">
+                <video controls className="w-full h-80 rounded-md object-cover">
                   <source
                     src={URL.createObjectURL(trailer)}
                     type={trailer.type}
