@@ -164,12 +164,12 @@ function CoursePreview() {
                 <Image
                   src={URL.createObjectURL(thumbnail)}
                   alt={title}
-                  className="w-full h-60 rounded-md object-cover"
+                  className="w-full h-80 rounded-md object-cover"
                 />
               </div>
               <div className="!w-full space-y-2">
                 <h5>Course Trailer</h5>
-                <video controls className="w-full h-60 rounded-md object-cover">
+                <video controls className="w-full h-80 rounded-md object-cover">
                   <source
                     src={URL.createObjectURL(trailer)}
                     type={trailer.type}
@@ -191,13 +191,13 @@ function CoursePreview() {
             <Accordion
               type="single"
               collapsible
-              className="w-full !border-white"
+              className=""
             >
               {sections.map((section: Sections, index: number) => (
                 <AccordionItem
                   value={`section-${index}`}
                   key={section.id}
-                  className="border-b-0 border border-gray-100 -mt-2 !mb-4"
+                  className=" -mt-2 !mb-4"
                 >
                   <AccordionTrigger className="text-[1rem] [&>div]:flex-between [&>div]:px-3 [&>div]:py-2 [&>div]:!gap-x-0 ">
                     {section.title}
