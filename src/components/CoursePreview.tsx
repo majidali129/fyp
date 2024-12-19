@@ -22,6 +22,8 @@ import { CheckCircle, XCircle, Play } from "lucide-react";
 import { useNewCourseProvider } from "@/context/new-course/new-course";
 import { Sections } from "@/context/new-course/defs";
 import { FaCircleCheck } from "react-icons/fa6";
+import Link from "next/link";
+import LinkButton from "./LinkButton";
 
 function CoursePreview() {
   const {
@@ -153,6 +155,10 @@ function CoursePreview() {
               No Course Data Found. Please Try To Uplaod Course.
             </h4>
           </CardHeader>
+          <CardFooter>
+            {/* <Link href={"/dashboard/instructor/create-new-course"}>Lets Upload New One</Link> */}
+            <LinkButton  to="/dashboard/instructor/create-new-course">Lets Upload New One</LinkButton>
+          </CardFooter>
         </Card>
       )}
 
@@ -160,7 +166,7 @@ function CoursePreview() {
         <Card>
           <CardContent>
             <section className="flex justify-center items-center gap-5 ">
-              <div className="w-60 space-y-2">
+              <div className="w-3/4 space-y-2">
                 <h5>Course Thumbnail</h5>
                 <Image
                   src={URL.createObjectURL(thumbnail)}
@@ -168,7 +174,7 @@ function CoursePreview() {
                   className="w-full h-auto rounded-md object-cover"
                 />
               </div>
-              <div className="!w-60 space-y-2">
+              <div className="w-3/4 space-y-2">
                 <h5>Course Trailer</h5>
                 <video controls className="w-full h-72 rounded-md object-cover">
                   <source
