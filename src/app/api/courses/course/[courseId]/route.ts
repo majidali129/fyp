@@ -6,8 +6,9 @@ import Section from "@/models/courseSection.model";
 import Lecture from "@/models/lecture.model";
 import Course from "@/models/newCourse.model";
 import { dropFile } from "@/services/cloudinary-drop-file";
+import { NextRequest } from "next/server";
 
-export async function GET(
+export async function GET(request: NextRequest,
   { params }: { params: Promise<{ courseId: string }> }
 ) {
   await connectDB();
