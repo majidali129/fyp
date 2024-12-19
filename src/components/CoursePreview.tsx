@@ -171,7 +171,7 @@ function CoursePreview() {
                 <Image
                   src={URL.createObjectURL(thumbnail)}
                   alt={title}
-                  className="w-full h-auto rounded-md object-cover"
+                  className="w-full h-full rounded-md object-cover"
                 />
               </div>
               <div className="w-3/4 space-y-2 h-80">
