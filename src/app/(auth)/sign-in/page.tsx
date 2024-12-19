@@ -31,19 +31,19 @@ export default function SignInForm() {
   const form = useForm<z.infer<typeof loginUserSchema>>({
     resolver: zodResolver(loginUserSchema),
     defaultValues: {
-      identifier: "",
+      username: "",
       password: "",
       remember: false
     }
   });
 
   const onSubmit = async (data: LoginUserFormValues) => {
-    console.log({ email: data.identifier, password: data.password });
+    console.log({ email: data.username, password: data.password });
 
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        identifier: data.identifier,
+        username: data.username,
         password: data.password
       });
 
