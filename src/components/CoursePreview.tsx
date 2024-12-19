@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import jsxToString from 'jsx-to-string'
 import {
   Card,
   CardContent,
@@ -134,13 +135,13 @@ function CoursePreview() {
             {briefSummary && (
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-2">Brief Summary</h3>
-                <p className="text-gray-700">{JSON.stringify(briefSummary)}</p>
+                <p className="text-gray-700">{briefSummary}</p>
               </div>
             )}
             {description && (
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-2">Description</h3>
-                <p className="text-gray-700">{JSON.stringify(description)}</p>
+                <p className="text-gray-700">{jsxToString(description)}</p>
               </div>
             )}
           </CardContent>
