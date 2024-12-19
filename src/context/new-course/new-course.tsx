@@ -68,6 +68,9 @@ const NewCourseProvider = ({ children }: NewCourseContextProviderProp) => {
     };
   }, [metadata]);
 
+  console.log('Updated context state data: ', metadata);
+
+
   return (
     <NewCourseContext.Provider value={value}>
       {children}

@@ -157,7 +157,8 @@ function CoursePreview() {
       {thumbnail && trailer && (
         <Card>
           <CardContent>
-            <div>
+           <section className="grid md:grid-cols-2 *:w-full">
+           <div>
               <h5>Course Thumbnail</h5>
               <Image
                 src={URL.createObjectURL(thumbnail)}
@@ -176,6 +177,7 @@ function CoursePreview() {
                 Your browser does not support the video tag.
               </video>
             </div>
+           </section>
           </CardContent>
         </Card>
       )}
@@ -188,8 +190,8 @@ function CoursePreview() {
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
               {sections.map((section: Sections, index: number) => (
-                <AccordionItem value={`section-${index}`} key={section.id}>
-                  <AccordionTrigger className="text-lg">
+                <AccordionItem value={`section-${index}`} key={section.id} className="border-b-0 border border-gray-100 -mt-2 !mb-4">
+                  <AccordionTrigger className="text-[1rem] [&>div]:flex-between [&>div]:px-3 [&>div]:py-2 [&>div]:!gap-x-0 ">
                     {section.title}
                   </AccordionTrigger>
                   <AccordionContent>
@@ -284,12 +286,12 @@ function CoursePreview() {
                   </h3>
                   <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                     {whatYouWillTeach.map((item, index) => (
-                      <li key={index} className="text-gray-700 space-x-2">
+                      <div role="li" key={index} className="text-gray-700 space-x-2 flex-start">
                         <span>
                           <FaCircleCheck className="text-success-500" />
                         </span>{" "}
                         {item.value}
-                      </li>
+                      </div>
                     ))}
                   </ul>
                 </div>
@@ -299,12 +301,12 @@ function CoursePreview() {
                   </h3>
                   <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                     {targetAudience.map((item, index) => (
-                      <li key={index} className="text-gray-700 space-x-2">
+                      <div role="li" key={index} className="text-gray-700 space-x-2 flex-start">
                         <span>
                           <FaCircleCheck className="text-success-500" />
                         </span>{" "}
                         {item.value}
-                      </li>
+                      </div>
                     ))}
                   </ul>
                 </div>
@@ -315,12 +317,12 @@ function CoursePreview() {
                 </h3>
                 <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
                   {courseRequirements.map((item, index) => (
-                    <li key={index} className="text-gray-700 space-x-2">
+                    <div role="li" key={index} className="text-gray-700space-x-2 flex-start">
                       <span>
                         <FaCircleCheck className="text-success-500" />
                       </span>{" "}
                       {item.value}
-                    </li>
+                    </div>
                   ))}
                 </ul>
               </div>

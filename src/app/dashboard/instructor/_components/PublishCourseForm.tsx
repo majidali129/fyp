@@ -42,7 +42,6 @@ const PublishCourseForm = ({ title }: { title?: string }) => {
 
   // READ data from context
   const {sections, welcomeMessage, congratulationMessage ,setMetadata} = useNewCourseProvider()
-  console.log({sections, welcomeMessage, congratulationMessage});
 
 
   // TODO: WE'LL TRIGGER API CALL AS USER WILL ENTER SOMETHING TO SEARCH FIELD;
