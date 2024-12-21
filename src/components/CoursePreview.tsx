@@ -380,7 +380,7 @@ function CoursePreview() {
                     className="w-full h-auto mb-4 rounded-md"
                   />
                   <p className="mb-2">
-                    <strong>Instructor:</strong> {courseInstructors[0].name}
+                    <strong>Instructor:</strong> {courseInstructors[0]?.name}
                   </p>
                   <p className="mb-2">
                     <strong>Duration:</strong> {courseDuration}
