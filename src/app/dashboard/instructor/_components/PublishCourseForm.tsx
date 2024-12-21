@@ -149,7 +149,7 @@ const PublishCourseForm = ({ title }: { title?: string }) => {
               <Button type="button" variant="outline">
                 Previous
               </Button>
-              <SubmitBtn>Submit For Review</SubmitBtn>
+              <SubmitBtn >Submit For Review</SubmitBtn>
             </div>
           </form>
         </Form>

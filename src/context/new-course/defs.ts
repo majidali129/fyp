@@ -11,8 +11,8 @@ interface Instructor {
 }
 
 interface Lecture {
-  notes: File | any,
-  caption: string,
+  notes?: File | any,
+  title: string,
   description: string,
   video: File,
   id: string
