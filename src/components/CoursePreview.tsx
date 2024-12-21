@@ -51,6 +51,7 @@ function CoursePreview() {
 
   const [savedSections, setSavedSections] = useState<string[]>([]);
   const [savingSection, setSavingSection] = useState<string | null>(null);
+  // const [lectureDuration, setLectureDuration] = useState<string | null>(null)
 
   const handleSaveSection = async (sectionId: string) => {
     setSavingSection(sectionId);
@@ -60,13 +61,17 @@ function CoursePreview() {
     setSavingSection(null);
   };
 
+  let lecFormatedDuration: string;
+
   const lecDuration = (videoUrl: string) => {
     const videoElement = document.createElement("video");
     videoElement.src = videoUrl;
     videoElement.onloadedmetadata = () => {
-      return videoElement.duration;
+      const duration = formatedDuration(videoElement.duration);
+      // setLectureDuration(duration)
+      lecFormatedDuration = duration;
     };
-    return videoElement.duration;
+    return lecFormatedDuration || "20:33:23";
   };
 
   return (
@@ -75,9 +80,7 @@ function CoursePreview() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-7">
             <div>
-              <h2 className="">
-                {title || "Learn Front End With Next JS"}
-              </h2>
+              <h2 className="">{title || "Learn Front End With Next JS"}</h2>
               <p>{subTitle || "course sub-title"}</p>
               <p className="text-lg my-3">
                 {description || "Course Description"}
@@ -176,15 +179,15 @@ function CoursePreview() {
             {whatYouWillTeach.length > 0 &&
               targetAudience.length > 0 &&
               courseRequirements.length > 0 && (
-                <div>
-                  <h4 className="my-5">Course Details</h4>
-                  <div>
-                    <div className=" space-y-4 grid md:grid-cols-2 gap-x-4">
+                <Card>
+                  <CardHeader>
+                    <h3>Course Details</h3>
+                  </CardHeader>
+                  <CardContent>
+                    <div className=" space-y-4">
                       <div>
-                        <h3 className="text-xl font-semibold mb-4">
-                          What You Will Learn
-                        </h3>
-                        <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
+                        <h4 className="mb-2.5">What You Will Learn</h4>
+                        <ul className="pl-3 space-y-2 columns-1 md:columns-2">
                           {whatYouWillTeach.map((item, index) => (
                             <div
                               role="li"
@@ -200,10 +203,8 @@ function CoursePreview() {
                         </ul>
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold mb-4">
-                          Target Audience
-                        </h3>
-                        <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
+                        <h4 className="mb-2.5">Target Audience</h4>
+                        <ul className="pl-3 space-y-2 columns-1 md:columns-2">
                           {targetAudience.map((item, index) => (
                             <div
                               role="li"
@@ -219,10 +220,8 @@ function CoursePreview() {
                         </ul>
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold mb-4">
-                          Course Requirements
-                        </h3>
-                        <ul className="list-disc pl-5 space-y-2 columns-1 md:columns-2">
+                        <h4 className="mb-2.5">Course Requirements</h4>
+                        <ul className="pl-3 space-y-2 columns-1 md:columns-2">
                           {courseRequirements.map((item, index) => (
                             <div
                               role="li"
@@ -238,8 +237,8 @@ function CoursePreview() {
                         </ul>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               )}
 
             {courseInstructors.length > 0 && (
@@ -285,9 +284,9 @@ function CoursePreview() {
                 <CardHeader>
                   <h3>Instructor Messages</h3>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="!space-y-2.5">
                   <div>
-                    <h5>Welcome Message</h5>
+                    <h4>Welcome Message</h4>
                     <p className="text-gray-700">{welcomeMessage}</p>
                   </div>
                   <div>
@@ -322,11 +321,9 @@ function CoursePreview() {
                             >
                               <span>{lecture.title}</span>
                               <span className="text-sm text-muted-foreground">
-                                {formatedDuration(
-                                  lecDuration(
-                                    URL.createObjectURL(lecture.video)
-                                  )
-                                ) || "03:33:23"}
+                                {lecDuration(
+                                  URL.createObjectURL(lecture.video)
+                                )}
                               </span>
                             </li>
                           ))}
