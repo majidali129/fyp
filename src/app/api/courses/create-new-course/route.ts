@@ -6,18 +6,21 @@ import { createCourseSchema } from "@/schemas/course-schema";
 import { uploadFile } from "@/services/cloudinary-video-upload";
 import formidable from "formidable";
 import { NextRequest } from "next/server";
+import { z } from "zod";
 
 /**
  * ! Make sure to check user role befor any DB operations
  */
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '20mb',
-    },
-  },
-};
+const schema = z.object({
+  trailer: z.any().refine((value) => value === null || value === undefined, {
+    message: "Course trailer is required",
+  }),
+  thumbnail: z.any().refine((value) => value === null || value === undefined, {
+    message: "Course thumbnail is required",
+  }),
+})
+
 
 export async function POST(request: NextRequest) {
   await connectDB();
@@ -31,23 +34,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const formData = await request.formData();
-    const parsedData = Object.fromEntries(formData.entries()); // 1. Parse the form data into an object
-    console.log("Parsed Data: ", parsedData);
-    const formatedData = {
-      ...parsedData,
-      whatYouWillTeach: JSON.parse(parsedData.whatYouWillTeach as string),
-      targetAudience: JSON.parse(parsedData.targetAudience as string),
-      courseRequirements: JSON.parse(parsedData.courseRequirements as string),
-      courseInstructors: JSON.parse(parsedData.courseInstructors as string),
-    };
+    const parsedData = Object.fromEntries(formData.entries());
 
-    console.log("Formated Data: ", formatedData);
-
-    const result = createCourseSchema.safeParse(formatedData);
+    const result = schema.safeParse(parsedData);
     if (!result.success) {
       return apiResponse({
         success: false,
-        message: "Invalid course data",
+        message: "Thumbnail & Trailer are required",
         status: 400,
         error: formatErrors(result.error),
       });
@@ -63,24 +56,25 @@ export async function POST(request: NextRequest) {
     ]);
 
     const course = await CourseModel.create({
-      ...result.data,
       thumbnail: {
         public_id: courseThumbnail.public_id,
         url: courseThumbnail.url,
         bytes: courseThumbnail.bytes,
+        secure_url: courseThumbnail.secure_url,
       },
       trailer: {
         public_id: courseTrailer.public_id,
         url: courseTrailer.url,
         duration: courseTrailer.duration,
         bytes: courseTrailer.bytes,
+        secure_url: courseTrailer.secure_url,
       },
     });
 
     return apiResponse({
       success: true,
       message: "Course created successfully",
-      data: course,
+      data: {courseId: course._id},
       status: 201,
     });
   } catch (error) {
@@ -93,3 +87,17 @@ export async function POST(request: NextRequest) {
     });
   }
 }
+
+
+
+export async function PATCH (request: NextRequest) {
+  await connectDB();
+  if (request.method !== "PATCH") {
+    return apiResponse({
+      success: false,
+      message: "Method not allowed",
+      status: 405,
+    });
+  }
+}
+

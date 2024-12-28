@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import parse from "html-react-parser";
 import { Badge } from "@/components/ui/badge";
-import axios from 'axios'
+import axios from "axios";
 import {
   Accordion,
   AccordionContent,
@@ -19,6 +19,7 @@ import { FaCircleCheck } from "react-icons/fa6";
 import LinkButton from "./LinkButton";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { formatedDuration } from "@/helpers/calculateDuration";
+import { createCourse, saveCourseMetadata, saveCurriculumSection } from "@/services/api/courses.service";
 
 function CoursePreview() {
   const {
@@ -49,79 +50,103 @@ function CoursePreview() {
     courseInstructors,
     sections,
   } = useNewCourseProvider();
-  const data = {title, subTitle}
 
   const [savedSections, setSavedSections] = useState<string[]>([]);
   const [savingSection, setSavingSection] = useState<string | null>(null);
+  const [courseId, setCourseId] = useState<string | null>(null);
   // const [lectureDuration, setLectureDuration] = useState<string | null>(null)
 
-  const handleSaveSection = async (sectionId: string) => {
-    setSavingSection(sectionId);
-    // Simulating API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setSavedSections((prev) => [...prev, sectionId]);
-    setSavingSection(null);
-  };
+  // TODO1: SEND FORMDATA TO SERVER AND CREATE A NEW COURSE FROM SCRATCH AND GET ID IN RESPONSE FOR SUBSEQUEST REQUESTS
+  const formData = new FormData();
+  formData.append("trailer", trailer as File);
+  formData.append("thumbnail", thumbnail as File);
 
-  let lecFormatedDuration: string;
-
-  const lecDuration = (videoUrl: string) => {
-    const videoElement = document.createElement("video");
-    videoElement.src = videoUrl;
-    videoElement.onloadedmetadata = () => {
-      const duration = formatedDuration(videoElement.duration);
-      // setLectureDuration(duration)
-      lecFormatedDuration = duration;
-    };
-    return lecFormatedDuration || "20:33:23";
-  };
-
-  const handleCourseCreation = async () => {
- try {
-   const formData = new FormData()
-   formData.append("title", title);
-   formData.append("subTitle", subTitle);
-   formData.append("category", category);
-   formData.append("subCategory", subCategory);
-   formData.append("topic", topic);
-   formData.append("language", language);
-   formData.append("subtitleLanguage", subtitleLanguage!);
-   formData.append("courseLevel", courseLevel);
-   formData.append("courseDuration", courseDuration);
-   formData.append("pricingType", pricingType);
-   formData.append("price", price.toString());
-   formData.append("discount", discount?.toString()!);
-   formData.append("enrollmentLimit", enrollmentLimit.toString());
-   formData.append("format", format);
-   formData.append("status", status);
-   formData.append("thumbnail", thumbnail!);
-   formData.append("trailer", trailer!);
-   formData.append("briefSummary", briefSummary);
-   formData.append("description", description);
-   formData.append("whatYouWillTeach", JSON.stringify(whatYouWillTeach));
-   formData.append("targetAudience", JSON.stringify(targetAudience));
-   formData.append("courseRequirements", JSON.stringify(courseRequirements));
-   formData.append("welcomeMessage", welcomeMessage);
-   formData.append("congratulationMessage", congratulationMessage);
-   formData.append("courseInstructors", JSON.stringify(courseInstructors));
-
-     const response = await fetch('/api/courses/create-new-course', {
-      body: formData,
-      method: "POST",
-      headers: { 'Content-Type': 'multipart/form-data'
-     }
-     })
-     console.log('Data submitted successfully!', await response.json());
-
+  const handleCreateNewCourse = async () => {
+    try {
+      const res = await createCourse(formData);
+      setCourseId(res?.data.data.courseId)
+      console.log(res);
     } catch (error) {
-      console.error('Submission error:', error)
+      console.log('Failed to create new course', error);
     }
   }
+
+  // METADATA IS ALL EXCEPT SECTIONS , THUMBNAIL , TRAILER,
+    // TODO2: SEND METADATA TO SERVER AND UPDATE EXISTING COURSE VIA ID;
+  const metaData = {
+    title,
+    subTitle,
+    language,
+    subtitleLanguage,
+    courseLevel,
+    courseDuration,
+    pricingType,
+    price,
+    discount,
+    enrollmentLimit,
+    format,
+    status,
+    briefSummary,
+    description,
+    whatYouWillTeach,
+    targetAudience,
+    courseRequirements,
+    welcomeMessage,
+    congratulationMessage,
+    courseInstructors,
+  };
+
+  const handleSaveCourseMetadata = async () => {
+    try {
+      const res = await saveCourseMetadata(metaData, courseId!)
+      console.log(res);
+    } catch (error) {
+      console.error('Failed to save course metadata', error);
+    }
+  }
+  // TODO3: SAVE SECTIONS AS CURRICULUM ONE BY ONE VIA ID;
+
+  const handleSaveSection = async () => {
+    try {
+      const res = await saveCurriculumSection(sections[0]);
+      console.log(res);
+    } catch (error) {
+      console.error('Failed to save section', error);
+    }
+
+  }
+
   return (
     <>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-7">
+            {trailer && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Course Trailer</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="aspect-video relative">
+                    <video
+                      controls
+                      className="w-full rounded-md object-cover max-h-80 h-full "
+                    >
+                      <source
+                        src={URL.createObjectURL(trailer)}
+                        type={trailer?.type}
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+
+                  <div className="flex-end">
+                    <Button onClick={handleCreateNewCourse}>Save Trailer And Thumbnail</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             <div>
               <h2 className="">{title}</h2>
               <p>{subTitle}</p>
@@ -131,24 +156,6 @@ function CoursePreview() {
                 <Badge variant="secondary">{courseDuration}</Badge>
               </div>
             </div>
-            {trailer && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Course Trailer</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="aspect-video relative">
-                    <video controls className="w-full rounded-md object-cover max-h-80 ">
-                      <source
-                        src={URL.createObjectURL(trailer)}
-                        type={trailer?.type}
-                      />
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
 
             <Card>
               <CardHeader>
@@ -335,8 +342,10 @@ function CoursePreview() {
               </Card>
             )}
 
-            <div>
-              <Button onClick={handleCourseCreation}>Save Course Metadata</Button>
+            <div className="py-5 flex-end">
+              <Button onClick={handleSaveCourseMetadata}>
+                Save Course Metadata
+              </Button>
             </div>
 
             {/* CURRICULUM */}
@@ -365,23 +374,13 @@ function CoursePreview() {
                             >
                               <span>{lecture.title}</span>
                               <span className="text-sm text-muted-foreground">
-                                {lecDuration(
-                                  URL.createObjectURL(lecture.video)
-                                )}
+                                23:33:10
                               </span>
                             </li>
                           ))}
                         </ul>
                         <div className="mt-6 flex justify-end">
-                          <Button
-                            onClick={() => handleSaveSection(section.id)}
-                            disabled={
-                              savedSections.includes(section.id) ||
-                              savingSection === section.id ||
-                              (index > 0 &&
-                                !savedSections.includes(sections[index - 1].id))
-                            }
-                          >
+                          <Button onClick={handleSaveSection}>
                             {savingSection === section.id ? (
                               <>
                                 Saving...{" "}
@@ -429,6 +428,8 @@ function CoursePreview() {
                   <p className="mb-4">
                     <strong>Level:</strong> {courseLevel}
                   </p>
+
+                  <Button className="w-full">Save Thumbnail</Button>
                 </CardContent>
               </Card>
             )}
