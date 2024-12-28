@@ -11,6 +11,14 @@ import { NextRequest } from "next/server";
  * ! Make sure to check user role befor any DB operations
  */
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '20mb',
+    },
+  },
+};
+
 export async function POST(request: NextRequest) {
   await connectDB();
   if (request.method !== "POST") {
