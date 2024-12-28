@@ -39,6 +39,7 @@ export async function PATCH(request: NextRequest) {
       });
     }
     type Section = z.infer<typeof sectionSchema>;
+    const section: Section = results.data!;
 
     const {
       lectures,
@@ -46,7 +47,7 @@ export async function PATCH(request: NextRequest) {
       order: secOrder,
       publicId: secPublicId,
       courseId,
-    } = results.data as Section;
+    } = section;
 
     const course = (await CourseModel.findById(courseId)) as ICourse;
     if (!course) {
