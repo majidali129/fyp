@@ -297,6 +297,8 @@ function CoursePreview() {
               </Card>
             )}
 
+            {/* CURRICULUM */}
+
             <Card>
               <CardHeader>
                 <h2 className="text-2xl font-semibold mb-4">Course Content</h2>
@@ -317,7 +319,7 @@ function CoursePreview() {
                           {section.lectures.map((lecture, lectureIndex) => (
                             <li
                               key={lecture.id}
-                              className="shadow md:grid md:grid-cols-2 gap-5 px-3"
+                              className="p-3 shadow-md"
                             >
                               <span>{lecture.title}</span>
                               <span className="text-sm text-muted-foreground">
