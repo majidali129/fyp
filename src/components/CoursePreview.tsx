@@ -105,7 +105,7 @@ function CoursePreview() {
    formData.append("congratulationMessage", congratulationMessage);
    formData.append("courseInstructors", JSON.stringify(courseInstructors));
 
-     const response = await axios.post('/api/submit-data', formData, {
+     const response = await axios.post('/api/courses/create-new-course', formData, {
        headers: { 'Content-Type': 'multipart/form-data' },
      })
      console.log('Data submitted successfully!', response.data);
