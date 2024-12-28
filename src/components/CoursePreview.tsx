@@ -319,7 +319,7 @@ function CoursePreview() {
                           {section.lectures.map((lecture, lectureIndex) => (
                             <li
                               key={lecture.id}
-                              className="p-3 shadow-md"
+                              className="p-3 shadow-md flex-between"
                             >
                               <span>{lecture.title}</span>
                               <span className="text-sm text-muted-foreground">
