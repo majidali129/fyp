@@ -32,7 +32,7 @@ export const createCourseSchema = z.object({
       .min(0, "Discount cannot be less than 0.")
       .max(100, "Discount cannot exceed 100."),
 
-    enrollmentLimit: z.number().int().positive().optional(),
+    enrollmentLimit: z.number().nonnegative().optional(),
     courseFormat: CourseFormatSchema,
     status: CourseStatusSchema,
     courseBriefSummary: z
@@ -41,7 +41,7 @@ export const createCourseSchema = z.object({
     courseDescription: z
       .string()
       .min(20, "Course description must be at least 20 characters."),
-    whatYouWillLearn: z
+      whatYouWillTeach: z
       .array(
         z
           .string()
@@ -72,17 +72,13 @@ export const createCourseSchema = z.object({
       .string()
       .min(10, "Congratulation message must be at least 10 characters."),
     courseInstructors: z
-      .array(objectIdSchema)
+      .array(z.string())
       .min(1, "At least one instructor is required."),
-    createdBy: objectIdSchema,
+    createdBy: z.string(),
     enrolledStudents: z
       .number()
       .int()
       .nonnegative("Enrolled students cannot be negative."),
-    ratings: z
-      .number()
-      .min(0, "Rating cannot be less than 0.")
-      .max(5, "Rating cannot exceed 5."),
-    reviews: z.array(objectIdSchema).optional(),
-    bookMarks: z.array(objectIdSchema).optional(),
+    reviews: z.array(z.string()).optional(),
+    bookMarks: z.array(z.string()).optional(),
   });

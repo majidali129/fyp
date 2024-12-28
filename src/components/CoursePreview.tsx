@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import parse from "html-react-parser";
 import { Badge } from "@/components/ui/badge";
+import axios from 'axios'
 import {
   Accordion,
   AccordionContent,
@@ -43,11 +44,12 @@ function CoursePreview() {
     whatYouWillTeach,
     targetAudience,
     courseRequirements,
-    sections,
     welcomeMessage,
     congratulationMessage,
     courseInstructors,
+    sections,
   } = useNewCourseProvider();
+  const data = {title, subTitle}
 
   const [savedSections, setSavedSections] = useState<string[]>([]);
   const [savingSection, setSavingSection] = useState<string | null>(null);
@@ -74,6 +76,44 @@ function CoursePreview() {
     return lecFormatedDuration || "20:33:23";
   };
 
+  const handleCourseCreation = async () => {
+ try {
+   const formData = new FormData()
+   formData.append("title", title);
+   formData.append("subTitle", subTitle);
+   formData.append("category", category);
+   formData.append("subCategory", subCategory);
+   formData.append("topic", topic);
+   formData.append("language", language);
+   formData.append("subtitleLanguage", subtitleLanguage!);
+   formData.append("courseLevel", courseLevel);
+   formData.append("courseDuration", courseDuration);
+   formData.append("pricingType", pricingType);
+   formData.append("price", price.toString());
+   formData.append("discount", discount?.toString()!);
+   formData.append("enrollmentLimit", enrollmentLimit.toString());
+   formData.append("format", format);
+   formData.append("status", status);
+   formData.append("thumbnail", thumbnail!);
+   formData.append("trailer", trailer!);
+   formData.append("briefSummary", briefSummary);
+   formData.append("description", description);
+   formData.append("whatYouWillTeach", JSON.stringify(whatYouWillTeach));
+   formData.append("targetAudience", JSON.stringify(targetAudience));
+   formData.append("courseRequirements", JSON.stringify(courseRequirements));
+   formData.append("welcomeMessage", welcomeMessage);
+   formData.append("congratulationMessage", congratulationMessage);
+   formData.append("courseInstructors", JSON.stringify(courseInstructors));
+
+     const response = await axios.post('/api/submit-data', formData, {
+       headers: { 'Content-Type': 'multipart/form-data' },
+     })
+     console.log('Data submitted successfully!', response.data);
+
+    } catch (error) {
+      console.error('Submission error:', error)
+    }
+  }
   return (
     <>
       <div className="container mx-auto px-4 py-8">
@@ -82,9 +122,7 @@ function CoursePreview() {
             <div>
               <h2 className="">{title}</h2>
               <p>{subTitle}</p>
-              <p className="text-lg my-3">
-                {parse(description)}
-              </p>
+              <p className="text-lg my-3">{parse(description)}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge variant="secondary">{courseLevel}</Badge>
                 <Badge variant="secondary">{courseDuration}</Badge>
@@ -97,16 +135,13 @@ function CoursePreview() {
                 </CardHeader>
                 <CardContent>
                   <div className="aspect-video relative">
-                    <video controls className="w-full rounded-md object-cover ">
+                    <video controls className="w-full rounded-md object-cover max-h-80 ">
                       <source
                         src={URL.createObjectURL(trailer)}
                         type={trailer?.type}
                       />
                       Your browser does not support the video tag.
                     </video>
-                    <Button className="absolute bottom-4 left-4">
-                      Watch Trailer
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -296,6 +331,10 @@ function CoursePreview() {
                 </CardContent>
               </Card>
             )}
+
+            <div>
+              <Button onClick={handleCourseCreation}>Save Course Metadata</Button>
+            </div>
 
             {/* CURRICULUM */}
 

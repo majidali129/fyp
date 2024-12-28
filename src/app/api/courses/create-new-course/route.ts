@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const parsedData = Object.fromEntries(formData.entries()); // 1. Parse the form data into an object
 
+
     const result = createCourseSchema.safeParse(parsedData);
     if (!result.success) {
       return apiResponse({

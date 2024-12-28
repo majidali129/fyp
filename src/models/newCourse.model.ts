@@ -206,14 +206,11 @@ const CourseSchema: Schema<ICourse> = new Schema(
       required: true,
       maxlength: 8,
     },
-    // thumbnail: { type: String, required: true, trim: true },
-    // trailerUrl: { type: String, required: true, trim: true },
     // curriculum
     sections: {
       type: [Schema.Types.ObjectId],
       ref: "Section",
       default: [],
-      // required: [true, "Please add course sections."],
     },
     welcomeMessage: { type: String, required: true, trim: true },
     congratulationMessage: { type: String, required: true, trim: true },
