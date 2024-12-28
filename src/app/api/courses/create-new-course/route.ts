@@ -1,3 +1,4 @@
+import { formatErrors } from "@/helpers/parseErrors";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import CourseModel from "@/models/newCourse.model";
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
         success: false,
         message: "Invalid course data",
         status: 400,
-        data: result.error,
+        error: formatErrors(result.error),
       });
     }
 

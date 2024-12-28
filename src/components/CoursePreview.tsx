@@ -80,10 +80,10 @@ function CoursePreview() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-7">
             <div>
-              <h2 className="">{title || "Learn Front End With Next JS"}</h2>
-              <p>{subTitle || "course sub-title"}</p>
+              <h2 className="">{title}</h2>
+              <p>{subTitle}</p>
               <p className="text-lg my-3">
-                {description || "Course Description"}
+                {parse(description)}
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge variant="secondary">{courseLevel}</Badge>
@@ -284,7 +284,7 @@ function CoursePreview() {
                 <CardHeader>
                   <h3>Instructor Messages</h3>
                 </CardHeader>
-                <CardContent className="!space-y-2.5">
+                <CardContent className="!space-y-3">
                   <div>
                     <h4>Welcome Message</h4>
                     <p className="text-gray-700">{welcomeMessage}</p>
