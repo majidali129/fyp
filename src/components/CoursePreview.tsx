@@ -226,7 +226,7 @@ function CoursePreview() {
                             <div
                               role="li"
                               key={index}
-                              className="text-gray-700space-x-2 flex-start"
+                              className="text-gray-700 space-x-2 flex-start"
                             >
                               <span>
                                 <FaCircleCheck className="text-success-500" />
@@ -387,7 +387,6 @@ function CoursePreview() {
                   <p className="mb-4">
                     <strong>Level:</strong> {courseLevel}
                   </p>
-                  <Button className="w-full">Enroll Now</Button>
                 </CardContent>
               </Card>
             )}
