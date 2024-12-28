@@ -24,9 +24,18 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const parsedData = Object.fromEntries(formData.entries()); // 1. Parse the form data into an object
+    console.log("Parsed Data: ", parsedData);
+    const formatedData = {
+      ...parsedData,
+      whatYouWillTeach: JSON.parse(parsedData.whatYouWillTeach as string),
+      targetAudience: JSON.parse(parsedData.targetAudience as string),
+      courseRequirements: JSON.parse(parsedData.courseRequirements as string),
+      courseInstructors: JSON.parse(parsedData.courseInstructors as string),
+    };
 
+    console.log("Formated Data: ", formatedData);
 
-    const result = createCourseSchema.safeParse(parsedData);
+    const result = createCourseSchema.safeParse(formatedData);
     if (!result.success) {
       return apiResponse({
         success: false,
@@ -35,6 +44,8 @@ export async function POST(request: NextRequest) {
         error: formatErrors(result.error),
       });
     }
+
+    console.log("Result: ", result);
 
     const { thumbnail, trailer } = result.data;
 

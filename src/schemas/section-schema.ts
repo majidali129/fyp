@@ -8,4 +8,4 @@ export const sectionSchema = z.object({
   title: z.string().min(1, "Section title is required."),
   order: z.number().nonnegative("Order must be a non-negative number."),
   lectures: z.array(lectureSchema),
-});
+}).optional();
