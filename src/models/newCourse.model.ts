@@ -182,6 +182,19 @@ const CourseSchema: Schema<ICourse> = new Schema(
       default: 5,
       min: [0, "Discount cannot be negative"],
     },
+    thumbnail: {
+      public_id: { type: String, required: true },
+      url: { type: String, required: true },
+      bytes: { type: Number, required: true },
+      secure_url: { type: String, required: true },
+    },
+    trailer: {
+      public_id: { type: String, required: true },
+      url: { type: String, required: true },
+      secure_url: { type: String, required: true },
+      duration: Number,
+      bytes: Number
+    },
     enrollmentLimit: {
       type: Number,
       required: true,

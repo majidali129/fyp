@@ -1,17 +1,21 @@
+import { Sections } from "@/context/new-course/defs";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import Section from "@/models/courseSection.model";
+import Lecture from "@/models/lecture.model";
 import LectureModel from "@/models/lecture.model";
+import Course from "@/models/newCourse.model";
 import CourseModel, { ICourse } from "@/models/newCourse.model";
 import { sectionSchema } from "@/schemas/section-schema";
 import { uploadAndTranscodeVideo } from "@/services/cloudinary-video-upload";
 import { ObjectId } from "mongoose";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 /**
  * ! Make sure to check user role befor any DB operations
  */
+
 
 export async function PATCH(request: NextRequest) {
   // connect to DB
@@ -20,6 +24,7 @@ export async function PATCH(request: NextRequest) {
     // TODO: Receive req data
     const formData = await request.formData();
     const sectionData = formData.get("section");
+    const courseId = formData.get("courseId");
 
     // TODO: Validate req data
     if (!sectionData) {
@@ -46,7 +51,6 @@ export async function PATCH(request: NextRequest) {
       title: secTitle,
       order: secOrder,
       publicId: secPublicId,
-      courseId,
     } = section;
 
     const course = (await CourseModel.findById(courseId)) as ICourse;

@@ -1,6 +1,7 @@
 "use client";
 
 import { NewCourseProvider } from "@/context/new-course/new-course";
+import { ToastContainer } from 'react-toastify';
 import {
   QueryClient,
   QueryClientProvider,
@@ -41,6 +42,7 @@ export function Providers({ children }: { children: ReactNode }) {
       <NewCourseProvider>{children}</NewCourseProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
+      <ToastContainer />
     </QueryClientProvider>
   );
 }
