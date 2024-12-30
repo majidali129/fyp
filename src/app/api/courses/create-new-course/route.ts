@@ -1,13 +1,8 @@
-import { formatErrors } from "@/helpers/parseErrors";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
-import { getSession } from "@/lib/sessions";
 import Course from "@/models/newCourse.model";
-import { createCourseSchema } from "@/schemas/course-schema";
-import { uploadFile } from "@/services/cloudinary-video-upload";
 import formidable from "formidable";
 import { NextRequest } from "next/server";
-import { z } from "zod";
 
 /**
  * ! Make sure to check user role befor any DB operations
@@ -24,17 +19,6 @@ export async function POST(request: NextRequest) {
   }
     try {
       const data = await request.json();
-      // const result = createCourseSchema.safeParse(data);
-      // if(!result.success) {
-      //   return apiResponse({
-      //     success: false,
-      //     status: 400,
-      //     message: "Invalid course data",
-      //     error: formatErrors(result.error),
-      //   });
-      // }
-      // console.log('parsed data: ', result.data);
-      // const session = await getSession();
       console.log('Metadata: ', data);
 
       const course = await Course.create({

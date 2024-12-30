@@ -115,13 +115,13 @@ function CoursePreview() {
       formData.append("thumbnail", thumbnail as File);
       formData.append("courseId", courseId);
 
-      const res2 = await uploadCourseMedia(formData);
-      if (res2.status !== 200) {
-        toast.error("Failed to upload course media.");
-        return;
-      }
+      // const res2 = await uploadCourseMedia(formData);
+      // if (res2.status !== 200) {
+      //   toast.error("Failed to upload course media.");
+      //   return;
+      // }
 
-      toast.success("Course media uploaded successfully!");
+      // toast.success("Course media uploaded successfully!");
 
       // Step 3: Save Curriculum Sections
       const failedSections = [];

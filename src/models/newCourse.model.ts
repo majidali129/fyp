@@ -101,13 +101,13 @@ export interface ICourse extends Document {
   format: string;
   status: CourseStatus;
   // Advance Info
-  thumbnail: {
+  thumbnail?: {
     public_id: string;
     url: string;
     bytes: number;
     secure_url: string;
   };
-  trailer: {
+  trailer?: {
     public_id: string;
     url: string;
     secure_url: string;
