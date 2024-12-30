@@ -22,7 +22,7 @@ const initialState: NewCourseMetadataState = {
   topic: "",
   language: "",
   subtitleLanguage: undefined,
-  courseLevel: Level.Beginner,
+  level: Level.Beginner,
   courseDuration: Duration["1-3 Months"],
   format: "Self-Paced",
   status: CourseStatus.Draft,

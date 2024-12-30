@@ -39,7 +39,7 @@ interface NewCourseMetadataState {
   topic: string;
   language: string;
   subtitleLanguage?: string;
-  courseLevel: Level;
+  level: Level;
   courseDuration: Duration;
   pricingType: PricingType;
   price: number;

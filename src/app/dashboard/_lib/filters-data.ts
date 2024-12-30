@@ -61,8 +61,8 @@ const courseCategories: Array<ItemType> = [
   ]
 
   const coursePricingTypes: Array<ItemType> = [
-    { value: "free", label: "Free" },
-    { value: "paid", label: "Paid" },
+    { value: "Free", label: "Free" },
+    { value: "Paid", label: "Paid" },
   ]
 
 
@@ -81,18 +81,20 @@ const courseCategories: Array<ItemType> = [
   ];
 
   const courseLevels: Array<ItemType> = [
-    { value: "beginner", label: "Beginner" },
-    { value: "intermediate", label: "Intermediate" },
-    { value: "advanced", label: "Advanced" },
-    { value: "all", label: "All Levels" },
+    { value: "Beginner", label: "Beginner" },
+    { value: "Intermediate", label: "Intermediate" },
+    { value: "Advanced", label: "Advanced" },
+    { value: "Expert", label: "Expert" },
+    { value: "All Levels", label: "All Levels" },
   ];
 
   const courseDurations: Array<ItemType> = [
-    { value: "1-3 hours", label: "1-3 hours" },
-    { value: "3-6 hours", label: "3-6 hours" },
-    { value: "6-12 hours", label: "6-12 hours" },
-    { value: "12+ hours", label: "12+ hours" },
-    { value: "self-paced", label: "Self-paced" },
+    { value: "6-12 Months", label: "6-12 Months" },
+    { value: "3-6 Months", label: "3-6 Months" },
+    { value: "1-3 Months", label: "1-3 Months" },
+    { value: "1-4 Weeks", label: "1-4 Weeks" },
+    { value: "1-7 Days", label: "1-7 Days" },
+    { value: "self-paced", label: "self-paced" },
   ];
 
   const courseSbuCategories: {

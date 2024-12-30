@@ -28,6 +28,7 @@ export enum Duration {
   "1-3 Months" = "1-3 Months",
   "1-4 Weeks" = "1-4 Weeks",
   "1-7 Days" = "1-7 Days",
+  "self-paced" = "self-paced",
 }
 
 export enum PricingType {
@@ -87,34 +88,34 @@ export interface ICourse extends Document {
   subTitle: string;
   category: string;
   subCategory: string;
-  courseTopic: string;
+  topic: string;
   language: string;
   subtitleLanguage?: string;
-  courseLevel: Level;
+  level: Level;
   courseDuration: Duration;
   pricingType: PricingType;
   price: number;
-  oldPrice: number;
+  oldPrice?: number;
   discount: number;
   enrollmentLimit: number;
-  courseFormat: string;
+  format: string;
   status: CourseStatus;
   // Advance Info
   thumbnail: {
     public_id: string;
     url: string;
-    bytes: number,
-    secure_url: string
+    bytes: number;
+    secure_url: string;
   };
   trailer: {
     public_id: string;
     url: string;
     secure_url: string;
     duration: number;
-    bytes: number
+    bytes: number;
   };
-  courseBriefSummary: string;
-  courseDescription: string;
+  briefSummary: string;
+  description: string;
   whatYouWillTeach: Array<IUserGuide>;
   targetAudience: Array<IUserGuide>;
   courseRequirements: Array<IUserGuide>;
@@ -140,14 +141,14 @@ const UserGuideSchema: Schema<IUserGuide> = new Schema({
 
 const CourseSchema: Schema<ICourse> = new Schema(
   {
-    title: { type: String, required: true, trim: true, default: '' },
-    subTitle: { type: String, required: true, trim: true, default: '' },
-    category: { type: String, required: true, trim: true, default: '' },
-    subCategory: { type: String, required: true, trim: true, default: '' },
-    courseTopic: { type: String, required: true, trim: true, default: '' },
-    language: { type: String, required: true, trim: true, default: '' },
-    subtitleLanguage: { type: String, required: true, trim: true, default: '' },
-    courseLevel: {
+    title: { type: String, required: true, trim: true, default: "" },
+    subTitle: { type: String, required: true, trim: true, default: "" },
+    category: { type: String, required: true, trim: true, default: "" },
+    subCategory: { type: String, required: true, trim: true, default: "" },
+    topic: { type: String, required: true, trim: true, default: "" },
+    language: { type: String, required: true, trim: true, default: "" },
+    subtitleLanguage: { type: String, required: true, trim: true, default: "" },
+    level: {
       type: String,
       required: [true, "Please add course level"],
       enum: Object.values(Level),
@@ -164,7 +165,6 @@ const CourseSchema: Schema<ICourse> = new Schema(
       enum: Object.values(PricingType),
       default: PricingType.Paid,
       required: true,
-
     },
     price: {
       type: Number,
@@ -183,25 +183,25 @@ const CourseSchema: Schema<ICourse> = new Schema(
       min: [0, "Discount cannot be negative"],
     },
     thumbnail: {
-      public_id: { type: String, required: true },
-      url: { type: String, required: true },
-      bytes: { type: Number, required: true },
-      secure_url: { type: String, required: true },
+      public_id: { type: String },
+      url: { type: String },
+      bytes: { type: Number },
+      secure_url: { type: String },
     },
     trailer: {
-      public_id: { type: String, required: true },
-      url: { type: String, required: true },
-      secure_url: { type: String, required: true },
+      public_id: { type: String },
+      url: { type: String },
+      secure_url: { type: String },
       duration: Number,
-      bytes: Number
+      bytes: Number,
     },
     enrollmentLimit: {
       type: Number,
       required: true,
-      max: [100, "Enrollment limit exceeds maximum allowed (100)"],
+      max: [500, "Enrollment limit exceeds maximum allowed (100)"],
       default: 10,
     },
-    courseFormat: {
+    format: {
       type: String,
       enum: Object.values(CourseFormat),
       default: CourseFormat["self-paced"],
@@ -213,19 +213,34 @@ const CourseSchema: Schema<ICourse> = new Schema(
       enum: Object.values(CourseStatus),
       default: CourseStatus.Draft,
     },
-    courseBriefSummary: { type: String, required: true, trim: true, default: '' },
-    courseDescription: { type: String, required: true, trim: true, default: '' },
+    briefSummary: {
+      type: String,
+      required: true,
+      trim: true,
+      default: "",
+    },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+      default: "",
+    },
     whatYouWillTeach: {
       type: [UserGuideSchema],
       required: true,
-      default: []
+      default: [],
     },
-    targetAudience: { type: [UserGuideSchema], required: true, maxlength: 8, default: [] },
+    targetAudience: {
+      type: [UserGuideSchema],
+      required: true,
+      maxlength: 8,
+      default: [],
+    },
     courseRequirements: {
       type: [UserGuideSchema],
       required: true,
       maxlength: 8,
-      default: []
+      default: [],
     },
     // curriculum
     sections: {
@@ -233,8 +248,13 @@ const CourseSchema: Schema<ICourse> = new Schema(
       ref: "Section",
       default: [],
     },
-    welcomeMessage: { type: String, required: true, trim: true, default: '' },
-    congratulationMessage: { type: String, required: true, trim: true, default: '' },
+    welcomeMessage: { type: String, required: true, trim: true, default: "" },
+    congratulationMessage: {
+      type: String,
+      required: true,
+      trim: true,
+      default: "",
+    },
     courseInstructors: {
       type: [Schema.Types.ObjectId],
       ref: "Instructors",
@@ -243,8 +263,7 @@ const CourseSchema: Schema<ICourse> = new Schema(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-      default: null,
+      // required: true,
     },
     isPublished: { type: Boolean, default: false },
     enrolledStudents: {
@@ -258,7 +277,7 @@ const CourseSchema: Schema<ICourse> = new Schema(
     },
     avgRatings: {
       type: Number,
-      default: 0
+      default: 0,
     },
     reviews: {
       type: [Schema.Types.ObjectId],
@@ -284,7 +303,7 @@ CourseSchema.index({
   courseDuration: 1,
   pricingType: 1,
   enrolledStudents: 1,
-  createdBy: 1
+  createdBy: 1,
 });
 
 const Course =

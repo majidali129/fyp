@@ -10,6 +10,7 @@ import { MdOutlinePlayCircle } from "react-icons/md";
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import parse from "html-react-parser";
 import {
   Form,
   FormControl,
@@ -143,7 +144,7 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
   };
 
   function onSubmit(data: ProfileFormValues) {
-    const advanceInfoData = {...data, description, briefSummary, thumbnail, trailer};
+    const advanceInfoData = {...data, description: parse(description) , briefSummary: parse(briefSummary), thumbnail, trailer};
 
 
     const result = combineSchema.safeParse(advanceInfoData);

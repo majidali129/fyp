@@ -33,7 +33,7 @@ function CoursePreview() {
     topic,
     language,
     subtitleLanguage,
-    courseLevel,
+    level,
     courseDuration,
     pricingType,
     price,
@@ -61,7 +61,7 @@ function CoursePreview() {
     topic,
     language,
     subtitleLanguage,
-    courseLevel,
+    level,
     courseDuration,
     pricingType,
     price,
@@ -187,7 +187,7 @@ function CoursePreview() {
               <p>{subTitle}</p>
               <p className="text-lg my-3">{parse(description)}</p>
               <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant="secondary">{courseLevel}</Badge>
+                <Badge variant="secondary">{level}</Badge>
                 <Badge variant="secondary">{courseDuration}</Badge>
               </div>
             </div>
@@ -225,7 +225,7 @@ function CoursePreview() {
                       Course Structure
                     </h3>
                     <p>
-                      <strong>Level:</strong> {courseLevel}
+                      <strong>Level:</strong> {level}
                     </p>
                     <p>
                       <strong>Duration:</strong> {courseDuration}
@@ -444,10 +444,9 @@ function CoursePreview() {
                     <strong>Duration:</strong> {courseDuration}
                   </p>
                   <p className="mb-4">
-                    <strong>Level:</strong> {courseLevel}
+                    <strong>Level:</strong> {level}
                   </p>
 
-                  <Button className="w-full">Save Thumbnail</Button>
                 </CardContent>
               </Card>
             )}

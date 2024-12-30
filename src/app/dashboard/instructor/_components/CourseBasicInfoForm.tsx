@@ -190,7 +190,7 @@ const CourseBasicInfoForm = ({ title }: { title?: string }) => {
               />
               <SelectOption
                 label="Duration"
-                name="duration"
+                name="courseDuration"
                 control={form.control}
                 selectItems={courseDurations}
                 placeholder="Select..."
