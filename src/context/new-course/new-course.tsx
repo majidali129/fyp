@@ -23,7 +23,7 @@ const initialState: NewCourseMetadataState = {
   language: "",
   subtitleLanguage: undefined,
   level: Level.Beginner,
-  courseDuration: Duration["1-3 Months"],
+  duration: Duration["1-3 Months"],
   format: "Self-Paced",
   status: CourseStatus.Draft,
   pricingType: PricingType.Paid,

@@ -40,7 +40,7 @@ interface NewCourseMetadataState {
   language: string;
   subtitleLanguage?: string;
   level: Level;
-  courseDuration: Duration;
+  duration: Duration;
   pricingType: PricingType;
   price: number;
   discount?: number;
