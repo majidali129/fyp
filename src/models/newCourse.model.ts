@@ -92,7 +92,7 @@ export interface ICourse extends Document {
   language: string;
   subtitleLanguage?: string;
   level: Level;
-  courseDuration: Duration;
+  duration: Duration;
   pricingType: PricingType;
   price: number;
   oldPrice?: number;
@@ -154,7 +154,7 @@ const CourseSchema: Schema<ICourse> = new Schema(
       enum: Object.values(Level),
       default: Level.Beginner,
     },
-    courseDuration: {
+    duration: {
       type: String,
       required: [true, "Please add course duration"],
       enum: Object.values(Duration),

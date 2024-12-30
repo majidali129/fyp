@@ -144,10 +144,13 @@ const CourseAdvanceInfoForm = ({ title }: { title?: string }) => {
   };
 
   function onSubmit(data: ProfileFormValues) {
-    const advanceInfoData = {...data, description: parse(description) , briefSummary: parse(briefSummary), thumbnail, trailer};
+    const advanceInfoData = {...data, description , briefSummary, thumbnail, trailer};
+console.log(advanceInfoData);
 
 
     const result = combineSchema.safeParse(advanceInfoData);
+    console.log(result);
+
     if(result.success){
       setMetadata(result.data);
       handleMoveNext()

@@ -53,11 +53,19 @@ const CourseBasicInfoForm = ({ title }: { title?: string }) => {
   const path = usePathname();
 
   const onSubmit = (data: BasicInfoType) => {
+    console.log('submit called')
     const result = courseBasicInfoSchema.safeParse(data);
+    console.log(result);
+
     if (result.success) {
       setMetadata(result.data);
       handleFormReset();
       handleMoveNext();
+    }
+
+    if(!result.success){
+      console.log(result.error);
+
     }
   };
 
@@ -190,7 +198,7 @@ const CourseBasicInfoForm = ({ title }: { title?: string }) => {
               />
               <SelectOption
                 label="Duration"
-                name="courseDuration"
+                name="duration"
                 control={form.control}
                 selectItems={courseDurations}
                 placeholder="Select..."
