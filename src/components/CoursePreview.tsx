@@ -76,7 +76,9 @@ function CoursePreview() {
     courseRequirements,
     welcomeMessage,
     congratulationMessage,
-    courseInstructors
+    courseInstructors,
+    trailer: {},
+    thumbnail: {}
   }
   const [courseId, setCourseId] = useState<string | null>(null);
   const queryClient = useQueryClient();
