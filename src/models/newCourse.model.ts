@@ -125,7 +125,7 @@ export interface ICourse extends Document {
   welcomeMessage: string;
   congratulationMessage: string;
   courseInstructors: Array<ObjectId>;
-  createdBy: ObjectId;
+  createdBy?: ObjectId;
   isPublished: boolean;
   enrolledStudents: Array<ObjectId>;
   ratings: number;

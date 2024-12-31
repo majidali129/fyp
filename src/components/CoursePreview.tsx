@@ -115,7 +115,7 @@ function CoursePreview() {
       const formData = new FormData();
       formData.append("trailer", trailer as File);
       formData.append("thumbnail", thumbnail as File);
-      formData.append("courseId", courseId);
+      formData.append("courseId", courseId as string);
 
       const res2 = await uploadCourseMedia(formData);
       if (res2.status !== 200) {
