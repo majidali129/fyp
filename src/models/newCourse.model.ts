@@ -101,18 +101,18 @@ export interface ICourse extends Document {
   format: string;
   status: CourseStatus;
   // Advance Info
-  thumbnail: {
-    public_id: string;
-    url: string;
-    bytes: number;
-    secure_url: string;
+  thumbnail?: {
+    public_id?: string;
+    url?: string;
+    bytes?: number;
+    secure_url?: string;
   };
-  trailer: {
-    public_id: string;
-    url: string;
-    secure_url: string;
-    duration: number;
-    bytes: number;
+  trailer?: {
+    public_id?: string;
+    url?: string;
+    secure_url?: string;
+    duration?: number;
+    bytes?: number;
   };
   briefSummary: string;
   description: string;
@@ -183,18 +183,18 @@ const CourseSchema: Schema<ICourse> = new Schema(
       min: [0, "Discount cannot be negative"],
     },
     thumbnail: {
-      public_id: { type: String, required: true },
-      url: { type: String, required: true },
-      bytes: { type: Number , required: true},
-      secure_url: { type: String, required: true },
+      public_id: { type: String, default: '' },
+      url: { type: String, default: '' },
+      bytes: { type: Number , default:  0},
+      secure_url: { type: String, default: '' },
       default: {}
     },
     trailer: {
-      public_id: { type: String, required: true },
-      url: { type: String , required: true},
-      secure_url: { type: String, required: true },
-      duration: {type: Number, required: true},
-      bytes: {type: Number, required: true},
+      public_id: { type: String, default: '' },
+      url: { type: String , default: ''},
+      secure_url: { type: String, default: '' },
+      duration: {type: Number, default:  0},
+      bytes: {type: Number, default: 0 },
       default: {}
     },
     enrollmentLimit: {
