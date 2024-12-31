@@ -101,13 +101,13 @@ export interface ICourse extends Document {
   format: string;
   status: CourseStatus;
   // Advance Info
-  thumbnail?: {
+  thumbnail: {
     public_id: string;
     url: string;
     bytes: number;
     secure_url: string;
   };
-  trailer?: {
+  trailer: {
     public_id: string;
     url: string;
     secure_url: string;
@@ -183,17 +183,19 @@ const CourseSchema: Schema<ICourse> = new Schema(
       min: [0, "Discount cannot be negative"],
     },
     thumbnail: {
-      public_id: { type: String },
-      url: { type: String },
-      bytes: { type: Number },
-      secure_url: { type: String },
+      public_id: { type: String, required: true },
+      url: { type: String, required: true },
+      bytes: { type: Number , required: true},
+      secure_url: { type: String, required: true },
+      default: {}
     },
     trailer: {
-      public_id: { type: String },
-      url: { type: String },
-      secure_url: { type: String },
-      duration: Number,
-      bytes: Number,
+      public_id: { type: String, required: true },
+      url: { type: String , required: true},
+      secure_url: { type: String, required: true },
+      duration: {type: Number, required: true},
+      bytes: {type: Number, required: true},
+      default: {}
     },
     enrollmentLimit: {
       type: Number,
@@ -311,3 +313,5 @@ const Course =
   mongoose.model<ICourse>("Course", CourseSchema);
 
 export default Course;
+
+
