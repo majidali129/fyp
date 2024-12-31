@@ -110,8 +110,8 @@ export async function DELETE(request: NextRequest, {
 
     const reviews = course.reviews;
     const bookMarks = course.bookMarks;
-    const trailerId = course.trailer.public_id;
-    const thumbnailId = course.thumbnail.public_id;
+    const trailerId = course.trailer!.public_id;
+    const thumbnailId = course.thumbnail!.public_id;
 
     // DELETE ALL COURSE RELATED DATE BEFORE DELETING THE ACTUAL COURSE
 
