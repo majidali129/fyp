@@ -11,9 +11,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useNewCourseProvider } from "@/context/new-course/new-course";
-import { Sections } from "@/context/new-course/defs";
+import { Section } from "@/context/new-course/defs";
 import { FaCircleCheck } from "react-icons/fa6";
-import LinkButton from "./LinkButton";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
   createCourse,
@@ -80,7 +79,7 @@ function CoursePreview() {
     trailer: {},
     thumbnail: {}
   }
-  const [courseId, setCourseId] = useState<string | null>(null);
+  // const [courseId, setCourseId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   // const {mutate: createCourseFn, isPending: isCreatingCourse, error: createCourseError } = useMutation({
   //   mutationFn: (data) =>  createCourse(data),
@@ -386,10 +385,10 @@ function CoursePreview() {
               </CardHeader>
               <CardContent>
                 <Accordion type="single" collapsible className="">
-                  {sections.map((section: Sections, index: number) => (
+                  {sections.map((section: Section, index: number) => (
                     <AccordionItem
                       value={`section-${index}`}
-                      key={section.id}
+                      key={section.publicId}
                       className=" -mt-2 !mb-4"
                     >
                       <AccordionTrigger className="text-[1rem] [&>div]:flex-between [&>div]:px-3 [&>div]:py-2 [&>div]:!gap-x-0 ">

@@ -15,12 +15,12 @@ const SectionSchema = new Schema<ISection>({
     required: [true, "Course title is mendatory"],
     trim: true,
   },
-  lectures: [{ type: Schema.Types.ObjectId, ref: "Lecture", default: [] }],
   order: { type: Number, required: true },
+  lectures: [{ type: Schema.Types.ObjectId, ref: "Lecture", default: [] }],
 });
 
-const Section =
+const CourseSection =
   (mongoose.models?.CourseSection as Model<ISection>) ||
-  mongoose.model<ISection>("Section", SectionSchema);
+  mongoose.model<ISection>("CourseSection", SectionSchema);
 
-export default Section;
+export default CourseSection;

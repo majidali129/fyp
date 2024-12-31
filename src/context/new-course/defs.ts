@@ -1,4 +1,5 @@
 import { CourseStatus, Duration, Level, PricingType } from "@/models/newCourse.model";
+import { ObjectId } from "mongoose";
 import type { ReactNode } from "react";
 
 interface NewCourseContextProviderProp {
@@ -17,10 +18,11 @@ interface Lecture {
   video: File,
   id: string
 }
-interface Sections {
+interface Section {
+  courseId: ObjectId
+  publicId: string
   title: string,
   order: number,
-  id: string,
   lectures: Array<Lecture>
 }
 
@@ -56,7 +58,7 @@ interface NewCourseMetadataState {
   targetAudience: Array<UserGuides>;
   courseRequirements: Array<UserGuides>;
   //   curriculum
-  sections:Array<Sections> | [];
+  sections:Array<Section> | [];
   // publish course
   welcomeMessage: string;
   congratulationMessage: string;
@@ -76,5 +78,5 @@ type NewCourseValue = NewCourseMetadataState & NewCourseMetadataActions
 export type {
   NewCourseContextProviderProp,
   NewCourseValue,
-  Lecture, Sections, NewCourseMetadataState, Instructor,
+  Lecture, Section, NewCourseMetadataState, Instructor,
 };

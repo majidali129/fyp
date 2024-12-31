@@ -1,4 +1,4 @@
-import { Sections } from "@/context/new-course/defs";
+import { Section } from "@/context/new-course/defs";
 import { apiClient } from "@/lib/axios-client";
 
 const createCourse = async (data: unknown) => {

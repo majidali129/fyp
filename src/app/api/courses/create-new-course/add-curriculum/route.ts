@@ -1,11 +1,10 @@
-import { Sections } from "@/context/new-course/defs";
+import { Section } from "@/context/new-course/defs";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
-import Section from "@/models/courseSection.model";
+import CourseSection from "@/models/courseSection.model";
 import Lecture from "@/models/lecture.model";
 import LectureModel from "@/models/lecture.model";
-import Course from "@/models/newCourse.model";
-import CourseModel, { ICourse } from "@/models/newCourse.model";
+import Course, { ICourse } from "@/models/newCourse.model";
 import { sectionSchema } from "@/schemas/section-schema";
 import { uploadAndTranscodeVideo } from "@/services/cloudinary-video-upload";
 import { ObjectId } from "mongoose";
@@ -53,7 +52,7 @@ export async function PATCH(request: NextRequest) {
       publicId: secPublicId,
     } = section;
 
-    const course = (await CourseModel.findById(courseId)) as ICourse;
+    const course = (await Course.findById(courseId)) as ICourse;
     if (!course) {
       return apiResponse({
         success: false,
@@ -118,7 +117,7 @@ export async function PATCH(request: NextRequest) {
       lectures: uploadedLecs,
     };
 
-    const savedSection = await Section.create(newSection);
+    const savedSection = await CourseSection.create(newSection);
 
     // Add section ID to the course document
     course.sections.push(savedSection._id as ObjectId);
