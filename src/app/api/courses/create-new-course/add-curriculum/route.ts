@@ -25,6 +25,9 @@ export async function PATCH(request: NextRequest) {
     const sectionData = formData.get("section");
     const courseId = formData.get("courseId");
 
+    console.log('Section Data: ', sectionData);
+
+
     // TODO: Validate req data
     if (!sectionData) {
       return apiResponse({

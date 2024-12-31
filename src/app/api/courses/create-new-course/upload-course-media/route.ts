@@ -20,7 +20,7 @@ export async function PATCH(request: NextRequest) {
     type MediaType = z.infer<typeof courseMediaSchema>;
 
     const mediaData = Object.fromEntries(await request.formData()) as MediaType;
-    // console.log(mediaData);
+    console.log(mediaData);
 
     // const parsedData = courseMediaSchema.safeParse({
     //   thumbnail: mediaData.thumbnail,

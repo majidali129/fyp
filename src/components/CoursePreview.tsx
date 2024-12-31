@@ -24,6 +24,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 function CoursePreview() {
+  const [savingSection, setSavingSection] = useState(false);
   const {
     title,
     subTitle,
@@ -150,6 +151,27 @@ function CoursePreview() {
       toast.error("An unexpected error occurred while saving the course.");
     }
   };
+
+  const uploadSection = async (section: Section) => {
+    console.log(section);
+
+    try {
+      setSavingSection(true)
+      const sectionFormData = new FormData();
+      // const courseId = localStorage.getItem('courseId');
+        sectionFormData.append("section", JSON.stringify({...section, courseId: '67744182227544836f4b98b0'}));
+        const res3 = await saveCurriculumSection(sectionFormData);
+        if (res3.status !== 200) {
+          toast.error("Failed to save section.");
+          return;
+        }
+        setSavingSection(false)
+        toast.success('section saved successfully')
+    } catch (error) {
+      console.error(error);
+      toast.error("An unexpected error occurred while saving the section.");
+    }
+  }
 
 
 
@@ -409,8 +431,8 @@ function CoursePreview() {
                           ))}
                         </ul>
                         <div className="mt-6 flex justify-end">
-                          <Button>
-                            Save Section
+                          <Button onClick={() => uploadSection(section)} disabled={savingSection}>
+                            {savingSection? 'Please wait': 'Save Section'}
                           </Button>
                         </div>
                       </AccordionContent>
