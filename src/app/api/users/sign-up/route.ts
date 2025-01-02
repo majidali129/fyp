@@ -3,7 +3,6 @@ import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import User from "@/models/user.model";
 import { registerUserSchema } from "@/schemas/registerUserSchema";
-import { uploadFile } from "@/services/cloudinary-video-upload";
 import bcryptjs from "bcryptjs";
 import { NextRequest } from "next/server";
 
@@ -70,7 +69,6 @@ export async function POST(request: NextRequest) {
       const verifyCodeExpiry = new Date();
       verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1);
       // upload profile photo to cloudinary
-      const photo = await uploadFile(file, "profile-photos");
 
       // save user to DB;
       const user = new User({
@@ -78,11 +76,7 @@ export async function POST(request: NextRequest) {
         password: hashedPassword,
         verifyCode,
         verifyCodeExpiry,
-        profilePhoto: {
-          public_id: photo.public_id,
-          url: photo.url,
-          secure_url: photo.secure_url,
-        },
+        profilePhoto: {}
       });
 
       await user.save();
