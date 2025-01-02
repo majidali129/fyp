@@ -64,7 +64,7 @@ const NewCourseProvider = ({ children }: NewCourseContextProviderProp) => {
 
     return {
       ...metadata,
-      setMetadata:updateMetadata
+      setMetadata:updateMetadata,
     };
   }, [metadata]);
 

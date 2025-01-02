@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { lectureSchema } from "./lecture-schema";
-import { objectIdSchema } from "./mongoId-schema";
 
 export const sectionSchema = z.object({
   courseId: z.string().min(1, "Course id is required."), // to identify course

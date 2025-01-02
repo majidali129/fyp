@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import parse from "html-react-parser";
@@ -16,16 +16,13 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
   createCourse,
-  uploadCourseMedia,
-  saveCurriculumSection,
 } from "@/services/api/courses.service";
-import { apiClient } from "@/lib/axios-client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { uploadFile, uploadLecFile } from "@/helpers/uploadFile";
 
 function CoursePreview() {
-  const [savingSection, setSavingSection] = useState(false);
-  const {
+  let {
     title,
     subTitle,
     category,
@@ -52,135 +49,78 @@ function CoursePreview() {
     congratulationMessage,
     courseInstructors,
     sections,
+    setMetadata,
   } = useNewCourseProvider();
-  const courseMetadata = {
-    title,
-    subTitle,
-    category,
-    subCategory,
-    topic,
-    language,
-    subtitleLanguage,
-    level,
-    duration,
-    pricingType,
-    price,
-    discount,
-    enrollmentLimit,
-    format,
-    status,
-    briefSummary,
-    description,
-    whatYouWillTeach,
-    targetAudience,
-    courseRequirements,
-    welcomeMessage,
-    congratulationMessage,
-    courseInstructors,
-    trailer: {},
-    thumbnail: {}
-  }
-  // const [courseId, setCourseId] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
   const queryClient = useQueryClient();
-  // const {mutate: createCourseFn, isPending: isCreatingCourse, error: createCourseError } = useMutation({
-  //   mutationFn: (data) =>  createCourse(data),
-  //   onSuccess: () => {},
-  //   onError: () => {}
-  // })
-  // const {mutate: uploadMedia, isPending: isUploadingMedia, error: mediaUploadError } = useMutation({
-  //   mutationFn: (data: FormData) =>  uploadCourseMedia(data),
-  //   onSuccess: () => {},
-  //   onError: () => {}
-  // })
-  // const {mutate: uploadCurriculumFn, isPending: isUploadingCurriculum, error: curriculumUploadError } = useMutation({
-  //   mutationFn: (section: FormData) =>  saveCurriculumSection(section),
-  //   onSuccess: () => {},
-  //   onError: () => {}
-  // })
-
-  // METADATA IS ALL EXCEPT SECTIONS , THUMBNAIL , TRAILER,
+  console.log("Sections:", sections);
 
   const handleCourseSave = async () => {
+    setUploading(true);
     try {
-      // Step 1: Create Course
-      const res1 = await createCourse(courseMetadata);
-      if (res1.status !== 201) {
-        toast.error("Failed to create course metadata.");
-        return;
-      }
-      toast.success("Course metadata saved successfully!");
-      const courseId = res1.data.data.courseId;
+      const thumbnailData = await uploadFile(thumbnail!);
+      const trailerData = await uploadFile(trailer!, "trailers");
 
-      // Step 2: Upload Course Media
-      const formData = new FormData();
-      formData.append("trailer", trailer as File);
-      formData.append("thumbnail", thumbnail as File);
-      formData.append("courseId", courseId as string);
-
-      const res2 = await uploadCourseMedia(formData);
-      if (res2.status !== 200) {
-        toast.error("Failed to upload course media.");
-        return;
-      }
-
-      toast.success("Course media uploaded successfully!");
-
-      // Step 3: Save Curriculum Sections
-      const failedSections = [];
-      for (const section of sections) {
-        const sectionPayload = {
+      // save lec videos
+      const updatedSecs = await Promise.all(
+        sections.map(async (section) => ({
           ...section,
-          courseId,
-        };
+          lectures: await Promise.all(
+            section.lectures.map(async (lecture) => ({
+              ...lecture,
+              video: await uploadLecFile(lecture.video),
+            }))
+          ),
+        }))
+      );
 
-        const sectionFormData = new FormData();
-        sectionFormData.append("section", JSON.stringify(sectionPayload));
-        const res3 = await saveCurriculumSection(sectionFormData);
-        if (res3.status !== 200) {
-          failedSections.push(section);
-        }
-      }
+      const courseData = {
+        title,
+        subTitle,
+        category,
+        subCategory,
+        topic,
+        language,
+        subtitleLanguage,
+        level,
+        duration,
+        pricingType,
+        price,
+        discount,
+        enrollmentLimit,
+        format,
+        status,
+        thumbnail: thumbnailData,
+        trailer: trailerData,
+        briefSummary,
+        description,
+        whatYouWillTeach,
+        targetAudience,
+        courseRequirements,
+        welcomeMessage,
+        congratulationMessage,
+        courseInstructors,
+        sections: updatedSecs,
+      };
 
-      if (failedSections.length > 0) {
-        toast.error(`Failed to save ${failedSections.length} section(s).`);
+      const response = await createCourse(courseData);
+      if (response.status === 201) {
+        toast.success("Course created successfully!");
       } else {
-        toast.success("Course saved successfully!");
+        toast.error("Failed to create course.");
       }
     } catch (error) {
       console.error(error);
       toast.error("An unexpected error occurred while saving the course.");
+    } finally {
+      setUploading(false);
     }
   };
-
-  const uploadSection = async (section: Section) => {
-    console.log(section);
-
-    try {
-      setSavingSection(true)
-      const sectionFormData = new FormData();
-      // const courseId = localStorage.getItem('courseId');
-        sectionFormData.append("section", JSON.stringify({...section, courseId: '67744182227544836f4b98b0'}));
-        const res3 = await saveCurriculumSection(sectionFormData);
-        if (res3.status !== 200) {
-          toast.error("Failed to save section.");
-          return;
-        }
-        setSavingSection(false)
-        toast.success('section saved successfully')
-    } catch (error) {
-      console.error(error);
-      toast.error("An unexpected error occurred while saving the section.");
-    }
-  }
-
-
-
-
-
 
   return (
     <>
       <div className="container mx-auto px-4 py-8">
+        {uploading && <p>Saving course. Please wait...</p>}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-7">
             {trailer && (
@@ -429,12 +369,7 @@ function CoursePreview() {
                               </span>
                             </li>
                           ))}
-                        </ul>
-                        <div className="mt-6 flex justify-end">
-                          <Button onClick={() => uploadSection(section)} disabled={savingSection}>
-                            {savingSection? 'Please wait': 'Save Section'}
-                          </Button>
-                        </div>
+                        </ul>{" "}
                       </AccordionContent>
                     </AccordionItem>
                   ))}
@@ -443,7 +378,7 @@ function CoursePreview() {
             </Card>
 
             <div className="my-5 flex-end">
-              <Button onClick={handleCourseSave} >Save Course</Button>
+              <Button onClick={handleCourseSave}>Save Course</Button>
             </div>
           </div>
           <div>
@@ -469,7 +404,6 @@ function CoursePreview() {
                   <p className="mb-4">
                     <strong>Level:</strong> {level}
                   </p>
-
                 </CardContent>
               </Card>
             )}

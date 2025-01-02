@@ -1,6 +1,8 @@
+import { formatErrors } from "@/helpers/parseErrors";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import Course from "@/models/newCourse.model";
+import { createCourseSchema } from "@/schemas/course-schema";
 import formidable from "formidable";
 import { NextRequest } from "next/server";
 
@@ -19,10 +21,19 @@ export async function POST(request: NextRequest) {
   }
     try {
       const data = await request.json();
-      console.log('Metadata: ', data);
+      const parsedData = createCourseSchema.safeParse(data);
+      if(!parsedData.success)
+        return apiResponse({
+      success: false,
+        status: 400,
+        message: "Invalid course data",
+        error: formatErrors(parsedData.error),
+      });
+      const courseData = parsedData.data;
+      console.log("Parsed Data: ", parsedData);
 
       const course = await Course.create({
-        ...data});
+        ...courseData});
       return apiResponse({
         success: true,
         message: "Course created successfully",
