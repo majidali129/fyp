@@ -2,7 +2,6 @@ import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import LectureModel from "@/models/lecture.model";
 import { lectureUpdateSchema } from "@/schemas/lecture-update-schema";
-import { uploadAndTranscodeVideo } from "@/services/cloudinary-video-upload";
 import { NextRequest } from "next/server";
 
 /**
@@ -112,24 +111,6 @@ export async function PUT(
     lecture.publicId = publicId!;
     lecture.tags = tags!;
 
-    if (isNewVideo) {
-      if (!video) {
-        return apiResponse({
-          success: false,
-          message: "Video file is required for new uploads",
-          status: 400,
-        });
-      }
-
-      const res = await uploadAndTranscodeVideo(video);
-      lecture.video = {
-        public_id: res.public_id,
-        playback_url: res.playback_url,
-        resolutions: res.resolutions,
-      };
-    } else {
-      lecture.video = video!;
-    }
 
     await lecture.save();
 
