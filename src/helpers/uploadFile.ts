@@ -43,7 +43,7 @@ const getSignature = async (mediaType: string): Promise<SignedData | null> => {
 export const uploadLecFile = async (file: File): Promise<TranscodedVideo | null> => {
   const formData = new FormData();
   try {
-    const signData = await getSignature('lectures');
+    const signData = await getSignature('lecture');
 
     if (!signData) {
       console.error("Failed to get Cloudinary signature. Aborting upload.");

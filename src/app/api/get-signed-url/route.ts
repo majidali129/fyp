@@ -5,16 +5,16 @@ import { ApiError } from "next/dist/server/api-utils";
 import {NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-const mediaTypeSchema = z.enum(['lectures', 'thumbnail', 'trailer'], {
-    message: 'Invalid media type. Only lectures, thumbnail or trailer allowed',
-});
+const mediaTypeSchema = z.object({
+    message: z.string().refine(val => val === '' || val === null, {message: ''})
+})
 
 export async function POST(request: NextRequest) {
     try {
         const apiKey = process.env.CLOUDINARY_API_KEY!;
     const cloudname = process.env.CLOUDINARY_CLOUD!;
     const body = await request.json();
-    const parsedMedia = mediaTypeSchema.safeParse(body.mediaType);
+    const parsedMedia = mediaTypeSchema.safeParse(body.message);
     if(!parsedMedia.success) {
         return apiResponse({
             success: false,
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         });
     }
 
-    const sign = generateCloudinarySignature(parsedMedia.data);
+    const sign = generateCloudinarySignature(parsedMedia.data.message);
 
     return NextResponse.json({
         signature: sign.signature,
