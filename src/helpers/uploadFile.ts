@@ -110,9 +110,6 @@ export const uploadFile = async (
       console.error("Failed to get Cloudinary signature. Aborting upload.");
       return null;
     }
-    console.log(JSON.stringify(signData));
-
-    alert(`API_KEY: ${signData.apiKey}`);
 
 
     const formData = new FormData();
