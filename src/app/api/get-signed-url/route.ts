@@ -14,8 +14,10 @@ export async function POST(request: NextRequest) {
     try {
         const apiKey = process.env.CLOUDINARY_API_KEY!;
     const cloudname = process.env.CLOUDINARY_CLOUD!;
+
     const data = await request.json();
     console.log('BOdy', data);
+    console.log('key cloudnama', apiKey, cloudname);
 
     const parsedMedia = mediaTypeSchema.safeParse(data);
     console.log('Parsed Data', parsedMedia);

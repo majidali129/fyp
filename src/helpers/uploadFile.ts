@@ -33,6 +33,9 @@ const getSignature = async (mediaType: string): Promise<SignedData | null> => {
     const signResponse = await axios.post<SignedData>("/api/get-signed-url", {message: mediaType});
     const signData = await signResponse.data
 
+    console.log('SignData', signData);
+
+
     return signData;
   } catch (error) {
     console.log("Error while creating cloudinary signature", error);
