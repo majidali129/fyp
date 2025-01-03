@@ -23,7 +23,7 @@ export const generateCloudinarySignature = (type:string) => {
       break;
 
     case 'thumbnail':
-      eager = 'c_fill,w_350,h_350'; // Example for thumbnails (resize to 300x300)
+      eager = 'c_fill,w_300,h_300'; // Example for thumbnails (resize to 300x300)
       folder = 'thumbnails';
       break;
 

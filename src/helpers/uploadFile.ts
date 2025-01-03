@@ -107,7 +107,7 @@ export const uploadFile = async (
     const signData = await getSignature(mediaType);
     const eager =
       folder === "thumbnails"
-        ? "c_fill,w_350,h_350"
+        ? "c_fill,w_300,h_300"
         : "c_scale,w_1280";
 
     const resource = file.type.startsWith("image") ? "image" : "video";
