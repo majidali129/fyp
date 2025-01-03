@@ -2,7 +2,6 @@ import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
 import Bookmarks from "@/models/bookmarks.model";
 import courseReview from "@/models/courseReviews.model";
-import Section from "@/models/courseSection.model";
 import Lecture from "@/models/lecture.model";
 import Course from "@/models/newCourse.model";
 import { dropFile } from "@/services/cloudinary-drop-file";
@@ -124,9 +123,6 @@ export async function DELETE(request: NextRequest, {
         _id: { $in: bookMarks },
       });
 
-      const dS = Section.deleteMany({
-        courseId,
-      });
       const dL = Lecture.deleteMany({
         courseId,
       });
@@ -134,7 +130,6 @@ export async function DELETE(request: NextRequest, {
       const deletionResults = await Promise.allSettled([
         dR,
         dB,
-        dS,
         dL,
         thumbnailId ? dropFile(thumbnailId) : Promise.resolve(),
         trailerId ? dropFile(trailerId) : Promise.resolve(),
