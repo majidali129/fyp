@@ -54,7 +54,7 @@ export const uploadLecFile = async (file: File): Promise<TranscodedVideo | null>
       console.error("Failed to get Cloudinary signature. Aborting upload.");
       return null;
     }
-    const url = `https://api.cloudinary.com/v1_1/${signData.data.cloudname}/auto/upload`;
+    const url = `https://api.cloudinary.com/v1_1/${signData.data.cloudname}/video/upload`;
     formData.append("file", file);
     formData.append("api_key", signData.data.apiKey);
     formData.append("timestamp", signData.data.timestamp.toString());
@@ -105,7 +105,12 @@ export const uploadFile = async (
   try {
     const mediaType = folder === "thumbnails"? 'thumbnail' : 'trailer';
     const signData = await getSignature(mediaType);
+    const eager =
+      folder === "thumbnails"
+        ? "c_fill,w_350,h_350"
+        : "c_scale,w_1280";
 
+    const resource = file.type.startsWith("image") ? "image" : "video";
     console.log('SignedData', signData);
 
     if (!signData) {
@@ -113,23 +118,17 @@ export const uploadFile = async (
       return null;
     }
 
-    const resourse = file.type.startsWith("image") ? "image" : "video";
-
-
     const formData = new FormData();
-    const url = `https://api.cloudinary.com/v1_1/${signData.data.cloudname}/auto/upload`;
+    const url = `https://api.cloudinary.com/v1_1/${signData.data.cloudname}/${resource}/upload`;
+    // const url = `https://api.cloudinary.com/v1_1/${signData.data.cloudname}/${resourse}/upload`;
 
     // Step 2: Prepare file upload
     formData.append("file", file);
     formData.append("api_key", signData.data.apiKey);
+    formData.append('eager', eager)
     formData.append("timestamp",  signData.data.timestamp.toString());
     formData.append("signature", signData.data.signature);
     formData.append("folder", folder);
-
-    // Conditional transformations for video or image
-    if (file.type.startsWith("video")) {
-      formData.append("resource_type", resourse);
-    }
 
     // Step 3: Send file to Cloudinary
     const response = await fetch(url, {
