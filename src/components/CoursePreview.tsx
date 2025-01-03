@@ -61,6 +61,11 @@ function CoursePreview() {
       const thumbnailData = await uploadFile(thumbnail!);
       const trailerData = await uploadFile(trailer!, "trailers");
 
+      if(!thumbnailData || !trailerData) {
+        console.error("Failed to upload thumbnail or trailer. Aborting upload.");
+        return;
+      }
+
       // save lec videos
       const updatedSecs = await Promise.all(
         sections.map(async (section) => ({

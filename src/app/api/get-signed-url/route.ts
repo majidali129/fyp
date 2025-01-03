@@ -9,7 +9,7 @@ const mediaTypeSchema = z.enum(['lectures', 'thumbnail', 'trailer'], {
     message: 'Invalid media type. Only lectures, thumbnail or trailer allowed',
 });
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
         const apiKey = process.env.CLOUDINARY_API_KEY!;
     const cloudname = process.env.CLOUDINARY_CLOUD!;

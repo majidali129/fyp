@@ -1,3 +1,5 @@
+import axios from "axios";
+
 interface CloudinaryUploadResult {
   public_id: string;
   bytes: number;
@@ -19,25 +21,38 @@ interface TranscodedVideo {
   }>;
 }
 
-const getSignature = async () => {
+interface SignedData {
+  signature: string;
+  timestamp: number;
+  apiKey: string,
+  cloudname: string
+}
+
+const getSignature = async (mediaType: string): Promise<SignedData | null> => {
   try {
-    const signResponse = await fetch("/api/get-signed-url");
-    const signData = await signResponse.json();
+    const signResponse = await axios.post<SignedData>("/api/get-signed-url", {message: mediaType});
+    const signData = await signResponse.data
 
     return signData;
   } catch (error) {
     console.log("Error while creating cloudinary signature", error);
+    return null;
   }
 };
 
 export const uploadLecFile = async (file: File): Promise<TranscodedVideo | null> => {
   const formData = new FormData();
   try {
-    const signData = await getSignature();
+    const signData = await getSignature('lectures');
+
+    if (!signData) {
+      console.error("Failed to get Cloudinary signature. Aborting upload.");
+      return null;
+    }
     const url = `https://api.cloudinary.com/v1_1/${signData.cloudname}/auto/upload`;
     formData.append("file", file);
     formData.append("api_key", signData.apiKey);
-    formData.append("timestamp", signData.timestamp);
+    formData.append("timestamp", signData.timestamp.toString());
     formData.append("signature", signData.signature);
     formData.append("eager", "c_scale,w_640|c_scale,w_1280|c_scale,w_1920");
     formData.append("folder", "lectures");
@@ -83,7 +98,14 @@ export const uploadFile = async (
   folder: string = "thumbnails"
 ): Promise<CloudinaryUploadResult | null> => {
   try {
-    const signData = await getSignature();
+    const mediaType = folder === "thumbnails"? 'thumbnail' : 'trailer';
+    const signData = await getSignature(mediaType);
+
+    if (!signData) {
+      console.error("Failed to get Cloudinary signature. Aborting upload.");
+      return null;
+    }
+
 
     const formData = new FormData();
     const url = `https://api.cloudinary.com/v1_1/${signData.cloudname}/auto/upload`;
@@ -91,7 +113,7 @@ export const uploadFile = async (
     // Step 2: Prepare file upload
     formData.append("file", file);
     formData.append("api_key", signData.apiKey);
-    formData.append("timestamp", signData.timestamp);
+    formData.append("timestamp", signData.timestamp.toString());
     formData.append("signature", signData.signature);
     formData.append("folder", folder);
 
