@@ -128,7 +128,7 @@ export const uploadFile = async (
     formData.append("api_key", signData.data.apiKey);
     formData.append("timestamp",  signData.data.timestamp.toString());
     formData.append("signature", signData.data.signature);
-    formData.append('eager', eager)
+    // formData.append('eager', eager)
     // formData.append('folder', folder)
 
     // Step 3: Send file to Cloudinary

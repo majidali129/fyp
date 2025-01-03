@@ -20,21 +20,13 @@ export const generateCloudinarySignature = (type:string) => {
       ].join('|');
       break;
 
-    case 'thumbnail':
-      eager = 'c_fill,w_300,h_300'; // Example for thumbnails (resize to 300x300)
-      break;
-
-    case 'trailer':
-      eager = 'c_scale,w_1280'; // Example for trailers (resize to 720p width)
-      break;
-
     default:
       throw new Error('Invalid type for Cloudinary signature generation');
   }
 
   const signature = cloudinary.utils.api_sign_request(
     {
-      eager,
+      ...(type==='lecture') && {eager},
       timestamp,
     },
     apiSecret
