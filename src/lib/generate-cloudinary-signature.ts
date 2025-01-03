@@ -2,7 +2,7 @@ import { cloudinary } from "./cloudinary-config";
 
 
 const apiSecret = process.env.CLOUDINARY_API_SECRET!;
-export const generateCloudinarySignature = (type: string) => {
+export const generateCloudinarySignature = (type:string) => {
   const timestamp = Math.round(new Date().getTime() / 1000);
 
   // Define eager transformations based on type
@@ -10,7 +10,7 @@ export const generateCloudinarySignature = (type: string) => {
   let folder = '';
 
   switch (type) {
-    case 'lectures':
+    case 'lecture':
       eager = [
         // 480p
         'c_scale,w_640',
