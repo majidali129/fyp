@@ -31,6 +31,8 @@ interface SignedData {
 const getSignature = async (mediaType: string) => {
   try {
     const signResponse = await axios.post("/api/get-signed-url", {message: mediaType});
+    console.log(signResponse);
+
     const signData = await signResponse.data
 
     console.log('SignData', signData);

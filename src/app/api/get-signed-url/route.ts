@@ -38,8 +38,8 @@ const mediaTypeSchema = z.object({
         data: {
             signature: sign.signature,
         timestamp: sign.timestamp,
-        cloudname: process.env.CLOUDINARY_CLOUD!,
-        apiKey: process.env.CLOUDINARY_API_KEY!
+        cloudname: 'majidali129',
+        apiKey: '667862698992451'
         }
     }, );
     } catch (error) {
