@@ -115,13 +115,13 @@ export const uploadFile = async (
 
 
     const formData = new FormData();
-    const url = `https://api.cloudinary.com/v1_1/${signData.cloudname}/auto/upload`;
+    const url = `https://api.cloudinary.com/v1_1/${signData.data.cloudname}/auto/upload`;
 
     // Step 2: Prepare file upload
     formData.append("file", file);
-    formData.append("api_key", signData.apiKey);
-    formData.append("timestamp",  signData.timestamp.toString());
-    formData.append("signature", signData.signature);
+    formData.append("api_key", signData.data.apiKey);
+    formData.append("timestamp",  signData.data.timestamp.toString());
+    formData.append("signature", signData.data.signature);
     formData.append("folder", folder);
 
     // Conditional transformations for video or image
