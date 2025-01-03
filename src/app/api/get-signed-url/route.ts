@@ -10,7 +10,7 @@ const mediaTypeSchema = z.object({
       .min(1,{ message: "Please provide media type for signature" }),
   });
 
-export async function POST(request: NextRequest) {
+  export async function POST(request: NextRequest) {
     try {
     //     const apiKey = process.env.CLOUDINARY_API_KEY!;
     // const cloudname = process.env.CLOUDINARY_CLOUD!;
@@ -32,12 +32,16 @@ export async function POST(request: NextRequest) {
 
     const sign = generateCloudinarySignature(parsedMedia.data.message);
 
-    return NextResponse.json({
-        signature: sign.signature,
+    return apiResponse({
+        message: 'Signature generated successfully',
+        status: 200,
+        data: {
+            signature: sign.signature,
         timestamp: sign.timestamp,
         cloudname: process.env.CLOUDINARY_CLOUD!,
         apiKey: process.env.CLOUDINARY_API_KEY!
-    }, {status: 200});
+        }
+    }, );
     } catch (error) {
         return apiResponse({
             data: null,

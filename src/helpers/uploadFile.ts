@@ -24,13 +24,13 @@ interface TranscodedVideo {
 interface SignedData {
   signature: string;
   timestamp: number;
+  cloudname: string,
   apiKey: string,
-  cloudname: string
 }
 
-const getSignature = async (mediaType: string): Promise<SignedData | null> => {
+const getSignature = async (mediaType: string) => {
   try {
-    const signResponse = await axios.post<SignedData>("/api/get-signed-url", {message: mediaType});
+    const signResponse = await axios.post("/api/get-signed-url", {message: mediaType});
     const signData = await signResponse.data
 
     console.log('SignData', signData);
