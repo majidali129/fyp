@@ -18,12 +18,6 @@ export const generateCloudinarySignature = (type: string) => {
         "c_scale,w_1920",
       ].join("|");
       break;
-    case "thumbnail":
-      eager = "c_fill,w_300,h_300";
-      break;
-    case "trailer":
-      // No eager transformation for trailer
-      break;
     default:
       throw new Error("Invalid type for Cloudinary signature generation");
   }

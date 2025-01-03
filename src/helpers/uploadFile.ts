@@ -128,9 +128,6 @@ export const uploadFile = async (
     formData.append("api_key", signData.data.apiKey);
     formData.append("timestamp", signData.data.timestamp.toString());
     formData.append("signature", signData.data.signature);
-    if (eager) {
-      formData.append("eager", eager);
-    }
     // Step 3: Send file to Cloudinary
     const response = await fetch(url, {
       method: "POST",
