@@ -101,10 +101,15 @@ export const uploadFile = async (
     const mediaType = folder === "thumbnails"? 'thumbnail' : 'trailer';
     const signData = await getSignature(mediaType);
 
+    console.log('SignedData', signData);
+
     if (!signData) {
       console.error("Failed to get Cloudinary signature. Aborting upload.");
       return null;
     }
+    console.log(JSON.stringify(signData));
+
+    alert(`API_KEY: ${signData.apiKey}`);
 
 
     const formData = new FormData();
@@ -113,7 +118,7 @@ export const uploadFile = async (
     // Step 2: Prepare file upload
     formData.append("file", file);
     formData.append("api_key", signData.apiKey);
-    formData.append("timestamp", signData.timestamp.toString());
+    formData.append("timestamp",  signData.timestamp.toString());
     formData.append("signature", signData.signature);
     formData.append("folder", folder);
 
@@ -145,7 +150,7 @@ export const uploadFile = async (
     if (!response.ok) {
       const error = await response.json();
       throw new Error(
-        `Cloudinary upload failed for course file: ${error.message}`
+        `Cloudinary upload failed for course file: ${error}`
       );
     }
 
