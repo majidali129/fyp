@@ -54,11 +54,11 @@ export const uploadLecFile = async (file: File): Promise<TranscodedVideo | null>
       console.error("Failed to get Cloudinary signature. Aborting upload.");
       return null;
     }
-    const url = `https://api.cloudinary.com/v1_1/${signData.cloudname}/auto/upload`;
+    const url = `https://api.cloudinary.com/v1_1/${signData.data.cloudname}/auto/upload`;
     formData.append("file", file);
-    formData.append("api_key", signData.apiKey);
-    formData.append("timestamp", signData.timestamp.toString());
-    formData.append("signature", signData.signature);
+    formData.append("api_key", signData.data.apiKey);
+    formData.append("timestamp", signData.data.timestamp.toString());
+    formData.append("signature", signData.data.signature);
     formData.append("eager", "c_scale,w_640|c_scale,w_1280|c_scale,w_1920");
     formData.append("folder", "lectures");
 
