@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const { username, email, password, file } = parsedData.data;
+    const { username, email, password } = parsedData.data;
     const existingUserByUsername = await User.findOne({
       username,
       isVerified: true,

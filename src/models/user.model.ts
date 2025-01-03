@@ -31,13 +31,8 @@ export interface User extends Document {
   email: string;
   password: string;
   refreshToken?: string;
-  role: ROLE;
+  role?: ROLE;
   permissions?: [string];
-  profilePhoto: {
-    public_id: string;
-    url: string;
-    secure_url: string;
-  };
   isVerified?: boolean;
   //NOTE: ROLE BASED for INSTRUCTOR
   instructorDetails?: InstructorDetails;
@@ -100,20 +95,7 @@ const userSchema: Schema<User> = new Schema(
       type: Boolean,
       default: false,
     },
-    profilePhoto: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-      secure_url: {
-        type: String,
-        required: true,
-      },
-    },
+
     verifyCode: String,
     verifyCodeExpiry: Date,
     resetPasswordToken: String,

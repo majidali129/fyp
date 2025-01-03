@@ -15,11 +15,27 @@ import TextInput from "@/components/TextInput";
 import { useState } from "react";
 import { registerUserSchema } from "@/schemas/registerUserSchema";
 import SubmitBtn from "@/components/SubmitBtn";
+import { registerUser } from "@/services/api/user.service";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { redirect, useRouter } from "next/navigation";
 
 type RegisterUserFormValues = z.infer<typeof registerUserSchema>;
 
 export default function SignUpForm() {
   const [file, setFile] = useState<File | null>(null);
+  const router = useRouter();
+  const {mutate: createUser, isPending} = useMutation({
+    mutationFn: (data: RegisterUserFormValues) => registerUser(data),
+    onSuccess: (data) => {
+      console.log('User registed', data);
+      toast.success('User registered successfully');
+    },
+    onError: (error) => {
+      console.log('Registeration Error',error);
+      toast.error('Registeration Error')
+    }
+  })
 
   const form = useForm<z.infer<typeof registerUserSchema>>({
     resolver: zodResolver(registerUserSchema),
@@ -28,14 +44,14 @@ export default function SignUpForm() {
       lastName: "",
       username: "",
       email: "",
-      password: ""
+      password: "",
       // confirmPassword: ""
     }
   });
 
   const onSubmit = async (data: RegisterUserFormValues) => {
-    console.log({ ...data, file });
-    console.log(file);
+    console.log({ ...data });
+    createUser(data, {onSuccess: () => router.push('/sign-in')})
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr] *:h-[calc(100vh-64px)] ">
@@ -99,7 +115,7 @@ export default function SignUpForm() {
                 type="password"
               /> */}
 
-              <div>
+              {/* <div>
                 <Label
                   htmlFor="profilePhoto"
                   className={`py-3 rounded-sm flex justify-center ${
@@ -116,7 +132,7 @@ export default function SignUpForm() {
                   className="hidden"
                   type="file"
                 />
-              </div>
+              </div> */}
 
               <div className="flex items-center justify-end flex-wrap gap-1">
                 {/* <div className="flex items-center space-x-2">
@@ -128,7 +144,8 @@ export default function SignUpForm() {
                     </Link>
                   </Label>
                 </div> */}
-                <SubmitBtn>Submit</SubmitBtn>
+                {/* <SubmitBtn>Submit</SubmitBtn> */}
+                <Button type="submit" disabled={isPending}>Register</Button>
               </div>
             </form>
           </Form>

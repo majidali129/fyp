@@ -38,8 +38,10 @@ export async function PATCH(request: NextRequest) {
 
     const decodedToken = await jwt.verify(incomingAccessToken, process.env.ACCESS_TOKEN_SECRET!) as JwtPayload
 
+    console.log(decodedToken);
 
-    const user = await User.findById(decodedToken._id);
+
+    const user = await User.findById(decodedToken.userId);
 
     if (!user) {
       return apiResponse({

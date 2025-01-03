@@ -7,27 +7,40 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import TextInput from "@/components/TextInput";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { updatePasswordSchema } from "@/schemas/passwordSchemas";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { updatePassword } from "@/services/api/user.service";
 
 type updatePasswordValues = z.infer<typeof updatePasswordSchema>;
 
 export default function UpdatePasswordForm() {
-  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { mutate: update, isPending } = useMutation({
+    mutationFn: (data: { oldPassword: string; newPassword: string }) =>
+      updatePassword(data),
+    onSuccess: (data) => {
+      console.log("Password updated successfully", data);
+      toast.success("Password updated successfully. Login to proceed");
+    },
+    onError: (error) => {
+      console.log("Change password Error", error);
+      toast.error("Change password Error");
+    },
+  });
   const form = useForm<z.infer<typeof updatePasswordSchema>>({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
       oldPassword: "",
-      newPassword: ""
-    }
+      newPassword: "",
+    },
   });
-  const resetToken = searchParams.get("reset-token");
-  console.log(resetToken);
 
   //TODO: resetToken from url to send along with payload
 
   const onSubmit = async (data: updatePasswordValues) => {
-    console.log(data);
+    update(data, { onSuccess: () => router.push("/sign-in") });
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] rounded sm:px-6 lg:px-8">
@@ -57,8 +70,8 @@ export default function UpdatePasswordForm() {
               required
               placeholder="********"
             />
-            <Button type="submit" className="w-full">
-              Update
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? "Wait..." : "Update"}
             </Button>
           </form>
         </Form>

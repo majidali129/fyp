@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     return apiResponse({
       success: true,
-      message: "New password has been set successfully",
+      message: "New password has been set successfully. Login to proceed",
       status: 200 // Unauthorized for invalid tokens
     });
   } catch (error) {

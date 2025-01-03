@@ -18,12 +18,6 @@ export const registerUserSchema = z.object({
     .max(14, { message: "Username must be below 14 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(8, "Password must be 8 characters long"),
-  role: z.string(),
-  file: z.any(),
+  // file: z.any(),
+  role: z.string().optional(),
 });
-
-// confirmPassword: z.string() // StrongPass1!
-// .refine((data) => data.password === data.confirmPassword, {
-//   message: "Passwords do not match",
-//   path: ["confirmPassword"] // The path of the error in the schema
-// });

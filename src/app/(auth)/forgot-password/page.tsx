@@ -8,10 +8,26 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import TextInput from "@/components/TextInput";
 import { forgotPasswordSchema } from "@/schemas/passwordSchemas";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { forgotPassword } from "@/services/api/user.service";
+import { useRouter } from "next/navigation";
 
 type ResetPasswordValue = z.infer<typeof forgotPasswordSchema>;
 
 export default function ForgotPasswordPage() {
+  const roter = useRouter();
+  const {mutate: forgot, isPending} = useMutation({
+    mutationFn: (data: ResetPasswordValue) => forgotPassword(data),
+    onSuccess: (data) => {
+      console.log('password forgot successfully', data);
+      toast.success('Please check your email to reset password');
+    },
+    onError: (error) => {
+      console.log('Forgot password Error',error);
+      toast.error('Forgot password Error')
+    }
+  })
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -22,6 +38,7 @@ export default function ForgotPasswordPage() {
 
   const onSubmit = async (data: ResetPasswordValue) => {
     console.log(data);
+    forgot(data)
   };
   return (
     <div className="flex h-full flex-col items-center justify-center min-h-[calc(100vh-64px)] rounded  px-4 py-12 sm:px-6 lg:px-8">
@@ -43,8 +60,8 @@ export default function ForgotPasswordPage() {
               required
               placeholder="majid@gmail.com"
             />
-            <Button type="submit" className="w-full bg-primary-500 text-white">
-              Forgot
+            <Button disabled={isPending} type="submit" className="w-full bg-primary-500 text-white">
+              {isPending? 'Wait...': 'Forgot'}
             </Button>
           </form>
         </Form>

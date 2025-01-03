@@ -8,7 +8,10 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import TextInput from "@/components/TextInput";
 import { resetPasswordSchema } from "@/schemas/passwordSchemas";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { resetPassword } from "@/services/api/user.service";
 
 type ResetPasswordValue = z.infer<typeof resetPasswordSchema>;
 
@@ -21,6 +24,19 @@ export default function ResetPasswordPage() {
     }
   });
 
+  const router = useRouter();
+  const {mutate: reset, isPending} = useMutation({
+    mutationFn: (data: {token: string, newPassword: string}) => resetPassword(data),
+    onSuccess: (data) => {
+      console.log('Password reset successfully', data);
+      toast.success('Password reset successfully. Login to proceed');
+    },
+    onError: (error) => {
+      console.log('Reset password Error',error);
+      toast.error('Reset password Error')
+    }
+  })
+
   const resetToken = searchParams.get("token");
   console.log(searchParams);
   console.log(resetToken);
@@ -28,6 +44,7 @@ export default function ResetPasswordPage() {
   const onSubmit = async (data: ResetPasswordValue) => {
     console.log(data);
     console.log(data.newPassword, resetToken);
+    reset({token: resetToken!, newPassword: data.newPassword}, {onSuccess: () => router.push('/sign-in')})
   };
   return (
     <div className="flex h-full flex-col items-center justify-center min-h-[calc(100vh-64px)] rounded  px-4 py-12 sm:px-6 lg:px-8">
@@ -49,8 +66,8 @@ export default function ResetPasswordPage() {
               required
               placeholder="*******"
             />
-            <Button type="submit" className="w-full bg-primary-500 text-white">
-              Reset Password
+            <Button type="submit" disabled={isPending} className="w-full bg-primary-500 text-white">
+              {isPending? 'Please wait...': 'Reset Password'}
             </Button>
           </form>
         </Form>

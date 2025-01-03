@@ -19,46 +19,43 @@ import {
   FormLabel
 } from "@/components/ui/form";
 
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { loginUser } from "@/services/api/user.service";
 type LoginUserFormValues = z.infer<typeof loginUserSchema>;
 
 export default function SignInForm() {
-  const [error, setError] = useState("");
   const router = useRouter();
+  const {mutate: login, isPending} = useMutation({
+    mutationFn: (data: LoginUserFormValues) => loginUser(data),
+    onSuccess: (data) => {
+      console.log('User login', data);
+      toast.success('Logged in successfully');
+    },
+    onError: (error) => {
+      console.log('Login Error',error);
+      toast.error('Login Error')
+    }
+  })
 
   const form = useForm<z.infer<typeof loginUserSchema>>({
     resolver: zodResolver(loginUserSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
-      remember: false
+      // remember: false
     }
   });
 
   const onSubmit = async (data: LoginUserFormValues) => {
-    console.log({ email: data.username, password: data.password });
+    console.log();
 
-    try {
-      const res = await signIn("credentials", {
-        redirect: false,
-        username: data.username,
-        password: data.password
-      });
+    login(data, {
+      onSuccess: () => router.push('/')
+    })
 
-      if (res?.url) {
-        router.replace("/");
-      }
-
-      if (res?.error) throw res.error;
-    } catch (error: any) {
-      console.log("above error", error);
-      if (error === "CredentialsSignin") {
-        setError("Invalid credentials");
-        console.log("Invalid credentials");
-      }
-    }
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[45%_1fr]  *:h-[calc(100vh-64px)]">
@@ -81,10 +78,10 @@ export default function SignInForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <TextInput
                 control={form.control}
-                name="identifier"
-                label="User / Email"
-                type="text"
-                placeholder="majid@gmail.com"
+                name="email"
+                label="Email"
+                type="email"
+                placeholder="user@gmail.com"
               />
               <TextInput
                 control={form.control}
@@ -93,7 +90,7 @@ export default function SignInForm() {
                 placeholder="********"
                 type="password"
               />
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <FormField
                   control={form.control}
                   name="remember"
@@ -120,12 +117,12 @@ export default function SignInForm() {
                     Forgot your password?
                   </Link>
                 </div>
-              </div>
+              </div> */}
               <Button
                 type="submit"
                 className=" bg-primary-500 text-white px-10 w-full"
               >
-                Sign In
+                {isPending? 'Please Wait...': 'Login'}
               </Button>
             </form>
           </Form>

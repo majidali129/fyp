@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const cookieStore = await cookies();
-    const formData = await request.json();
-    const parsedData = loginUserSchema.safeParse(formData);
+    const loginData = await request.json();
+    const parsedData = loginUserSchema.safeParse(loginData);
     if (!parsedData.success) {
       return apiResponse({
         success: false,
@@ -26,13 +26,13 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const { username, password } = parsedData.data;
-    const user = await User.findOne({ username });
+    const { email, password } = parsedData.data;
+    const user = await User.findOne({ email });
 
     if (!user)
       return apiResponse({
         success: false,
-        message: "Invalid username or password. Try again",
+        message: "Invalid email or password. Try again",
         status: 400,
       });
 console.log(await bcryptjs.hash(password, 10), user.password);
@@ -56,7 +56,7 @@ console.log(await bcryptjs.hash(password, 10), user.password);
       secure: true,
     };
 
-    const loggedInUser = await User.findOne({username}).select(
+    const loggedInUser = await User.findOne({email}).select(
       "-password -refreshToken"
     );
 
