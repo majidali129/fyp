@@ -24,19 +24,20 @@ interface TranscodedVideo {
 interface SignedData {
   signature: string;
   timestamp: number;
-  cloudname: string,
-  apiKey: string,
+  cloudname: string;
+  apiKey: string;
 }
 
 const getSignature = async (mediaType: string) => {
   try {
-    const signResponse = await axios.post("/api/get-signed-url", {message: mediaType});
+    const signResponse = await axios.post("/api/get-signed-url", {
+      message: mediaType,
+    });
     console.log(signResponse);
 
-    const signData = await signResponse.data
+    const signData = await signResponse.data;
 
-    console.log('SignData', signData);
-
+    console.log("SignData", signData);
 
     return signData;
   } catch (error) {
@@ -45,10 +46,12 @@ const getSignature = async (mediaType: string) => {
   }
 };
 
-export const uploadLecFile = async (file: File): Promise<TranscodedVideo | null> => {
+export const uploadLecFile = async (
+  file: File
+): Promise<TranscodedVideo | null> => {
   const formData = new FormData();
   try {
-    const signData = await getSignature('lecture');
+    const signData = await getSignature("lecture");
 
     if (!signData) {
       console.error("Failed to get Cloudinary signature. Aborting upload.");
@@ -95,7 +98,7 @@ export const uploadLecFile = async (file: File): Promise<TranscodedVideo | null>
   } catch (error) {
     console.log("Lec upload to cloudinary Error", error);
     // throw new Error("File upload failed. Please try again.");
-    return null
+    return null;
   }
 };
 
@@ -104,15 +107,12 @@ export const uploadFile = async (
   folder: string = "thumbnails"
 ): Promise<CloudinaryUploadResult | null> => {
   try {
-    const mediaType = folder === "thumbnails"? 'thumbnail' : 'trailer';
+    const mediaType = folder === "thumbnails" ? "thumbnail" : "trailer";
     const signData = await getSignature(mediaType);
-    const eager =
-      folder === "thumbnails"
-        ? "c_fill,w_300,h_300"
-        : "c_scale,w_1280";
+    const eager = folder === "thumbnails" ? "c_fill,w_300,h_300" : undefined;
 
     const resource = file.type.startsWith("image") ? "image" : "video";
-    console.log('SignedData', signData);
+    console.log("SignedData", signData);
 
     if (!signData) {
       console.error("Failed to get Cloudinary signature. Aborting upload.");
@@ -126,11 +126,11 @@ export const uploadFile = async (
     // Step 2: Prepare file upload
     formData.append("file", file);
     formData.append("api_key", signData.data.apiKey);
-    formData.append("timestamp",  signData.data.timestamp.toString());
+    formData.append("timestamp", signData.data.timestamp.toString());
     formData.append("signature", signData.data.signature);
-    // formData.append('eager', eager)
-    // formData.append('folder', folder)
-
+    if (eager) {
+      formData.append("eager", eager);
+    }
     // Step 3: Send file to Cloudinary
     const response = await fetch(url, {
       method: "POST",
@@ -140,9 +140,7 @@ export const uploadFile = async (
     // Step 4: Parse and return the response
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(
-        `Cloudinary upload failed for course file: ${error}`
-      );
+      throw new Error(`Cloudinary upload failed for course file: ${error}`);
     }
 
     const result: CloudinaryUploadResult = await response.json();

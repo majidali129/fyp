@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
     // const cloudname = process.env.CLOUDINARY_CLOUD!;
 
     const data = await request.json();
-    console.log("BOdy", data);
 
     const parsedMedia = mediaTypeSchema.safeParse(data);
     console.log("Parsed Data", parsedMedia);
