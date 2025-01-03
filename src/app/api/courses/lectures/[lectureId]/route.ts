@@ -8,6 +8,7 @@ import { NextRequest } from "next/server";
  * ! Make sure to check user role befor any DB operations
  */
 
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ lectureId: string }> }

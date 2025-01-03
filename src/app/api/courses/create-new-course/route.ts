@@ -1,9 +1,9 @@
 import { formatErrors } from "@/helpers/parseErrors";
 import { apiResponse } from "@/lib/apiResponse";
 import { connectDB } from "@/lib/connectDB";
+import Lecture from "@/models/lecture.model";
 import Course from "@/models/newCourse.model";
 import { createCourseSchema } from "@/schemas/course-schema";
-import formidable from "formidable";
 import { NextRequest } from "next/server";
 
 /**
@@ -19,36 +19,55 @@ export async function POST(request: NextRequest) {
       status: 405,
     });
   }
-    try {
-      const data = await request.json();
-      const parsedData = createCourseSchema.safeParse(data);
-      if(!parsedData.success)
-        return apiResponse({
-      success: false,
+  try {
+    const data = await request.json();
+    const parsedData = createCourseSchema.safeParse(data);
+    if (!parsedData.success)
+      return apiResponse({
+        success: false,
         status: 400,
         message: "Invalid course data",
         error: formatErrors(parsedData.error),
       });
-      const courseData = parsedData.data;
-      console.log("Parsed Data: ", parsedData);
+    const courseData = parsedData.data;
+    const sections = courseData.sections;
 
-      const course = await Course.create({
-        ...courseData});
-      return apiResponse({
-        success: true,
-        message: "Course created successfully",
-        data: {courseId: course._id},
-        status: 201,
-      });
-    } catch (error) {
-      console.log('Error while saving course data', error);
-      return apiResponse({
-        success:false,
-        status: 500,
-        message: error instanceof Error ? error.message : "Unknow Error",
+    const updatedSections = await Promise.all(
+      sections.map(async (section) => {
+        const lectureRefs = await Promise.all(
+          section.lectures.map(async (lecture) => {
+            const savedLecture = await Lecture.create(lecture);
+            return savedLecture._id;
+          })
+        );
+
+        return {
+          ...section,
+          lectures: lectureRefs,
+        };
       })
-    }
+    );
+
+    const course = await Course.create({
+      ...courseData,
+      sections: updatedSections,
+    });
+
+    return apiResponse({
+      success: true,
+      message: "Course created successfully",
+      data: { courseId: course._id },
+      status: 201,
+    });
+  } catch (error) {
+    console.log("Error while saving course data", error);
+    return apiResponse({
+      success: false,
+      status: 500,
+      message: error instanceof Error ? error.message : "Unknow Error",
+    });
   }
+}
 
 // const schema = z.object({
 //   trailer: z.any().refine((value) => value === null || value === undefined, {
@@ -58,7 +77,6 @@ export async function POST(request: NextRequest) {
 //     message: "Course thumbnail is required",
 //   }),
 // })
-
 
 // export async function POST(request: NextRequest) {
 //   await connectDB();
@@ -126,8 +144,6 @@ export async function POST(request: NextRequest) {
 //   }
 // }
 
-
-
 // export async function PATCH (request: NextRequest) {
 //   await connectDB();
 //   if (request.method !== "PATCH") {
@@ -138,4 +154,3 @@ export async function POST(request: NextRequest) {
 //     });
 //   }
 // }
-

@@ -53,7 +53,6 @@ function CoursePreview() {
   } = useNewCourseProvider();
   const [uploading, setUploading] = useState(false);
   const queryClient = useQueryClient();
-  console.log("Sections:", sections);
 
   const handleCourseSave = async () => {
     setUploading(true);

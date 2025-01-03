@@ -7,7 +7,6 @@ export const generateCloudinarySignature = (type:string) => {
 
   // Define eager transformations based on type
   let eager = '';
-  let folder = '';
 
   switch (type) {
     case 'lecture':
@@ -19,17 +18,14 @@ export const generateCloudinarySignature = (type:string) => {
         // 1080p
         'c_scale,w_1920',
       ].join('|');
-      folder = 'lectures';
       break;
 
     case 'thumbnail':
       eager = 'c_fill,w_300,h_300'; // Example for thumbnails (resize to 300x300)
-      folder = 'thumbnails';
       break;
 
     case 'trailer':
       eager = 'c_scale,w_1280'; // Example for trailers (resize to 720p width)
-      folder = 'trailers';
       break;
 
     default:
@@ -38,9 +34,8 @@ export const generateCloudinarySignature = (type:string) => {
 
   const signature = cloudinary.utils.api_sign_request(
     {
-      timestamp,
       eager,
-      folder,
+      timestamp,
     },
     apiSecret
   );

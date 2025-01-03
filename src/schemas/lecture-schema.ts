@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const lectureSchema = z.object({
-  publicId: z.string().min(1, "Public ID is required"),
+  publicId: z.string().min(1, "PublicId is required for lecture"),
   title: z
-    .string()
-    .min(10, "Lecture title must be at least 10 characters long."),
+  .string()
+  .min(18, "Lecture title must be at least 18 characters long."),
   caption: z.string().optional(),
   description: z
     .string()
@@ -18,9 +18,9 @@ export const lectureSchema = z.object({
     resolutions: z.array(
       z.object({
         resolution: z.string(),
-        url: z.string(),
         secure_url: z.string(),
-        status: z.string(),
+        url: z.string(),
+        status: z.string().optional(),
       })
     ),
   }),

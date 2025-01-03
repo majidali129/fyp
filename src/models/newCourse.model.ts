@@ -48,39 +48,34 @@ export interface IUserGuide {
   placeholder?: string;
 }
 
-export interface ILecture extends Document {
-  courseId: ObjectId;
+export interface ILecture {
   publicId: string; // Unique identifier for the lecture from client
   title: string;
   caption: string;
   description: string;
-  isCompleted: boolean;
-  // duration: string;
-  // videoUrl: string;
-  // lectureMetada: IFileMetadata;
-  // quizzes: [ObjectId];
+  isCompleted?: boolean;
+  order: number;
   video: {
     public_id: string;
+    original: string;
     playback_url: string;
     resolutions: Array<{
       resolution: string;
       url: string;
       secure_url: string;
-      status: string;
+      status?: string;
     }>;
   };
-  tags: Array<string>;
-  notes: Array<IFileMetadata>;
-  comments: [ObjectId];
-  order: number;
+  tags?: Array<string>;
+  comments?: [ObjectId];
+
 }
 
-export interface ISection extends Document {
-  couseId: ObjectId;
+export interface ISection {
+  publicId: string;
   title: string;
   order: number;
-  publicId: string;
-  lectures: Array<ObjectId>;
+  lectures: [ObjectId];
 }
 
 export interface ICourse extends Document {
@@ -120,19 +115,31 @@ export interface ICourse extends Document {
   targetAudience: Array<IUserGuide>;
   courseRequirements: Array<IUserGuide>;
   //   curriculum
-  sections: Array<ObjectId>;
+  sections: [ISection];
   // publish course
   welcomeMessage: string;
   congratulationMessage: string;
   courseInstructors: Array<ObjectId>;
-  createdBy?: ObjectId;
+  createdBy: ObjectId;
   isPublished: boolean;
-  enrolledStudents: Array<ObjectId>;
+  enrolledStudents?: Array<ObjectId>;
   ratings: number;
   avgRatings: number;
   reviews: Array<ObjectId>;
   bookMarks: Array<ObjectId>;
 }
+
+
+const sectionSchema: Schema<ISection> = new Schema({
+  publicId: { type: String, required: true, trim: true },
+  title: { type: String, required: true, trim: true },
+  order: { type: Number, required: true, min: 1 },
+  lectures: {
+    type: [Schema.Types.ObjectId],
+    ref: "Lecture",
+      default: [],
+  },
+})
 
 const UserGuideSchema: Schema<IUserGuide> = new Schema({
   value: { type: String, required: true, trim: true },
@@ -246,9 +253,8 @@ const CourseSchema: Schema<ICourse> = new Schema(
     },
     // curriculum
     sections: {
-      type: [Schema.Types.ObjectId],
-      ref: "Section",
-      default: [],
+      type: [sectionSchema],
+      // required: true
     },
     welcomeMessage: { type: String, required: true, trim: true, default: "" },
     congratulationMessage: {
