@@ -1,9 +1,8 @@
 
-import { config } from '@/confit';
+import { config } from '@/config';
 import { ApiError } from '@/utils/api-error';
 import { Prisma } from '@prisma/client';
 import type { Request, Response, NextFunction } from 'express';
-import { JWTExpired, JWTInvalid } from 'jose/errors';
 
 const sendDevError = (err: ApiError, res: Response) => {
     res.status(err.statusCode).json({
@@ -19,6 +18,7 @@ const sendProdError = (err: ApiError, res: Response) => {
         res.status(err.statusCode).json({
             status: err.status,
             message: err.message,
+            errors: err.errors,
         });
     } else {
         
@@ -30,19 +30,13 @@ const sendProdError = (err: ApiError, res: Response) => {
     }
 }
 
-const handleValidationError = (err: any, res: Response) => {
+const handlePrismaValidationError = (err: any) => {
     const message = `Invalid input data. ${err.message}`;
     return new ApiError(400, message);
- }
+}
 
 const handleJwtError = (statusCode: number, message: string) => new ApiError(statusCode, message);
 
-
-const handleDuplicateFieldsDBError = (err: Prisma.PrismaClientKnownRequestError) => { 
-    const target = err.meta?.target as string | string[];
-    const message = `Duplicate field value: ${Array.isArray(target) ? target.join(", ") : target}. Please use another value!`;
-    return new ApiError(400, message);
-}
 
 
 export const globalErrorHandler = (err: any, _req: Request, res: Response, next: NextFunction) => {
@@ -52,39 +46,19 @@ export const globalErrorHandler = (err: any, _req: Request, res: Response, next:
     if (config.NODE_ENV === 'development') {
         sendDevError(err, res);
     } else if (config.NODE_ENV === 'production') { 
-        let error = { ...err, message: err.message, name: err.name };
-        if (error instanceof ApiError) {
-            // if(error.statusCode === 400 && error.message.includes('Validation Error')) {
-            //     error = handleValidationError(error, res);
-            // }
-            if (error.statusCode === 401) {
-                error = handleJwtError(error.statusCode, error.message);
-            }
-        };
-
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2002') {
-                error = handleDuplicateFieldsDBError(error);
-            }
+        let error: ApiError = err;
+        
+        // Handle JWT errors
+        if (err instanceof ApiError && err.statusCode === 401) {
+            error = handleJwtError(err.statusCode, err.message);
         }
 
-        if (error instanceof Prisma.PrismaClientValidationError) {
-            error = handleValidationError(error, res);
+
+        // Handle Prisma validation errors
+        if (err instanceof Prisma.PrismaClientValidationError) {
+            error = handlePrismaValidationError(err);
         }
 
         sendProdError(error, res);
     }
-    
-    // if (err instanceof ApiError) {
-    //     if (err.statusCode === 400 && err.message.includes('Validation Error')) {
-    //         const parsedErrors = JSON.parse(err.message.replace('Validation Error: ', '')) as string | { field: string; message: string }[];
-
-    //         return res.status(err.statusCode).json({
-    //             status: 'fail',
-    //             message: 'Validation Error',
-    //             errors: parsedErrors
-    //         });
-    //     }
-    // }
-    // console.error(`ERROR: ${err.message || 'Unknown Error'}`);
-}
+    }

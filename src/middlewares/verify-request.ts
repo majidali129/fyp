@@ -3,8 +3,10 @@ import { ApiError } from '@/utils/api-error';
 import { TokenPayload, verifyToken } from '@/utils/jwts';
 import type { Request, Response, NextFunction } from 'express';
 import { JWTExpired, JWTInvalid } from 'jose/errors';
+
+
 export const verifyRequest = async (req: Request, _res: Response, next: NextFunction) => {
-        const token = req.cookies['access-token']
+    const token = req.cookies['access-token'];
         if (!token) {
             throw new ApiError(401, 'Unauthorized request: No access token found.');
     }
@@ -19,6 +21,7 @@ export const verifyRequest = async (req: Request, _res: Response, next: NextFunc
         };
         next();
     } catch (error) {
+        console.log(`ERROR: ${error}`)
         if (error instanceof JWTInvalid) {
             throw new ApiError(401, 'Unauthorized request: Invalid access token.');
         } 

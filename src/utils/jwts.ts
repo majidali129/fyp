@@ -1,4 +1,4 @@
-import { config } from "@/confit"
+import { config } from "@/config"
 import { jwtVerify, SignJWT } from "jose";
 
 export type TokenPayload = {
