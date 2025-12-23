@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  instructor
+  student
+  admin
+}
+
+model User {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  username     String  @unique
+  fullName     String
+  email        String  @unique
+  password     String
+  image        String?
+  role         Role    @default(student)
+  refreshToken String?
+  title        String?
+
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  instructorProfile Instructor_Profile?
+
+  @@map("users")
+}
+
+type Education {
+  institution String
+  title       String
+  description String?
+  startYear   DateTime
+  endYear     DateTime
+}
+
+type Experience {
+  organization String
+  position     String
+  description  String?
+  startYear    DateTime
+  endYear      DateTime
+}
+
+type SocialLinks {
+  website   String?
+  linkedin  String?
+  twitter   String?
+  facebook  String?
+  instagram String?
+  whatsapp  String?
+  youtube   String?
+}
+
+model Instructor_Profile {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  headlines   String
+  bio         String?
+  phone       String?
+  education   Education[]
+  experience  Experience[]
+  socialLinks SocialLinks?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // courses Course[]
+
+  @@map("instructor_profiles")
+}
