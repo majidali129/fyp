@@ -27,6 +27,8 @@ model User {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   instructorProfile Instructor_Profile?
+  courses           Course[]
+  enrollments       Enrollment[]
 
   @@map("users")
 }
@@ -69,9 +71,181 @@ model Instructor_Profile {
   updatedAt   DateTime     @updatedAt
   isDeleted   Boolean      @default(false) // Soft delete flag
 
-  userId String @unique @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String   @unique @db.ObjectId
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   // courses Course[]
+  courses Course[]
 
   @@map("instructor_profiles")
+}
+
+model Course {
+  // Basic Info
+  id       String         @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  slug     String         @unique
+  subtitle String
+  topic    String
+  language String
+  level    CourseLevel    @default(beginner)
+  duration CourseDuration
+
+  // Advanced Info
+  description      String
+  targetAudience   String[]
+  requirements     String[]
+  learningOutcomes String[]
+  thumbnailUrl     String?
+  trailerUrl       String?
+
+  // Pricing Info ( in usd )
+  price       Int     @default(0)
+  isPublished Boolean @default(false)
+  isFeatured  Boolean @default(false)
+  isDeleted   Boolean @default(false) // Soft delete flag
+
+  // finishing info
+  welcomeMessage         String?
+  congratulationsMessage String?
+
+  // Relations
+  instructorId  String             @db.ObjectId
+  instructor    Instructor_Profile @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  subCategoryId String             @db.ObjectId
+  subCategory   SubCategory        @relation(fields: [subCategoryId], references: [id])
+  authorId      String             @db.ObjectId
+  author        User               @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  curriculum  Section[]
+  enrollments Enrollment[]
+
+  @@index([instructorId, subCategoryId, authorId])
+  @@map("courses")
+}
+
+enum CourseLevel {
+  beginner
+  intermediate
+  expert
+}
+
+enum CourseDuration {
+  days_1_7 // 1-7 Days
+  weeks_1_4 // 1-4 Weeks
+  months_1_3 // 1-3 Months
+  months_3_6 // 3-6 Months
+  months_6_12 // 6-12 Months
+}
+
+model SubCategory {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  slug       String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String   @db.ObjectId
+  courses    Course[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@map("sub_categories")
+}
+
+model Category {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  slug String @unique
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  subCategories SubCategory[]
+
+  @@map("categories")
+}
+
+model Section {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  order    Int
+  lectures Lecture[]
+
+  // Relations
+  courseId String @db.ObjectId
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@map("sections")
+}
+
+model Lecture {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  order       Int
+  videoUrl    String?
+  caption     String?
+  description String?
+  isPreview   Boolean @default(false)
+  duration    Int // seconds
+
+  // Relations  
+  sectionId       String           @db.ObjectId
+  section         Section          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  lectureProgress LectureProgress?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sectionId])
+  @@map("lectures")
+}
+
+model Enrollment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  totalLectures     Int
+  completedLectures Int   @default(0)
+  progressPercent   Float @default(0.0)
+
+  enrolledAt  DateTime  @default(now())
+  completedAt DateTime?
+
+  //  Relations
+  userId   String @db.ObjectId
+  courseId String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@map("enrollments")
+}
+
+model LectureProgress {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @db.ObjectId
+  courseId String @db.ObjectId
+
+  isCompleted    Boolean   @default(false)
+  watchedSeconds Int       @default(0) // Resume from where left
+  completedAt    DateTime?
+  lectureId      String    @unique @db.ObjectId
+  lecture        Lecture   @relation(fields: [lectureId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([lectureId, userId])
+  @@index([lectureId, courseId, userId])
+  @@map("lecture_progress")
 }
