@@ -48,3 +48,6 @@
 2025-12-23 10:41:07:417 [31merror[39m: [31m[GET] /api/auth/me 401 - 468ms[39m
 2025-12-23 10:41:29:4129 [31merror[39m: [31m[POST] /api/auth/sign-out 401 - 98ms[39m
 2025-12-23 10:41:33:4133 [31merror[39m: [31m[GET] /api/auth/me 401 - 85ms[39m
+2025-12-23 10:44:16:4416 [31merror[39m: [31m[GET] /api/auth/me 401 - 33ms[39m
+2025-12-23 10:45:25:4525 [31merror[39m: [31m[GET] /api/auth/me 401 - 5ms[39m
+2025-12-23 10:45:42:4542 [31merror[39m: [31m[GET] /api/auth/me 401 - 7ms[39m
