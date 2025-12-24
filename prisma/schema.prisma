@@ -29,6 +29,7 @@ model User {
   instructorProfile Instructor_Profile?
   courses           Course[]
   enrollments       Enrollment[]
+  courseReviews     CourseReview[]
 
   @@map("users")
 }
@@ -99,10 +100,12 @@ model Course {
   trailerUrl       String?
 
   // Pricing Info ( in usd )
-  price       Int     @default(0)
-  isPublished Boolean @default(false)
-  isFeatured  Boolean @default(false)
-  isDeleted   Boolean @default(false) // Soft delete flag
+  price        Int     @default(0)
+  isPublished  Boolean @default(false)
+  isFeatured   Boolean @default(false)
+  isDeleted    Boolean @default(false) // Soft delete flag
+  avgRating    Float   @default(0.0)
+  totalRatings Int     @default(0)
 
   // finishing info
   welcomeMessage         String?
@@ -119,8 +122,9 @@ model Course {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  curriculum  Section[]
-  enrollments Enrollment[]
+  curriculum    Section[]
+  enrollments   Enrollment[]
+  courseReviews CourseReview[]
 
   @@index([instructorId, subCategoryId, authorId])
   @@map("courses")
@@ -248,4 +252,21 @@ model LectureProgress {
   @@unique([lectureId, userId])
   @@index([lectureId, courseId, userId])
   @@map("lecture_progress")
+}
+
+model CourseReview {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  message   String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId   String @db.ObjectId
+  courseId String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId]) // One review per user per course
+  @@index([courseId])
+  @@map("course_reviews")
 }

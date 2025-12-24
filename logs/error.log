@@ -138,3 +138,5 @@
 2025-12-24 10:00:46:046 [31merror[39m: [31m[GET] /api/cloudinary/generate-signature 401 - 68ms[39m
 2025-12-24 10:01:48:148 [31merror[39m: [31m[GET] /api/cloudinary/generate-signature 400 - 15ms[39m
 2025-12-24 10:02:29:229 [31merror[39m: [31m[GET] /api/cloudinary/generate-signature 400 - 5ms[39m
+2025-12-24 11:14:29:1429 [31merror[39m: [31m[GET] /api/courses/my-courses 400 - 42ms[39m
+2025-12-24 11:17:33:1733 [31merror[39m: [31m[GET] /api/courses/my-courses 500 - 7705ms[39m

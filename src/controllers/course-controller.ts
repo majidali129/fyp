@@ -173,6 +173,7 @@ export const getCourseDetails = asyncHandler(async (req, res) => {
  })
 
 export const getAllCourses = asyncHandler(async (req, res) => { 
+     // TODO: PAGINATION , SEARCH, FILTERING
     const courses = await prisma.course.findMany({
         where: { isPublished: true, isDeleted: false },
         select: {
@@ -211,4 +212,88 @@ export const getAllCourses = asyncHandler(async (req, res) => {
         })
 
     return apiResponse(res, 200, 'Courses fetched successfully', courses);
+})
+
+
+export const getInstructorCourses = asyncHandler(async (req, res) => {
+
+    // TODO: PAGINATION , SEARCH, FILTERING
+    const courses = await prisma.course.findMany({
+        where: { authorId: req.user.id, isDeleted: false },
+        select: {
+            id: true,
+            title: true,
+            slug: true,
+            price: true,
+            thumbnailUrl: true,
+            isFeatured: true,
+            avgRating: true,
+            totalRatings: true,
+        }
+    })
+
+
+
+    return apiResponse(res, 200, 'Instructor courses fetched successfully', courses);
+
+ })
+
+export const getInstructorCourseDetails = asyncHandler(async (req, res) => { 
+    const courseId = req.params.courseId;
+
+    const course = await prisma.course.findFirst({
+        where: { id: courseId, authorId: req.user.id, isDeleted: false },
+        include: {
+            subCategory: {
+                select: {
+                    name: true,
+                    slug: true,
+                    id: true,
+                    category: {
+                        select: {
+                            id: true,
+                            name: true,
+                            slug: true
+                        }
+                    }
+                }
+            },
+            curriculum: {
+                orderBy: { order: 'asc' },
+                include: {
+                    lectures: {
+                        orderBy: { order: 'asc' },
+                        select: {
+                            id: true,
+                            title: true,
+                            order: true,
+                            videoUrl: true,
+                            description: true,
+                            isPreview: true,
+                            duration: true,
+                            updatedAt: true
+                        }
+                    }
+                }
+            },
+            courseReviews: true,
+            enrollments: {
+                select: {
+                    id: true,
+                    user: {
+                        select: {
+                            id: true,
+                            username: true,
+                            fullName: true,
+                            image: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+    if (!course) throw new ApiError(404, 'Course not found');
+
+    return apiResponse(res, 200, 'Instructor course details fetched successfully', course);
 })
