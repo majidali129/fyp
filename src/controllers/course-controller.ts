@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { ApiError } from "@/utils/api-error";
 import { apiResponse } from "@/utils/api-response";
 import { asyncHandler } from "@/utils/async-handler";
-import { isOnwer } from "@/utils/is-owner";
-import { slugify } from "@/utils/slugify";
+import { isOnwer } from "@/helpers/is-owner";
+import { slugify } from "@/helpers/slugify";
 import { Course, Lecture, Section } from "@prisma/client";
 
 
