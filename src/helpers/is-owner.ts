@@ -1,5 +1,5 @@
 
 
-export const isOnwer = (authorId: string, currentUserId: string): boolean => {
+export const isOwner = (authorId: string, currentUserId: string): boolean => {
     return authorId === currentUserId;
 }

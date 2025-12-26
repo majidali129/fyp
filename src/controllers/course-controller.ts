@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { ApiError } from "@/utils/api-error";
 import { apiResponse } from "@/utils/api-response";
 import { asyncHandler } from "@/utils/async-handler";
-import { isOnwer } from "@/helpers/is-owner";
+import { isOwner } from "@/helpers/is-owner";
 import { slugify } from "@/helpers/slugify";
 import { Course, Lecture, Section } from "@prisma/client";
 
@@ -114,7 +114,7 @@ export const deleteCourse = asyncHandler(async (req, res) => {
     if (!course) throw new ApiError(404, 'Course no longer exists');
 
 
-    if(!isOnwer(course?.authorId, req.user.id)) throw new ApiError(403, 'You are not authorized to delete this course');
+    if(!isOwner(course?.authorId, req.user.id)) throw new ApiError(403, 'You are not authorized to delete this course');
 
     await prisma.course.update({ where: { id: courseId }, data: { isDeleted: true } });
 

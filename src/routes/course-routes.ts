@@ -6,6 +6,7 @@ import { courseValidation, curriculumValidation } from "@/validations/course";
 import { paramsValidation } from "@/validations/params";
 import { Router } from "express";
 import { param } from "express-validator";
+import reviewsRouter from "./review-routes";
 
 
 const router = Router()
@@ -14,6 +15,9 @@ const router = Router()
 router.get('/', getAllCourses)
 router.get('/:id/course-details', paramsValidation, validate, getCourseDetails)
 
+
+
+router.use('/:courseId/reviews', reviewsRouter)
 
 // PROTECTED ROUTES WOULD GO HERE ( INSTRUCTOR ONLY )
 router.use(verifyRequest, authorize(['instructor']));

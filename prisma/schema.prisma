@@ -27,9 +27,10 @@ model User {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   instructorProfile Instructor_Profile?
-  courses           Course[]
+  instructorCourses Course[]            @relation("CourseInstructor")
   enrollments       Enrollment[]
   courseReviews     CourseReview[]
+  authoredCourses   Course[]            @relation("CourseAuthor")
 
   @@map("users")
 }
@@ -112,19 +113,22 @@ model Course {
   congratulationsMessage String?
 
   // Relations
-  instructorId  String             @db.ObjectId
-  instructor    Instructor_Profile @relation(fields: [instructorId], references: [id], onDelete: Cascade)
-  subCategoryId String             @db.ObjectId
-  subCategory   SubCategory        @relation(fields: [subCategoryId], references: [id])
-  authorId      String             @db.ObjectId
-  author        User               @relation(fields: [authorId], references: [id])
+  instructorId  String      @db.ObjectId
+  // instructor    Instructor_Profile @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  instructor    User        @relation(name: "CourseInstructor", fields: [instructorId], references: [id], onDelete: Cascade)
+  author        User        @relation(name: "CourseAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  authorId      String      @db.ObjectId
+  subCategoryId String      @db.ObjectId
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  curriculum    Section[]
-  enrollments   Enrollment[]
-  courseReviews CourseReview[]
+  curriculum           Section[]
+  enrollments          Enrollment[]
+  courseReviews        CourseReview[]
+  instructorProfile    Instructor_Profile? @relation(fields: [instructor_ProfileId], references: [id])
+  instructor_ProfileId String?             @db.ObjectId
 
   @@index([instructorId, subCategoryId, authorId])
   @@map("courses")
@@ -244,7 +248,7 @@ model LectureProgress {
   watchedSeconds Int       @default(0) // Resume from where left
   completedAt    DateTime?
   lectureId      String    @unique @db.ObjectId
-  lecture        Lecture   @relation(fields: [lectureId], references: [id])
+  lecture        Lecture   @relation(fields: [lectureId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -257,7 +261,7 @@ model LectureProgress {
 model CourseReview {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   message   String
-  rating    Int
+  rating    Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

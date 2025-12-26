@@ -12,7 +12,7 @@ const router = Router()
 
 router.use(verifyRequest, authorize(['instructor', 'admin']));
 
-router.get('/generate-signature', asyncHandler(async (req, res) => {
+router.get('/generate', asyncHandler(async (req, res) => {
     const type = req.query.type as 'lecture' | 'profile' | 'trailer' | 'thumbnail';
     if (!type || !['lecture', 'profile', 'trailer', 'thumbnail'].includes(type)) throw new ApiError(400, 'Invalid type parameter. Must be one of lecture, profile, trailer, thumbnail.');
 
